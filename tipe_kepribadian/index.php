@@ -1,3 +1,7 @@
+<?php 
+    require_once '../controller/main.php';
+    validasi_admin();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,14 +23,14 @@
 
     <div class="content">
         <?php
-        require_once('../navbar/navbar_admin.php');
+        require_once('../navbar/navbar_inside.php');
         ?>
         <div class="main-container m-0">
             <div class="d-flex">
 
                 <!-- sidebar -->
                 <?php
-                require_once('../navbar/sidebar.php');
+                require_once('../navbar/sidebar_inside.php');
                 ?>
                 <!-- sidebar selesai -->
 
@@ -56,12 +60,12 @@
                                         Introvert
                                     </td>
                                     <td>
-                                        <a class="text-decoration-none" href="../edit.php?id=<?= $id_enkrip; ?>">
+                                        <a class="text-decoration-none" href="../edit.php?id=">
                                             <button class="btn btn-primary"><i class="bi bi-pencil-fill"></i></button>
                                         </a>
                                         |
                                         <a class="delete bg-danger" id="delete"
-                                            onclick="confirmDelete(<?= $d['iduser']; ?>)">
+                                            onclick="confirmDelete()">
                                             <button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
                                         </a>
                                     </td>

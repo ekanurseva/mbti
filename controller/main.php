@@ -58,58 +58,42 @@ function dekripsi($kata)
 }
 // Fungsi dekripsi
 
-// Fungsi validasi user
-function validasi()
-{
-    global $conn;
-    if (!isset($_COOKIE['SPmbti'])) {
-        echo "<script>
-                document.location.href='../logout.php';
-              </script>";
-        exit;
-    }
-
-    $id = dekripsi($_COOKIE['SPmbti']);
-
-    $result = mysqli_query($conn, "SELECT * FROM user WHERE iduser = '$id'");
-
-    if (mysqli_num_rows($result) !== 1) {
-        echo "<script>
-                document.location.href='../logout.php';
-              </script>";
-        exit;
-    }
-}
-// Fungsi validasi user selesai
 
 // Fungsi validasi admin
 function validasi_admin()
 {
     global $conn;
-    if (!isset($_COOKIE['SPmbti'])) {
+    if(!isset($_COOKIE['SPmbti'])) {
         echo "<script>
-                document.location.href='../logout.php';
+                document.location.href='logout.php';
               </script>";
         exit;
     }
-
+    
     $id = dekripsi($_COOKIE['SPmbti']);
+    
 
     $cek = query("SELECT * FROM user WHERE iduser = $id")[0];
 
+    
     $result = mysqli_query($conn, "SELECT * FROM user WHERE iduser = '$id'");
-
-    if (mysqli_num_rows($result) !== 1) {
+    
+    if (mysqli_num_rows($result) != 1) {
         echo "<script>
-                document.location.href='../logout.php';
-              </script>";
-        exit;
-    } elseif ($cek['level'] !== "Admin") {
-        echo "<script>
-                document.location.href='../logout.php';
+                document.location.href='logout.php';
               </script>";
         exit;
     }
 }
 // Fungsi validasi admin selesai
+
+function jumlah_data($data)
+{
+    global $conn;
+    $query = mysqli_query($conn, $data);
+
+    $jumlah_data = mysqli_num_rows($query);
+
+    return $jumlah_data;
+}
 ?>

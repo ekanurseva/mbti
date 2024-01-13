@@ -9,6 +9,6 @@ session_destroy();
 // setcookie('key cookie', ''(dikosongkan), 'waktu yang sudah lalu')
 setcookie('SPmbti', '', time() - 3600);
 
-header("Location: home");
+header("Location: index.php");
 exit;
 ?>

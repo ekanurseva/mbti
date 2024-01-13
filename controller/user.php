@@ -23,7 +23,7 @@ function login($data)
 
             setcookie('SPmbti', $enkripsi, time() + 10800);
             echo "<script>
-                    document.location.href='admin';
+                    document.location.href='index.php';
                 </script>";
             exit;
         }

@@ -19,14 +19,14 @@
 
     <div class="content">
         <?php
-        require_once('../navbar/navbar_admin.php');
+        require_once('../navbar/navbar_inside.php');
         ?>
         <div class="main-container m-0">
             <div class="d-flex">
 
                 <!-- sidebar -->
                 <?php
-                require_once('../navbar/sidebar.php');
+                require_once('../navbar/sidebar_inside.php');
                 ?>
                 <!-- sidebar selesai -->
 
@@ -41,8 +41,24 @@
                                     name="kode">
                             </div>
                         </div>
+
+                        <div class="mb-3 mt-2 row ms-5">
+                            <label for="inputName" class="col-sm-3 me-0 col-form-label">Inisial</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" style="border: 1px solid black;" id="inputName"
+                                    name="inisial">
+                            </div>
+                        </div>
+
                         <div class="mb-4 mt-2 row ms-5">
                             <label for="inputEmail" class="col-sm-3 me-0 col-form-label">Tipe Kepribadian</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" style="border: 1px solid black;" id="inputEmail"
+                                    name="tipe_kepribadian">
+                            </div>
+                        </div>
+                        <div class="mb-4 mt-2 row ms-5">
+                            <label for="inputEmail" class="col-sm-3 me-0 col-form-label">Skala</label>
                             <div class="col-sm-6">
                                 <input type="text" class="form-control" style="border: 1px solid black;" id="inputEmail"
                                     name="tipe_kepribadian">

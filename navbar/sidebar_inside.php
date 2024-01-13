@@ -1,5 +1,5 @@
 <?php 
-    require_once 'controller/main.php';
+    require_once '../controller/main.php';
     validasi_admin();
 ?>
 
@@ -9,7 +9,7 @@
         <div class="profil pt-4">
             <div class="row d-flex align-items-center">
                 <div class="col-sm-4 me-0">
-                    <img src="image/default.png" class="rounded-circle" alt="profi">
+                    <img src="../image/default.png" class="rounded-circle" alt="profi">
                     <a href="../profil">
                         <button class="rounded-circle"><i class="bi bi-pencil-fill"></i></button>
                     </a>
@@ -28,27 +28,27 @@
         <div class="">
             <ul class="list-group list-group-flush pt-4 fw-medium">
                 <li class="list-group-item">
-                    <a href="admin/data_admin.php" class="text-decoration-none d-block">
+                    <a href="../admin/data_admin.php" class="text-decoration-none d-block">
                         <span>Data Admin</span>
                     </a>
                 </li>
                 <li class="list-group-item">
-                    <a href="tipe_mbti" class="text-decoration-none d-block">
+                    <a href="../tipe_mbti" class="text-decoration-none d-block">
                         <span>Manajemen Tipe MBTI</span>
                     </a>
                 </li>
                 <li class="list-group-item">
-                    <a href="gejala" class="text-decoration-none d-block">
+                    <a href="../gejala" class="text-decoration-none d-block">
                         <span>Manajemen Gejala</span>
                     </a>
                 </li>
                 <li class="list-group-item">
-                    <a href="riwayat" class="text-decoration-none d-block">
+                    <a href="../riwayat" class="text-decoration-none d-block">
                         <span>Manajemen Riwayat Pengguna</span>
                     </a>
                 </li>
                 <li class="list-group-item">
-                    <a href="tipe_kepribadian" class="text-decoration-none d-block">
+                    <a href="../tipe_kepribadian" class="text-decoration-none d-block">
                         <span>Manajemen Tipe Kepribadian</span>
                     </a>
                 </li>

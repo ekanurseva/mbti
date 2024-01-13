@@ -58,11 +58,11 @@ if (isset($_POST["submit_login"])) {
                         <input type="text" class="form-control" name="username" placeholder="Username">
                     </div>
                     <div class="mb-4 fs-5">
-                        <input type="password" class="form-control" name="password" placeholder="Password">
+                        <input type="password" class="form-control" name="password" placeholder="Password" id="password">
                     </div>
                     <div class="mb-5" style="font-size: 13px;">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="show">
+                            <input class="form-check-input" type="checkbox" value="" id="show-password">
                             <label class="form-check-label" for="show">
                                 Show Password
                             </label>
@@ -122,6 +122,15 @@ if (isset($_POST["submit_login"])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
         </script>
+
+    <script>
+        const passwordInput = document.getElementById('password');
+        const showPasswordCheckbox = document.getElementById('show-password');
+
+        showPasswordCheckbox.addEventListener('change', function() {
+            passwordInput.type = this.checked ? 'text' : 'password';
+        });
+    </script>
 </body>
 
 </html>
