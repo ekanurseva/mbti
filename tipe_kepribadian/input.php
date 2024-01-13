@@ -1,3 +1,8 @@
+<?php 
+    session_start();
+    require_once '../controller/kepribadian.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,7 +43,15 @@
                             <label for="inputName" class="col-sm-3 me-0 col-form-label">Kode</label>
                             <div class="col-sm-6">
                                 <input type="text" class="form-control" style="border: 1px solid black;" id="inputName"
-                                    name="kode">
+                                    name="kode_kepribadian" readonly value="<?= kode(); ?>">
+                            </div>
+                        </div>
+
+                        <div class="mb-4 mt-2 row ms-5">
+                            <label for="inputEmail" class="col-sm-3 me-0 col-form-label">Tipe Kepribadian</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" style="border: 1px solid black;" id="inputEmail"
+                                name="kepribadian">
                             </div>
                         </div>
 
@@ -49,19 +62,19 @@
                                     name="inisial">
                             </div>
                         </div>
-
                         <div class="mb-4 mt-2 row ms-5">
-                            <label for="inputEmail" class="col-sm-3 me-0 col-form-label">Tipe Kepribadian</label>
+                            <label for="skala" class="col-sm-3 me-0 col-form-label">Skala</label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" style="border: 1px solid black;" id="inputEmail"
-                                    name="tipe_kepribadian">
+                                <input type="number" class="form-control" style="border: 1px solid black;" id="skala"
+                                    name="skala">
                             </div>
                         </div>
+
                         <div class="mb-4 mt-2 row ms-5">
-                            <label for="inputEmail" class="col-sm-3 me-0 col-form-label">Skala</label>
+                            <label for="deskripsi" class="col-sm-3 me-0 col-form-label">Deskripsi</label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" style="border: 1px solid black;" id="inputEmail"
-                                    name="tipe_kepribadian">
+                                <textarea type="text" style="border-color: black;" class="form-control"
+                                        id="deskripsi" name="deskripsi" rows="10"></textarea>
                             </div>
                         </div>
 
@@ -71,7 +84,7 @@
                                 </a>
                             </div>
                             <div class="col-sm-2 ms-0 p-0">
-                                <button type="submit" class="btn btn-primary" name="kepribadian">Submit</button>
+                                <button type="submit" class="btn btn-primary" name="submit">Submit</button>
                             </div>
                         </div>
                     </form>
@@ -85,13 +98,30 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
             integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
             </script>
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-        <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                $('#example').DataTable();
-            });
-        </script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>
+
+<?php 
+  if(isset($_POST['submit'])) {
+    if (create($_POST) > 0) {
+      $_SESSION["berhasil"] = "Data Tipe Kepribadian Berhasil Ditambahkan!";
+
+      echo "
+          <script>
+            document.location.href='index.php';
+          </script>
+      ";
+    } else {
+        echo "<script>
+                Swal.fire(
+                    'Gagal!',
+                    'Data Tipe Kepribadian Gagal Ditambahkan',
+                    'error'
+                )
+            </script>";
+        exit();
+    }
+  }
+?>

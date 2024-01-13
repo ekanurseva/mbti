@@ -33,7 +33,7 @@ if (isset($_POST["submit_login"])) {
 
 <body>
     <?php
-    require_once('navbar/navbar_user.php');
+    require_once('navbar/navbar.php');
     ?>
 
     <!--form login-->

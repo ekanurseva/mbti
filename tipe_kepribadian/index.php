@@ -1,6 +1,9 @@
 <?php 
+    session_start();
     require_once '../controller/main.php';
     validasi_admin();
+
+    $kepribadian = query("SELECT * FROM tp_kepribadian ORDER BY CAST(skala AS SIGNED)");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,30 +49,54 @@
                         <table id="example" class="table table-hover text-center">
                             <thead>
                                 <tr class="table-secondary">
+                                    <th class="text-center" scope="col">No</th>
                                     <th class="text-center" scope="col">Kode</th>
                                     <th class="text-center" scope="col">Tipe Kepribadian</th>
+                                    <th class="text-center" scope="col">Inisial</th>
+                                    <th class="text-center" scope="col">Skala</th>
+                                    <th class="text-center" scope="col">Deskripsi</th>
                                     <th class="text-center" scope="col">AKSI</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        TK1
-                                    </td>
-                                    <td>
-                                        Introvert
-                                    </td>
-                                    <td>
-                                        <a class="text-decoration-none" href="../edit.php?id=">
-                                            <button class="btn btn-primary"><i class="bi bi-pencil-fill"></i></button>
-                                        </a>
-                                        |
-                                        <a class="delete bg-danger" id="delete"
-                                            onclick="confirmDelete()">
-                                            <button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
-                                        </a>
-                                    </td>
-                                </tr>
+                                <?php 
+                                    $i = 1;
+                                    foreach($kepribadian as $k) :
+                                ?>    
+                                    <tr>
+                                        <td>
+                                            <?= $i; ?>
+                                        </td>
+                                        <td>
+                                            <?= $k['kode_kepribadian']; ?>
+                                        </td>
+                                        <td>
+                                            <?= $k['kepribadian']; ?>
+                                        </td>
+                                        <td>
+                                            <?= $k['inisial']; ?>
+                                        </td>
+                                        <td>
+                                            <?= $k['skala']; ?>
+                                        </td>
+                                        <td>
+                                            <?= $k['deskripsi']; ?>
+                                        </td>
+                                        <td>
+                                            <a class="text-decoration-none" href="edit.php?id=<?= enkripsi($k['id_kepribadian']); ?>">
+                                                <button class="btn btn-primary"><i class="bi bi-pencil-fill"></i></button>
+                                            </a>
+                                            |
+                                            <a class="delete bg-danger" id="delete"
+                                                onclick="confirmDelete(<?= $k['id_kepribadian']; ?>)">
+                                                <button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php 
+                                    $i++;
+                                    endforeach;
+                                ?>
                             </tbody>
                         </table>
                     </div>
@@ -85,12 +112,100 @@
             integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
             </script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
         <script>
             $(document).ready(function () {
                 $('#example').DataTable();
             });
+
+            function confirmDelete(id) {
+            // Menampilkan Sweet Alert dengan tombol Yes dan No
+            Swal.fire({
+                title: 'Konfirmasi',
+                text: 'Apakah Anda yakin ingin menghapus data?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                focusCancel: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Memanggil fungsi PHP menggunakan AJAX saat tombol Yes diklik
+                    $.ajax({
+                        url: '../controller/kepribadian.php',
+                        type: 'POST',
+                        data: {
+                            action: 'delete',
+                            id: id
+                        },
+                        success: function (response) {
+                            // Menampilkan pesan sukses jika data berhasil dihapus 
+                            Swal.fire({
+                                title: 'Berhasil!',
+                                text: 'Data Tipe Kepribadian Berhasil Dihapus!',
+                                icon: 'success'
+                            }).then((result) => {
+                                /* Read more about isConfirmed, isDenied below */
+                                if (result.isConfirmed) {
+                                    window.location.href = 'index.php';
+                                }
+                            })
+                        },
+                        error: function (xhr, status, error) {
+                            // Menampilkan pesan error jika terjadi kesalahan dalam penghapusan data
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'Terjadi kesalahan dalam menghapus data: ' + error,
+                                icon: 'error'
+                            });
+                        }
+                    });
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    // Menampilkan pesan jika tombol No diklik
+                    Swal.fire('Batal', 'Penghapusan data dibatalkan', 'info');
+                }
+            });
+        }
         </script>
 </body>
 
 </html>
+
+<?php
+if (isset($_SESSION["berhasil"])) {
+    $pesan = $_SESSION["berhasil"];
+
+    echo "
+              <script>
+                Swal.fire(
+                  'Berhasil!',
+                  '$pesan',
+                  'success'
+                )
+              </script>
+          ";
+    $_SESSION = [];
+    session_unset();
+    session_destroy();
+
+
+} elseif (isset($_SESSION['gagal'])) {
+    $pesan = $_SESSION["gagal"];
+
+    echo "
+            <script>
+                Swal.fire(
+                    'Gagal!',
+                    '$pesan',
+                    'error'
+                )
+            </script>
+        ";
+    $_SESSION = [];
+    session_unset();
+    session_destroy();
+
+}
+
+?>
