@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 13 Jan 2024 pada 14.50
+-- Waktu pembuatan: 14 Jan 2024 pada 11.00
 -- Versi server: 10.4.22-MariaDB
 -- Versi PHP: 8.0.15
 
@@ -79,8 +79,34 @@ CREATE TABLE `siswa` (
 CREATE TABLE `tipe_mbti` (
   `id_tpmbti` int(11) NOT NULL,
   `kode` varchar(20) NOT NULL,
-  `nama_mbti` varchar(5) NOT NULL
+  `nama_mbti` varchar(5) NOT NULL,
+  `skala_1` int(11) NOT NULL,
+  `skala_2` int(11) NOT NULL,
+  `skala_3` int(11) NOT NULL,
+  `skala_4` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `tipe_mbti`
+--
+
+INSERT INTO `tipe_mbti` (`id_tpmbti`, `kode`, `nama_mbti`, `skala_1`, `skala_2`, `skala_3`, `skala_4`) VALUES
+(1, 'T1', 'INFP', 1, 4, 5, 7),
+(2, 'T2', 'ISFP', 1, 3, 5, 7),
+(3, 'T3', 'INTP', 1, 4, 6, 7),
+(4, 'T4', 'ISTP', 1, 3, 6, 7),
+(5, 'T5', 'INFJ', 1, 4, 5, 8),
+(6, 'T6', 'ISFJ', 1, 3, 5, 8),
+(7, 'T7', 'INTJ', 1, 4, 6, 8),
+(8, 'T8', 'ISTJ', 1, 3, 6, 8),
+(9, 'T9', 'ESTJ', 2, 3, 6, 8),
+(10, 'T10', 'ENTJ', 2, 4, 6, 8),
+(11, 'T11', 'ESFJ', 2, 3, 5, 8),
+(12, 'T12', 'ENFJ', 2, 4, 5, 8),
+(13, 'T13', 'ESTP', 2, 3, 6, 7),
+(14, 'T14', 'ENTP', 2, 4, 6, 7),
+(15, 'T15', 'ESFP', 2, 3, 5, 7),
+(16, 'T16', 'ENFP', 2, 4, 5, 7);
 
 -- --------------------------------------------------------
 
@@ -167,7 +193,11 @@ ALTER TABLE `siswa`
 -- Indeks untuk tabel `tipe_mbti`
 --
 ALTER TABLE `tipe_mbti`
-  ADD PRIMARY KEY (`id_tpmbti`);
+  ADD PRIMARY KEY (`id_tpmbti`),
+  ADD KEY `skala_1` (`skala_1`),
+  ADD KEY `skala_2` (`skala_2`),
+  ADD KEY `skala_3` (`skala_3`),
+  ADD KEY `skala_4` (`skala_4`);
 
 --
 -- Indeks untuk tabel `tp_kepribadian`
@@ -213,7 +243,7 @@ ALTER TABLE `siswa`
 -- AUTO_INCREMENT untuk tabel `tipe_mbti`
 --
 ALTER TABLE `tipe_mbti`
-  MODIFY `id_tpmbti` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_tpmbti` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT untuk tabel `tp_kepribadian`
@@ -226,6 +256,19 @@ ALTER TABLE `tp_kepribadian`
 --
 ALTER TABLE `user`
   MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+--
+
+--
+-- Ketidakleluasaan untuk tabel `tipe_mbti`
+--
+ALTER TABLE `tipe_mbti`
+  ADD CONSTRAINT `tipe_mbti_ibfk_1` FOREIGN KEY (`skala_1`) REFERENCES `tp_kepribadian` (`id_kepribadian`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tipe_mbti_ibfk_2` FOREIGN KEY (`skala_2`) REFERENCES `tp_kepribadian` (`id_kepribadian`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tipe_mbti_ibfk_3` FOREIGN KEY (`skala_3`) REFERENCES `tp_kepribadian` (`id_kepribadian`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tipe_mbti_ibfk_4` FOREIGN KEY (`skala_4`) REFERENCES `tp_kepribadian` (`id_kepribadian`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

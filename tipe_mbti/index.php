@@ -1,3 +1,10 @@
+<?php 
+    session_start();
+    require_once '../controller/tipe.php';
+
+    $tipe_mbti = query("SELECT * FROM tipe_mbti");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,14 +26,14 @@
 
     <div class="content">
         <?php
-        require_once('../navbar/navbar_admin.php');
+        require_once('../navbar/navbar.php');
         ?>
         <div class="main-container m-0">
             <div class="d-flex">
 
                 <!-- sidebar -->
                 <?php
-                require_once('../navbar/sidebar.php');
+                require_once('../navbar/sidebar_inside.php');
                 ?>
                 <!-- sidebar selesai -->
 
@@ -60,31 +67,43 @@
                             <table id="example" class="table table-hover text-center">
                                 <thead>
                                     <tr class="table-secondary">
+                                        <th class="text-center" scope="col">No</th>
                                         <th class="text-center" scope="col">Kode</th>
                                         <th class="text-center" scope="col">Tipe MBTI</th>
                                         <th class="text-center" scope="col">AKSI</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            T1
-                                        </td>
-                                        <td>
-                                            ESTP
-                                        </td>
-                                        <td>
-                                            <a class="text-decoration-none" href="../edit.php?id=<?= $id_enkrip; ?>">
-                                                <button class="btn btn-primary"><i
-                                                        class="bi bi-pencil-fill"></i></button>
-                                            </a>
-                                            |
-                                            <a class="delete bg-danger" id="delete"
-                                                onclick="confirmDelete(<?= $d['iduser']; ?>)">
-                                                <button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    <?php 
+                                        $i = 1;
+                                        foreach($tipe_mbti as $tm) :
+                                    ?>
+                                        <tr>
+                                            <td>
+                                                <?= $i; ?>
+                                            </td>
+                                            <td>
+                                                <?= $tm['kode']; ?>
+                                            </td>
+                                            <td>
+                                                <?= $tm['nama_mbti']; ?>
+                                            </td>
+                                            <td>
+                                                <a class="text-decoration-none" href="edit.php?id=<?= enkripsi($tm['id_tpmbti']); ?>">
+                                                    <button class="btn btn-primary"><i
+                                                            class="bi bi-pencil-fill"></i></button>
+                                                </a>
+                                                |
+                                                <a class="delete bg-danger" id="delete"
+                                                    onclick="deleteTipe(<?= $tm['id_tpmbti']; ?>)">
+                                                    <button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php 
+                                        $i++;
+                                        endforeach;
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
@@ -113,13 +132,13 @@
                                         </td>
                                         <td>
                                             <a class="text-decoration-none"
-                                                href="../edit_ciri.php?id=<?= $id_enkrip; ?>">
+                                                href="../edit_ciri.php?id=">
                                                 <button class="btn btn-primary"><i
                                                         class="bi bi-pencil-fill"></i></button>
                                             </a>
                                             |
                                             <a class="delete bg-danger" id="delete"
-                                                onclick="confirmDelete(<?= $d['iduser']; ?>)">
+                                                onclick="confirmDelete()">
                                                 <button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
                                             </a>
                                         </td>
@@ -152,13 +171,13 @@
                                         </td>
                                         <td>
                                             <a class="text-decoration-none"
-                                                href="../edit_saran.php?id=<?= $id_enkrip; ?>">
+                                                href="../edit_saran.php?id=">
                                                 <button class="btn btn-primary"><i
                                                         class="bi bi-pencil-fill"></i></button>
                                             </a>
                                             |
                                             <a class="delete bg-danger" id="delete"
-                                                onclick="confirmDelete(<?= $d['iduser']; ?>)">
+                                                onclick="confirmDelete()">
                                                 <button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
                                             </a>
                                         </td>
@@ -263,12 +282,100 @@
             integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
             </script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
         <script>
             $(document).ready(function () {
                 $('#example').DataTable();
             });
+
+            function deleteTipe(id) {
+                // Menampilkan Sweet Alert dengan tombol Yes dan No
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: 'Apakah Anda yakin ingin menghapus data?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No',
+                    focusCancel: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Memanggil fungsi PHP menggunakan AJAX saat tombol Yes diklik
+                        $.ajax({
+                            url: '../controller/tipe.php',
+                            type: 'POST',
+                            data: {
+                                action: 'delete',
+                                id: id
+                            },
+                            success: function (response) {
+                                // Menampilkan pesan sukses jika data berhasil dihapus 
+                                Swal.fire({
+                                    title: 'Berhasil!',
+                                    text: 'Data Tipe MBTI Berhasil Dihapus!',
+                                    icon: 'success'
+                                }).then((result) => {
+                                    /* Read more about isConfirmed, isDenied below */
+                                    if (result.isConfirmed) {
+                                        window.location.href = 'index.php';
+                                    }
+                                })
+                            },
+                            error: function (xhr, status, error) {
+                                // Menampilkan pesan error jika terjadi kesalahan dalam penghapusan data
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: 'Terjadi kesalahan dalam menghapus data: ' + error,
+                                    icon: 'error'
+                                });
+                            }
+                        });
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        // Menampilkan pesan jika tombol No diklik
+                        Swal.fire('Batal', 'Penghapusan data dibatalkan', 'info');
+                    }
+                });
+            }
         </script>
 </body>
 
 </html>
+
+<?php
+if (isset($_SESSION["berhasil"])) {
+    $pesan = $_SESSION["berhasil"];
+
+    echo "
+              <script>
+                Swal.fire(
+                  'Berhasil!',
+                  '$pesan',
+                  'success'
+                )
+              </script>
+          ";
+    $_SESSION = [];
+    session_unset();
+    session_destroy();
+
+
+} elseif (isset($_SESSION['gagal'])) {
+    $pesan = $_SESSION["gagal"];
+
+    echo "
+            <script>
+                Swal.fire(
+                    'Gagal!',
+                    '$pesan',
+                    'error'
+                )
+            </script>
+        ";
+    $_SESSION = [];
+    session_unset();
+    session_destroy();
+
+}
+
+?>

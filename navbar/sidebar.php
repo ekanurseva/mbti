@@ -1,6 +1,6 @@
 <?php 
     require_once 'controller/main.php';
-    validasi_admin();
+    validasi();
 ?>
 
 <div class="sidebar" id="side_nav">

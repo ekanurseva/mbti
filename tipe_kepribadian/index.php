@@ -120,53 +120,53 @@
             });
 
             function confirmDelete(id) {
-            // Menampilkan Sweet Alert dengan tombol Yes dan No
-            Swal.fire({
-                title: 'Konfirmasi',
-                text: 'Apakah Anda yakin ingin menghapus data?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'No',
-                focusCancel: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Memanggil fungsi PHP menggunakan AJAX saat tombol Yes diklik
-                    $.ajax({
-                        url: '../controller/kepribadian.php',
-                        type: 'POST',
-                        data: {
-                            action: 'delete',
-                            id: id
-                        },
-                        success: function (response) {
-                            // Menampilkan pesan sukses jika data berhasil dihapus 
-                            Swal.fire({
-                                title: 'Berhasil!',
-                                text: 'Data Tipe Kepribadian Berhasil Dihapus!',
-                                icon: 'success'
-                            }).then((result) => {
-                                /* Read more about isConfirmed, isDenied below */
-                                if (result.isConfirmed) {
-                                    window.location.href = 'index.php';
-                                }
-                            })
-                        },
-                        error: function (xhr, status, error) {
-                            // Menampilkan pesan error jika terjadi kesalahan dalam penghapusan data
-                            Swal.fire({
-                                title: 'Error',
-                                text: 'Terjadi kesalahan dalam menghapus data: ' + error,
-                                icon: 'error'
-                            });
-                        }
-                    });
-                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                    // Menampilkan pesan jika tombol No diklik
-                    Swal.fire('Batal', 'Penghapusan data dibatalkan', 'info');
-                }
-            });
-        }
+                // Menampilkan Sweet Alert dengan tombol Yes dan No
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: 'Apakah Anda yakin ingin menghapus data?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No',
+                    focusCancel: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Memanggil fungsi PHP menggunakan AJAX saat tombol Yes diklik
+                        $.ajax({
+                            url: '../controller/kepribadian.php',
+                            type: 'POST',
+                            data: {
+                                action: 'delete',
+                                id: id
+                            },
+                            success: function (response) {
+                                // Menampilkan pesan sukses jika data berhasil dihapus 
+                                Swal.fire({
+                                    title: 'Berhasil!',
+                                    text: 'Data Tipe Kepribadian Berhasil Dihapus!',
+                                    icon: 'success'
+                                }).then((result) => {
+                                    /* Read more about isConfirmed, isDenied below */
+                                    if (result.isConfirmed) {
+                                        window.location.href = 'index.php';
+                                    }
+                                })
+                            },
+                            error: function (xhr, status, error) {
+                                // Menampilkan pesan error jika terjadi kesalahan dalam penghapusan data
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: 'Terjadi kesalahan dalam menghapus data: ' + error,
+                                    icon: 'error'
+                                });
+                            }
+                        });
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        // Menampilkan pesan jika tombol No diklik
+                        Swal.fire('Batal', 'Penghapusan data dibatalkan', 'info');
+                    }
+                });
+            }
         </script>
 </body>
 

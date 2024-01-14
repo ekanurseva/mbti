@@ -1,3 +1,10 @@
+<?php 
+    session_start();
+    require_once '../controller/tipe.php';
+
+    $skala = query("SELECT DISTINCT skala FROM tp_kepribadian");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,14 +26,14 @@
 
     <div class="content">
         <?php
-        require_once('../navbar/navbar_admin.php');
+        require_once('../navbar/navbar.php');
         ?>
         <div class="main-container m-0">
             <div class="d-flex">
 
                 <!-- sidebar -->
                 <?php
-                require_once('../navbar/sidebar.php');
+                require_once('../navbar/sidebar_inside.php');
                 ?>
                 <!-- sidebar selesai -->
 
@@ -38,16 +45,33 @@
                             <label for="inputName" class="col-sm-3 me-0 col-form-label">Kode</label>
                             <div class="col-sm-6">
                                 <input type="text" class="form-control" style="border: 1px solid black;" id="inputName"
-                                    name="kode">
+                                    name="kode" value="<?= kode(); ?>" readonly>
                             </div>
                         </div>
-                        <div class="mb-4 mt-2 row ms-5">
-                            <label for="inputEmail" class="col-sm-3 me-0 col-form-label">Tipe MBTI</label>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control" style="border: 1px solid black;" id="inputEmail"
-                                    name="tipe_mbti">
+
+                        <?php 
+                            foreach($skala as $s) :
+                                $nilai = $s['skala'];
+                        ?>
+                            <div class="mb-4 mt-2 row ms-5">
+                                <label for="inputEmail" class="col-sm-3 me-0 col-form-label">Tipe Kepribadian Skala <?= $nilai; ?></label>
+                                <div class="col-sm-6">
+                                    <select class="boxc form-control" style="border-color: black;" name="skala_<?= $nilai;?>"
+                                        require>
+                                        <option hidden selected value="">--Pilih Gejala--</option>
+                                        <?php
+                                            $kepribadian = query("SELECT * FROM tp_kepribadian WHERE skala = $nilai");
+                                            foreach ($kepribadian as $kep):
+                                                ?>
+                                                <option value="<?php echo $kep['id_kepribadian'] ?>"><?php echo $kep['kepribadian'] ?> (<?= $kep['inisial']; ?>)
+                                                </option>
+                                                <?php
+                                            endforeach
+                                        ?>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
+                        <?php endforeach; ?>
 
                         <div class="row justify-content-end">
                             <div class="col-sm-2 me-0">
@@ -55,7 +79,7 @@
                                 </a>
                             </div>
                             <div class="col-sm-2 ms-0 p-0">
-                                <button type="submit" class="btn btn-primary" name="mbti">Submit</button>
+                                <button type="submit" class="btn btn-primary" name="submit">Submit</button>
                             </div>
                         </div>
                     </form>
@@ -69,13 +93,30 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
             integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
             </script>
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-        <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                $('#example').DataTable();
-            });
-        </script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>
+
+<?php 
+  if(isset($_POST['submit'])) {
+    if (create($_POST) > 0) {
+      $_SESSION["berhasil"] = "Data Tipe MBTI Berhasil Ditambahkan!";
+
+      echo "
+          <script>
+            document.location.href='index.php';
+          </script>
+      ";
+    } else {
+        echo "<script>
+                Swal.fire(
+                    'Gagal!',
+                    'Data Tipe MBTI Gagal Ditambahkan',
+                    'error'
+                )
+            </script>";
+        exit();
+    }
+  }
+?>

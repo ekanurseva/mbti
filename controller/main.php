@@ -65,6 +65,32 @@ function validasi_admin()
     global $conn;
     if(!isset($_COOKIE['SPmbti'])) {
         echo "<script>
+                document.location.href='../logout.php';
+              </script>";
+        exit;
+    }
+    
+    $id = dekripsi($_COOKIE['SPmbti']);
+    
+
+    $cek = query("SELECT * FROM user WHERE iduser = $id")[0];
+
+    
+    $result = mysqli_query($conn, "SELECT * FROM user WHERE iduser = '$id'");
+    
+    if (mysqli_num_rows($result) != 1) {
+        echo "<script>
+                document.location.href='../logout.php';
+              </script>";
+        exit;
+    }
+}
+// Fungsi validasi admin selesai
+function validasi()
+{
+    global $conn;
+    if(!isset($_COOKIE['SPmbti'])) {
+        echo "<script>
                 document.location.href='logout.php';
               </script>";
         exit;
