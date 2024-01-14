@@ -4,6 +4,7 @@
 
     $tipe_mbti = query("SELECT * FROM tipe_mbti");
     $ciri = query("SELECT * FROM ciri_mbti ORDER BY id_tpmbti ASC");
+    $saran = query("SELECT * FROM saran_mbti ORDER BY id_tpmbti ASC");
 ?>
 
 <!DOCTYPE html>
@@ -171,32 +172,46 @@
                             <table id="example" class="table table-hover text-center">
                                 <thead>
                                     <tr class="table-secondary">
+                                        <th class="text-center" scope="col">No</th>
                                         <th class="text-center" scope="col">Tipe MBTI</th>
                                         <th class="text-center" scope="col">Saran Pengembangan</th>
                                         <th class="text-center" scope="col">AKSI</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            ESTP
-                                        </td>
-                                        <td>
-                                            Sarannn
-                                        </td>
-                                        <td>
-                                            <a class="text-decoration-none"
-                                                href="../edit_saran.php?id=">
-                                                <button class="btn btn-primary"><i
-                                                        class="bi bi-pencil-fill"></i></button>
-                                            </a>
-                                            |
-                                            <a class="delete bg-danger" id="delete"
-                                                onclick="confirmDelete()">
-                                                <button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    <?php 
+                                        $k = 1;
+                                        foreach($saran as $sar) :
+                                            $idmbti = $sar['id_tpmbti'];
+                                            $nama_mbti = query("SELECT * FROM tipe_mbti WHERE id_tpmbti = $idmbti")[0];
+                                    ?>
+                                        <tr>
+                                            <td>
+                                                <?= $k; ?>
+                                            </td>
+                                            <td>
+                                                <?= $nama_mbti['nama_mbti']; ?>
+                                            </td>
+                                            <td>
+                                                <?= $sar['saran']; ?>
+                                            </td>
+                                            <td>
+                                                <a class="text-decoration-none"
+                                                    href="edit_saran.php?id=<?= enkripsi($sar['id_saran']); ?>">
+                                                    <button class="btn btn-primary"><i
+                                                            class="bi bi-pencil-fill"></i></button>
+                                                </a>
+                                                |
+                                                <a class="delete bg-danger" id="delete"
+                                                    onclick="deleteSaran(<?= $sar['id_saran']; ?>)">
+                                                    <button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php 
+                                        $k++;
+                                        endforeach;
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
@@ -265,10 +280,10 @@
                                             <div class="">
                                                 <select id="kriteria" class="form-select"
                                                     style="border: 1px solid black;" aria-label="Default select example"
-                                                    name="kriteria">
-                                                    <?php foreach ($krit as $ink): ?>
-                                                        <option value="<?= $ink['idkriteria']; ?>">
-                                                            <?= $ink['kode_kriteria']; ?> - <?= $ink['nama_kriteria']; ?>
+                                                    name="id_tpmbti">
+                                                    <?php foreach ($tipe_mbti as $timb): ?>
+                                                        <option value="<?= $timb['id_tpmbti']; ?>">
+                                                            <?= $timb['nama_mbti']; ?>
                                                         </option>
                                                     <?php endforeach; ?>
                                                 </select>
@@ -277,7 +292,7 @@
                                     </div>
 
                                     <div class="modal-footer">
-                                        <button type="submit" name="submit" class="btn btn-primary">Pilih</button>
+                                        <button type="submit" name="submit_saran" class="btn btn-primary">Pilih</button>
                                         <button type="button" class="btn btn-secondary"
                                             data-bs-dismiss="modal">Kembali</button>
                                     </div>
@@ -378,6 +393,55 @@
                                 Swal.fire({
                                     title: 'Berhasil!',
                                     text: 'Data Ciri-Ciri MBTI Berhasil Dihapus!',
+                                    icon: 'success'
+                                }).then((result) => {
+                                    /* Read more about isConfirmed, isDenied below */
+                                    if (result.isConfirmed) {
+                                        window.location.href = 'index.php';
+                                    }
+                                })
+                            },
+                            error: function (xhr, status, error) {
+                                // Menampilkan pesan error jika terjadi kesalahan dalam penghapusan data
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: 'Terjadi kesalahan dalam menghapus data: ' + error,
+                                    icon: 'error'
+                                });
+                            }
+                        });
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        // Menampilkan pesan jika tombol No diklik
+                        Swal.fire('Batal', 'Penghapusan data dibatalkan', 'info');
+                    }
+                });
+            }
+
+            function deleteSaran(id) {
+                // Menampilkan Sweet Alert dengan tombol Yes dan No
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: 'Apakah Anda yakin ingin menghapus data?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No',
+                    focusCancel: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Memanggil fungsi PHP menggunakan AJAX saat tombol Yes diklik
+                        $.ajax({
+                            url: '../controller/saran.php',
+                            type: 'POST',
+                            data: {
+                                action: 'delete',
+                                id: id
+                            },
+                            success: function (response) {
+                                // Menampilkan pesan sukses jika data berhasil dihapus 
+                                Swal.fire({
+                                    title: 'Berhasil!',
+                                    text: 'Data Saran MBTI Berhasil Dihapus!',
                                     icon: 'success'
                                 }).then((result) => {
                                     /* Read more about isConfirmed, isDenied below */
