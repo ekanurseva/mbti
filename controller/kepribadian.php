@@ -31,7 +31,7 @@
 
         $kode_kepribadian = htmlspecialchars($data['kode_kepribadian']);
         $kepribadian = htmlspecialchars($data['kepribadian']);
-        $inisial = htmlspecialchars($data['inisial']);
+        $inisial = strtoupper(htmlspecialchars($data['inisial']));
         $skala = htmlspecialchars($data['skala']);
         $deskripsi = htmlspecialchars($data['deskripsi']);
 
@@ -134,7 +134,7 @@
         $oldskala = htmlspecialchars($data['oldskala']);
 
         $kepribadian = htmlspecialchars($data['kepribadian']);
-        $inisial = htmlspecialchars($data['inisial']);
+        $inisial = strtoupper(htmlspecialchars($data['inisial']));
         $skala = htmlspecialchars($data['skala']);
         $deskripsi = htmlspecialchars($data['deskripsi']);
 

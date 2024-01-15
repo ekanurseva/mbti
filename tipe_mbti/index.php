@@ -116,7 +116,7 @@
                         <h5 class="text-center fw-bold">Tabel Ciri-Ciri Tipe MBTI</h5>
                         <hr>
                         <div class="tabel mx-2">
-                            <table id="example" class="table table-hover text-center">
+                            <table id="example2" class="table table-hover text-center">
                                 <thead>
                                     <tr class="table-secondary">
                                         <th class="text-center" scope="col">No</th>
@@ -169,7 +169,7 @@
                         <h5 class="text-center fw-bold">Tabel Saran Pengembangan Tipe MBTI</h5>
                         <hr>
                         <div class="tabel mx-2">
-                            <table id="example" class="table table-hover text-center">
+                            <table id="example3" class="table table-hover text-center">
                                 <thead>
                                     <tr class="table-secondary">
                                         <th class="text-center" scope="col">No</th>
@@ -317,6 +317,12 @@
         <script>
             $(document).ready(function () {
                 $('#example').DataTable();
+            });
+            $(document).ready(function () {
+                $('#example2').DataTable();
+            });
+            $(document).ready(function () {
+                $('#example3').DataTable();
             });
 
             function deleteTipe(id) {
