@@ -1,3 +1,10 @@
+<?php 
+    session_start();
+    require_once '../controller/gejala.php';
+
+    $gejala = query("SELECT * FROM gejala ORDER BY CAST(SUBSTRING(kode_gejala, 2) AS UNSIGNED)");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,35 +49,53 @@
                         <table id="example" class="table table-hover text-center">
                             <thead>
                                 <tr class="table-secondary">
+                                    <th class="text-center" scope="col">NO</th>
                                     <th class="text-center" scope="col">TIPE KEPRIBADIAN</th>
                                     <th class="text-center" scope="col">KODE GEJALA</th>
                                     <th class="text-center" scope="col">GEJALA</th>
+                                    <th class="text-center" scope="col">NILAI PAKAR</th>
                                     <th class="text-center" scope="col">AKSI</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        Introvert
-                                    </td>
-                                    <td>
-                                        G1
-                                    </td>
-                                    <td>
-                                        gejala ini itu
-                                    </td>
-                                    <td>
-                                        <a class="text-decoration-none"
-                                            href="../edit/pengguna.php?id=<?= $id_enkrip; ?>">
-                                            <button class="btn btn-primary"><i class="bi bi-pencil-fill"></i></button>
-                                        </a>
-                                        |
-                                        <a class="delete bg-danger" id="delete"
-                                            onclick="confirmDelete(<?= $d['iduser']; ?>)">
-                                            <button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
-                                        </a>
-                                    </td>
-                                </tr>
+                                <?php 
+                                    $i = 1;
+                                    foreach($gejala as $g) :
+                                        $id_kepribadian = $g['id_kepribadian'];
+                                        $kepribadian = query("SELECT kepribadian FROM tp_kepribadian WHERE id_kepribadian = $id_kepribadian")[0];
+                                ?>
+                                    <tr>
+                                        <td>
+                                            <?= $i; ?>
+                                        </td>
+                                        <td>
+                                            <?= $kepribadian['kepribadian']; ?>
+                                        </td>
+                                        <td>
+                                            <?= $g['kode_gejala']; ?>
+                                        </td>
+                                        <td>
+                                            <?= $g['gejala']; ?>
+                                        </td>
+                                        <td>
+                                            <?= $g['nilai_pakar']; ?>
+                                        </td>
+                                        <td>
+                                            <a class="text-decoration-none"
+                                                href="edit.php?id=<?= enkripsi($g['id_gejala']); ?>">
+                                                <button class="btn btn-primary"><i class="bi bi-pencil-fill"></i></button>
+                                            </a>
+                                            |
+                                            <a class="delete bg-danger" id="delete"
+                                                onclick="confirmDelete(<?= $g['id_gejala']; ?>)">
+                                                <button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php 
+                                    $i++;
+                                    endforeach;
+                                ?>
                             </tbody>
                         </table>
                     </div>
@@ -85,12 +110,100 @@
             integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
             </script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
         <script>
             $(document).ready(function () {
                 $('#example').DataTable();
             });
+
+            function confirmDelete(id) {
+                // Menampilkan Sweet Alert dengan tombol Yes dan No
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: 'Apakah Anda yakin ingin menghapus data?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No',
+                    focusCancel: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Memanggil fungsi PHP menggunakan AJAX saat tombol Yes diklik
+                        $.ajax({
+                            url: '../controller/gejala.php',
+                            type: 'POST',
+                            data: {
+                                action: 'delete',
+                                id: id
+                            },
+                            success: function (response) {
+                                // Menampilkan pesan sukses jika data berhasil dihapus 
+                                Swal.fire({
+                                    title: 'Berhasil!',
+                                    text: 'Data Gejala Berhasil Dihapus!',
+                                    icon: 'success'
+                                }).then((result) => {
+                                    /* Read more about isConfirmed, isDenied below */
+                                    if (result.isConfirmed) {
+                                        window.location.href = 'index.php';
+                                    }
+                                })
+                            },
+                            error: function (xhr, status, error) {
+                                // Menampilkan pesan error jika terjadi kesalahan dalam penghapusan data
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: 'Terjadi kesalahan dalam menghapus data: ' + error,
+                                    icon: 'error'
+                                });
+                            }
+                        });
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        // Menampilkan pesan jika tombol No diklik
+                        Swal.fire('Batal', 'Penghapusan data dibatalkan', 'info');
+                    }
+                });
+            }
         </script>
 </body>
 
 </html>
+
+<?php
+if (isset($_SESSION["berhasil"])) {
+    $pesan = $_SESSION["berhasil"];
+
+    echo "
+              <script>
+                Swal.fire(
+                  'Berhasil!',
+                  '$pesan',
+                  'success'
+                )
+              </script>
+          ";
+    $_SESSION = [];
+    session_unset();
+    session_destroy();
+
+
+} elseif (isset($_SESSION['gagal'])) {
+    $pesan = $_SESSION["gagal"];
+
+    echo "
+            <script>
+                Swal.fire(
+                    'Gagal!',
+                    '$pesan',
+                    'error'
+                )
+            </script>
+        ";
+    $_SESSION = [];
+    session_unset();
+    session_destroy();
+
+}
+
+?>

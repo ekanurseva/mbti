@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 15 Jan 2024 pada 15.17
+-- Waktu pembuatan: 15 Jan 2024 pada 16.54
 -- Versi server: 10.4.22-MariaDB
 -- Versi PHP: 8.0.15
 
@@ -125,10 +125,57 @@ INSERT INTO `ciri_mbti` (`id_ciri`, `id_tpmbti`, `ciri`) VALUES
 
 CREATE TABLE `gejala` (
   `id_gejala` int(11) NOT NULL,
+  `id_kepribadian` int(11) NOT NULL,
   `kode_gejala` varchar(20) NOT NULL,
   `gejala` text NOT NULL,
-  `id_kepribadian` int(11) NOT NULL
+  `nilai_pakar` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `gejala`
+--
+
+INSERT INTO `gejala` (`id_gejala`, `id_kepribadian`, `kode_gejala`, `gejala`, `nilai_pakar`) VALUES
+(1, 1, 'G1', 'Tidak terlalu suka bergaul dengan banyak orang', 0.15),
+(2, 1, 'G2', 'Lebih memilih berkomunikasi dengan menulis ', 0.2),
+(3, 1, 'G3', 'Senang sendiri dan merenung atau berkontemplasi', 0.35),
+(4, 1, 'G4', 'Lebih suka pada tugas pengolahan data secara internal', 0.1),
+(5, 1, 'G5', 'Bersemangat pada pekerjaan yang menuntut konsentrasi, fokus, dan dilakukan sendiri', 0.2),
+(6, 2, 'G6', 'Suka berinteraksi dengan orang lain', 0.15),
+(7, 2, 'G7', 'Lebih memilih berkomunikasi dengan berbicara', 0.2),
+(8, 2, 'G8', 'Senang bergaul dan memiliki banyak teman', 0.35),
+(9, 2, 'G9', 'Lebih suka pada tugas operasional diluar', 0.1),
+(10, 2, 'G10', 'Bersemangat pada pekerjaan yang melayani orang lain dan dilakukan bersama-sama', 0.2),
+(11, 3, 'G11', 'Memproses data bersandar pada fakta yang konkrit dan praktis', 0.15),
+(12, 3, 'G12', 'Menggunakan pengalaman sebagai pedoman', 0.2),
+(13, 3, 'G13', 'Memahami informasi dengan melihat secara realistis dan apa adanya', 0.35),
+(14, 3, 'G14', 'Memilih cara-cara yang sudah terbukti dalam memproses data', 0.1),
+(15, 3, 'G15', 'Fokus pada masa kini, melihat apa yang bisa diperbaiki sekarang', 0.2),
+(16, 4, 'G16', 'Memproses data bersandar pada konsep dan kemungkinan yang bisa terjadi', 0.15),
+(17, 4, 'G17', 'Menggunakan imajinasi dan perenungan sebagai pedoman', 0.2),
+(18, 4, 'G18', 'Memahami informasi dengan melihat pola dan hubungan', 0.35),
+(19, 4, 'G19', 'Memilih cara-cara yang unik dalam memproses data', 0.1),
+(20, 4, 'G20', 'Fokus pada masa depan, melihat apa yang mungkin dicapai dimasa mendatang', 0.2),
+(21, 5, 'G21', 'Menghargai seseorang karena sifat dan perilakunya', 0.15),
+(22, 5, 'G22', 'Mengambil keputusan menggunakan perasaan dan nilai-nilai yang diyakini', 0.2),
+(23, 5, 'G23', 'Terkesan akomodatif (dapat menyesuaikan diri) tapi memihak', 0.35),
+(24, 5, 'G24', 'Menerapkan hubungan dengan harmoni dan empatik', 0.1),
+(25, 5, 'G25', 'Bagus dalam menjaga keharmonisan dan memelihara hubungan', 0.2),
+(26, 6, 'G26', 'Menghargai seseorang karena skill (keahlian) dan faktor teknis', 0.15),
+(27, 6, 'G27', 'Mengambil keputusan menggunakan logika dan kekuatan analisa', 0.2),
+(28, 6, 'G28', 'Terkesan kaku dan keras kepala', 0.35),
+(29, 6, 'G29', 'Menerapkan hubungan berdasarkan prinsip dengan konsisten', 0.1),
+(30, 6, 'G30', 'Bagus dalam melakukan analisa dan menjaga prosedur atau standar', 0.2),
+(31, 7, 'G31', 'Bertindak sesuai situasi dan kondisi yang terjadi saat itu', 0.15),
+(32, 7, 'G32', 'Berpikir lebih fleksibel dan spontan', 0.2),
+(33, 7, 'G33', 'Bekerja acak dan berdasarkan peluang yang muncul', 0.35),
+(34, 7, 'G34', 'Siap menghadapi perubahan dan situasi yang mendadak', 0.1),
+(35, 7, 'G35', 'Hidup dalam ketidakpastian dan siap menghadapi perubahan', 0.2),
+(36, 8, 'G36', 'Bertindak sesuai dengan apa yang sudah direncanakan', 0.15),
+(37, 8, 'G37', 'Berpikir lebih sistematis dan sesuai prosedur', 0.2),
+(38, 8, 'G38', 'Bekerja sesuai jadwal dan tahapan yang sudah dibuat', 0.35),
+(39, 8, 'G39', 'Tidak siap menghadapi pekerjaan yang tidak sesuai dengan rencana yang telah dibuat', 0.1),
+(40, 8, 'G40', 'Hidup dalam keteraturan, dan tidak siap menghadapi perubahan', 0.2);
 
 -- --------------------------------------------------------
 
@@ -327,7 +374,8 @@ ALTER TABLE `ciri_mbti`
 -- Indeks untuk tabel `gejala`
 --
 ALTER TABLE `gejala`
-  ADD PRIMARY KEY (`id_gejala`);
+  ADD PRIMARY KEY (`id_gejala`),
+  ADD KEY `id_kepribadian` (`id_kepribadian`);
 
 --
 -- Indeks untuk tabel `saran_mbti`
@@ -378,7 +426,7 @@ ALTER TABLE `ciri_mbti`
 -- AUTO_INCREMENT untuk tabel `gejala`
 --
 ALTER TABLE `gejala`
-  MODIFY `id_gejala` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_gejala` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT untuk tabel `saran_mbti`
@@ -419,6 +467,12 @@ ALTER TABLE `user`
 --
 ALTER TABLE `ciri_mbti`
   ADD CONSTRAINT `ciri_mbti_ibfk_1` FOREIGN KEY (`id_tpmbti`) REFERENCES `tipe_mbti` (`id_tpmbti`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `gejala`
+--
+ALTER TABLE `gejala`
+  ADD CONSTRAINT `gejala_ibfk_1` FOREIGN KEY (`id_kepribadian`) REFERENCES `tp_kepribadian` (`id_kepribadian`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `saran_mbti`
