@@ -29,7 +29,7 @@
 
     <div class="content">
         <?php
-        require_once('../navbar/navbar.php');
+        require_once('../navbar/navbar_inside.php');
         ?>
         <div class="main-container m-0">
             <div class="d-flex">

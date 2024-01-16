@@ -26,14 +26,14 @@ $data = query("SELECT * FROM user");
 
     <div class="content">
         <?php
-        require_once('../navbar/navbar_admin.php');
+        require_once('../navbar/navbar_inside.php');
         ?>
         <div class="main-container m-0">
             <div class="d-flex">
 
                 <!-- sidebar -->
                 <?php
-                require_once('../navbar/sidebar.php');
+                require_once('../navbar/sidebar_inside.php');
                 ?>
                 <!-- sidebar selesai -->
 

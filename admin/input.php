@@ -21,14 +21,14 @@ require_once '../controller/user.php';
 
     <div class="content">
         <?php
-        require_once('../navbar/navbar_admin.php');
+        require_once('../navbar/navbar_inside.php');
         ?>
         <div class="main-container m-0">
             <div class="d-flex">
 
                 <!-- sidebar -->
                 <?php
-                require_once('../navbar/sidebar.php');
+                require_once('../navbar/sidebar_inside.php');
                 ?>
                 <!-- sidebar selesai -->
 
@@ -80,9 +80,8 @@ require_once '../controller/user.php';
                             <div class="col-sm-6">
                                 <div class="input-group mb-3">
                                     <input type="file" class="form-control" style="border: 1px solid black;" id="profil"
-                                        name="foto">
+                                        name="foto" onchange="previewImg()">
                                 </div>
-                                <label for="profil" class="foto">*kosongkan jika tidak ingin mengganti foto</label>
                             </div>
                         </div>
 
@@ -105,6 +104,19 @@ require_once '../controller/user.php';
             crossorigin="anonymous"></script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            function previewImg() {
+                const profil = document.querySelector('#profil');
+                const imgPreview = document.querySelector('.img-preview');
+
+                const fileProfil = new FileReader();
+                fileProfil.readAsDataURL(profil.files[0]);
+
+                fileProfil.onload = function(e) {
+                    imgPreview.src = e.target.result;
+                }
+            }
+        </script>
 </body>
 
 </html>

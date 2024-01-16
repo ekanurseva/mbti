@@ -1,6 +1,9 @@
 <?php 
     require_once '../controller/main.php';
     validasi_admin();
+    $id_user = dekripsi($_COOKIE['SPmbti']);
+
+    $user = query("SELECT * FROM user WHERE iduser = $id_user")[0];
 ?>
 
 <div class="sidebar" id="side_nav">
@@ -9,14 +12,14 @@
         <div class="profil pt-4">
             <div class="row d-flex align-items-center">
                 <div class="col-sm-4 me-0">
-                    <img src="../image/default.png" class="rounded-circle" alt="profi">
+                    <img src="../image/<?= $user['foto']; ?>" class="rounded-circle" alt="profi">
                     <a href="../profil">
                         <button class="rounded-circle"><i class="bi bi-pencil-fill"></i></button>
                     </a>
                 </div>
                 <div class="col-sm-8 m-0">
                     <h6 class="fw-bold">
-                        Hallo Admin
+                        Hallo <?= $user['nama']; ?>
                     </h6>
                 </div>
             </div>
