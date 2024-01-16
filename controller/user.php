@@ -92,11 +92,37 @@ function update_password($data)
 function delete($id)
 {
     global $conn;
+
+    $data = query("SELECT * FROM user WHERE iduser = $id")[0];
+    $nama_foto = $data['foto'];
+
+    if ($nama_foto != "default.png") {
+        unlink("../image/$nama_foto");
+    }
     mysqli_query($conn, "DELETE FROM user WHERE iduser = $id");
 
     $deleted = true;
 
     return $deleted;
+}
+
+function hapus_foto($id) {
+    global $conn;
+    $data = query("SELECT * FROM user WHERE iduser = $id")[0];
+    $nama_foto = $data['foto'];
+
+    if ($nama_foto != "default.png") {
+        unlink("../image/$nama_foto");
+    }
+
+    $query = "UPDATE user SET 
+                foto = 'default.png'
+              WHERE iduser = $id
+            ";
+    mysqli_query($conn, $query);
+
+
+    return mysqli_affected_rows($conn);
 }
 
 // Mengecek apakah ada permintaan penghapusan data
@@ -106,6 +132,19 @@ if (isset($_POST['action']) && $_POST['action'] === 'delete') {
 
     // Memanggil fungsi delete untuk menghapus data
     $status = delete($id);
+
+    // Mengirimkan respons ke JavaScript
+    if ($status) {
+        echo 'success';
+    } else {
+        echo 'error';
+    }
+} elseif (isset($_POST['action']) && $_POST['action'] === 'hapus_foto') {
+    // Mengambil nilai parameter id dari data POST
+    $id = $_POST['id'];
+
+    // Memanggil fungsi delete untuk menghapus data
+    $status = hapus_foto($id);
 
     // Mengirimkan respons ke JavaScript
     if ($status) {
@@ -177,10 +216,6 @@ function register_admin($data)
     $password = mysqli_real_escape_string($conn, $data["password"]);
     $password2 = mysqli_real_escape_string($conn, $data["password2"]);
     $email = htmlspecialchars($data['email']);
-    $foto = uploadFoto();
-    if ($foto == "") {
-        $foto = "default.png";
-    }
 
     $result = mysqli_query($conn, "SELECT username FROM user WHERE username = '$username'") or die(mysqli_error($conn));
     if (mysqli_fetch_assoc($result)) {
@@ -217,6 +252,10 @@ function register_admin($data)
         exit();
     }
 
+    $foto = uploadFoto();
+    if ($foto == "") {
+        $foto = "default.png";
+    }
 
     //enkripsi password
     $password = password_hash($password2, PASSWORD_DEFAULT);
@@ -241,13 +280,9 @@ function update($data)
 
     $nama = htmlspecialchars($data['nama']);
     $username = strtolower(stripslashes($data["username"]));
-    $password = mysqli_real_escape_string($conn, $data["pwd"]);
-    $password2 = mysqli_real_escape_string($conn, $data["pwd2"]);
+    $password = mysqli_real_escape_string($conn, $data["password"]);
+    $password2 = mysqli_real_escape_string($conn, $data["password2"]);
     $email = htmlspecialchars($data['email']);
-    $foto = uploadFoto();
-    if ($foto == "") {
-        $foto = $oldfoto;
-    }
 
 
     if ($username !== $oldusername) {
@@ -295,8 +330,13 @@ function update($data)
         }
     }
 
+    $foto = uploadFoto();
+    if ($foto == "") {
+        $foto = $oldfoto;
+    }
+
     if ($foto != $oldfoto && $oldfoto != "default.png") {
-        unlink("../profil/$oldfoto");
+        unlink("../image/$oldfoto");
     }
 
     $query = "UPDATE user SET 
@@ -329,10 +369,6 @@ function update_profil($data)
     $password = mysqli_real_escape_string($conn, $data["pwd"]);
     $password2 = mysqli_real_escape_string($conn, $data["pwd2"]);
     $email = htmlspecialchars($data['email']);
-    $foto = uploadFoto();
-    if ($foto == "") {
-        $foto = $oldfoto;
-    }
 
 
     if ($username !== $oldusername) {
@@ -380,8 +416,13 @@ function update_profil($data)
         }
     }
 
+    $foto = uploadFoto();
+    if ($foto == "") {
+        $foto = $oldfoto;
+    }
+
     if ($foto != $oldfoto && $oldfoto != "default.png") {
-        unlink("../profil/$oldfoto");
+        unlink("../image/$oldfoto");
     }
 
     $query = "UPDATE user SET 
@@ -398,6 +439,4 @@ function update_profil($data)
     return mysqli_affected_rows($conn);
 }
 // Fungsi Edit Profil Pengguna Selesai
-
-
 ?>

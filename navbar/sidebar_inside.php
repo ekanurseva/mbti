@@ -66,7 +66,7 @@
 
         <ul class="list-unstyled fw-medium pb-5">
             <li>
-                <a href="logout.php" class="text-decoration-none d-block">
+                <a href="../logout.php" class="text-decoration-none d-block">
                     <i class="bi bi-box-arrow-right fs-5"></i>
                     <span>Logout</span>
                 </a>

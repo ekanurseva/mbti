@@ -88,11 +88,14 @@ $data = query("SELECT * FROM user WHERE iduser = $id")[0];
                             <label for="profil" class="col-form-label">Foto Profil</label>
                             <div class="col-sm-3">
                                 <img src="../image/<?= $data['foto']; ?>" class="img-preview" style="width: 70px;">
+                                <?php if($data['foto'] != 'default.png') : ?>
+                                    <a class="btn btn-danger" id="delete" onclick="hapusFoto(<?= $data['iduser']; ?>)">Hapus Foto</a>
+                                <?php endif; ?>
                             </div>
                             <div class="col-sm-6">
                                 <div class="input-group mb-3">
                                     <input type="file" class="form-control" style="border: 1px solid black;" id="profil"
-                                        name="foto">
+                                        name="foto" onchange="previewImg()">
                                 </div>
                                 <label for="foto" class="foto">*kosongkan jika tidak ingin mengganti foto</label>
                             </div>
@@ -118,12 +121,69 @@ $data = query("SELECT * FROM user WHERE iduser = $id")[0];
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
             integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
             </script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-        <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
         <script>
-            $(document).ready(function () {
-                $('#example').DataTable();
-            });
+            function previewImg() {
+                const profil = document.querySelector('#profil');
+                const imgPreview = document.querySelector('.img-preview');
+
+                const fileProfil = new FileReader();
+                fileProfil.readAsDataURL(profil.files[0]);
+
+                fileProfil.onload = function(e) {
+                    imgPreview.src = e.target.result;
+                }
+            }
+
+            function hapusFoto(id) {
+                // Menampilkan Sweet Alert dengan tombol Yes dan No
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: 'Apakah Anda yakin ingin menghapus foto?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No',
+                    focusCancel: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Memanggil fungsi PHP menggunakan AJAX saat tombol Yes diklik
+                        $.ajax({
+                            url: '../controller/user.php',
+                            type: 'POST',
+                            data: {
+                                action: 'hapus_foto',
+                                id: id
+                            },
+                            success: function (response) {
+                                // Menampilkan pesan sukses jika data berhasil dihapus 
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Foto Profil Berhasil Dihapus!',
+                                    confirmButtonText: 'Ok',
+                                }).then((result) => {
+                                    /* Read more about isConfirmed, isDenied below */
+                                    if (result.isConfirmed) {
+                                        document.location.href = 'data_admin.php';
+                                    }
+                                })
+                            },
+                            error: function (xhr, status, error) {
+                                // Menampilkan pesan error jika terjadi kesalahan dalam penghapusan data
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: 'Terjadi kesalahan dalam menghapus data: ' + error,
+                                    icon: 'error'
+                                });
+                            }
+                        });
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        // Menampilkan pesan jika tombol No diklik
+                        Swal.fire('Batal', 'Penghapusan data dibatalkan', 'info');
+                    }
+                });
+            }
         </script>
 </body>
 

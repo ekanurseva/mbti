@@ -15,7 +15,7 @@
 
 <body>
     <?php
-    require_once('navbar/navbar_user.php');
+    require_once('navbar/navbar.php');
     ?>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
