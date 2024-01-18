@@ -1,9 +1,9 @@
-<?php 
-    require_once '../controller/main.php';
-    validasi_admin();
-    $id_user = dekripsi($_COOKIE['SPmbti']);
+<?php
+require_once '../controller/main.php';
+validasi_admin();
+$id_user = dekripsi($_COOKIE['SPmbti']);
 
-    $user = query("SELECT * FROM user WHERE iduser = $id_user")[0];
+$user = query("SELECT * FROM user WHERE iduser = $id_user")[0];
 ?>
 
 <div class="sidebar" id="side_nav">
@@ -19,7 +19,8 @@
                 </div>
                 <div class="col-sm-8 m-0">
                     <h6 class="fw-bold">
-                        Hallo <?= $user['nama']; ?>
+                        Hallo
+                        <?= $user['nama']; ?>
                     </h6>
                 </div>
             </div>

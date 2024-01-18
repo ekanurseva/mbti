@@ -1,10 +1,10 @@
-<?php 
-    session_start();
-    require_once '../controller/tipe.php';
+<?php
+session_start();
+require_once '../controller/tipe.php';
 
-    $tipe_mbti = query("SELECT * FROM tipe_mbti");
-    $ciri = query("SELECT * FROM ciri_mbti ORDER BY id_tpmbti ASC");
-    $saran = query("SELECT * FROM saran_mbti ORDER BY id_tpmbti ASC");
+$tipe_mbti = query("SELECT * FROM tipe_mbti");
+$ciri = query("SELECT * FROM ciri_mbti ORDER BY id_tpmbti ASC");
+$saran = query("SELECT * FROM saran_mbti ORDER BY id_tpmbti ASC");
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +41,7 @@
 
                 <div class="contents" style="margin: 75px 0; padding: 10px 40px;">
                     <h4 class="text-center">Manajemen Tipe MBTI</h4>
-                    <div class="ms-5 mt-5">
+                    <div class="ms-3 mt-5">
                         <div class="row">
                             <div class="col-sm-2">
                                 <a href="../tipe_mbti/input.php">
@@ -62,7 +62,7 @@
                         </div>
                     </div>
 
-                    <div class="box2 mx-5 mt-5">
+                    <div class="box2 mx-3 mt-5">
                         <h5 class="text-center fw-bold">Tabel Tipe MBTI</h5>
                         <hr>
                         <div class="tabel mx-2">
@@ -76,10 +76,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php 
-                                        $i = 1;
-                                        foreach($tipe_mbti as $tm) :
-                                    ?>
+                                    <?php
+                                    $i = 1;
+                                    foreach ($tipe_mbti as $tm):
+                                        ?>
                                         <tr>
                                             <td>
                                                 <?= $i; ?>
@@ -91,7 +91,8 @@
                                                 <?= $tm['nama_mbti']; ?>
                                             </td>
                                             <td>
-                                                <a class="text-decoration-none" href="edit.php?id=<?= enkripsi($tm['id_tpmbti']); ?>">
+                                                <a class="text-decoration-none"
+                                                    href="edit.php?id=<?= enkripsi($tm['id_tpmbti']); ?>">
                                                     <button class="btn btn-primary"><i
                                                             class="bi bi-pencil-fill"></i></button>
                                                 </a>
@@ -102,9 +103,9 @@
                                                 </a>
                                             </td>
                                         </tr>
-                                    <?php 
+                                        <?php
                                         $i++;
-                                        endforeach;
+                                    endforeach;
                                     ?>
                                 </tbody>
                             </table>
@@ -112,7 +113,7 @@
                     </div>
 
 
-                    <div class="box2 mx-5 mt-5">
+                    <div class="box2 mx-3 mt-5">
                         <h5 class="text-center fw-bold">Tabel Ciri-Ciri Tipe MBTI</h5>
                         <hr>
                         <div class="tabel mx-2">
@@ -122,16 +123,15 @@
                                         <th class="text-center" scope="col">No</th>
                                         <th class="text-center" scope="col">Tipe MBTI</th>
                                         <th class="text-center" scope="col">Ciri-Ciri</th>
-                                        <th class="text-center" scope="col">AKSI</th>
+                                        <th class="text-center" scope="col" style="width: 130px;">AKSI</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php 
-                                        $j = 1;
-                                        foreach($ciri as $ci) :
-                                            $idmbti = $ci['id_tpmbti'];
-                                            $nama_mbti = query("SELECT * FROM tipe_mbti WHERE id_tpmbti = $idmbti")[0];
-                                    ?>
+                                    <?php
+                                    $j = 1; foreach ($ciri as $ci):
+                                        $idmbti = $ci['id_tpmbti'];
+                                        $nama_mbti = query("SELECT * FROM tipe_mbti WHERE id_tpmbti = $idmbti")[0];
+                                        ?>
                                         <tr>
                                             <td>
                                                 <?= $j; ?>
@@ -155,9 +155,9 @@
                                                 </a>
                                             </td>
                                         </tr>
-                                    <?php 
+                                        <?php
                                         $j++;
-                                        endforeach;
+                                    endforeach;
                                     ?>
                                 </tbody>
                             </table>
@@ -165,7 +165,7 @@
                     </div>
 
 
-                    <div class="box2 mx-5 mt-5">
+                    <div class="box2 mx-3 mt-5">
                         <h5 class="text-center fw-bold">Tabel Saran Pengembangan Tipe MBTI</h5>
                         <hr>
                         <div class="tabel mx-2">
@@ -175,16 +175,15 @@
                                         <th class="text-center" scope="col">No</th>
                                         <th class="text-center" scope="col">Tipe MBTI</th>
                                         <th class="text-center" scope="col">Saran Pengembangan</th>
-                                        <th class="text-center" scope="col">AKSI</th>
+                                        <th class="text-center" scope="col" style="width: 130px;">AKSI</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php 
-                                        $k = 1;
-                                        foreach($saran as $sar) :
-                                            $idmbti = $sar['id_tpmbti'];
-                                            $nama_mbti = query("SELECT * FROM tipe_mbti WHERE id_tpmbti = $idmbti")[0];
-                                    ?>
+                                    <?php
+                                    $k = 1; foreach ($saran as $sar):
+                                        $idmbti = $sar['id_tpmbti'];
+                                        $nama_mbti = query("SELECT * FROM tipe_mbti WHERE id_tpmbti = $idmbti")[0];
+                                        ?>
                                         <tr>
                                             <td>
                                                 <?= $k; ?>
@@ -208,9 +207,9 @@
                                                 </a>
                                             </td>
                                         </tr>
-                                    <?php 
+                                        <?php
                                         $k++;
-                                        endforeach;
+                                    endforeach;
                                     ?>
                                 </tbody>
                             </table>

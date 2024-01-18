@@ -1,8 +1,8 @@
-<?php 
-    session_start();
-    require_once '../controller/gejala.php';
+<?php
+session_start();
+require_once '../controller/gejala.php';
 
-    $gejala = query("SELECT * FROM gejala ORDER BY CAST(SUBSTRING(kode_gejala, 2) AS UNSIGNED)");
+$gejala = query("SELECT * FROM gejala ORDER BY CAST(SUBSTRING(kode_gejala, 2) AS UNSIGNED)");
 ?>
 
 <!DOCTYPE html>
@@ -39,13 +39,13 @@
 
                 <div class="contents" style="margin: 75px 0; padding: 10px 40px;">
                     <h4 class="text-center">Manajemen Data Gejala</h4>
-                    <div class="ms-5 mt-3">
+                    <div class="ms-3 mt-3">
                         <a href="../gejala/input.php">
                             <button class="btn btn-primary">Tambah Data Gejala</button>
                         </a>
                     </div>
 
-                    <div class="tabel mt-4 mx-5">
+                    <div class="tabel mt-4 mx-3">
                         <table id="example" class="table table-hover text-center">
                             <thead>
                                 <tr class="table-secondary">
@@ -54,16 +54,16 @@
                                     <th class="text-center" scope="col">KODE GEJALA</th>
                                     <th class="text-center" scope="col">GEJALA</th>
                                     <th class="text-center" scope="col">NILAI PAKAR</th>
-                                    <th class="text-center" scope="col">AKSI</th>
+                                    <th class="text-center" scope="col" style="width: 130px;">AKSI</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php 
-                                    $i = 1;
-                                    foreach($gejala as $g) :
-                                        $id_kepribadian = $g['id_kepribadian'];
-                                        $kepribadian = query("SELECT kepribadian FROM tp_kepribadian WHERE id_kepribadian = $id_kepribadian")[0];
-                                ?>
+                                <?php
+                                $i = 1;
+                                foreach ($gejala as $g):
+                                    $id_kepribadian = $g['id_kepribadian'];
+                                    $kepribadian = query("SELECT kepribadian FROM tp_kepribadian WHERE id_kepribadian = $id_kepribadian")[0];
+                                    ?>
                                     <tr>
                                         <td>
                                             <?= $i; ?>
@@ -92,9 +92,9 @@
                                             </a>
                                         </td>
                                     </tr>
-                                <?php 
+                                    <?php
                                     $i++;
-                                    endforeach;
+                                endforeach;
                                 ?>
                             </tbody>
                         </table>

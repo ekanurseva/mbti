@@ -1,9 +1,9 @@
-<?php 
-    session_start();
-    require_once '../controller/main.php';
-    validasi_admin();
+<?php
+session_start();
+require_once '../controller/main.php';
+validasi_admin();
 
-    $kepribadian = query("SELECT * FROM tp_kepribadian ORDER BY CAST(skala AS SIGNED)");
+$kepribadian = query("SELECT * FROM tp_kepribadian ORDER BY CAST(skala AS SIGNED)");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,13 +39,13 @@
 
                 <div class="contents" style="margin: 75px 0; padding: 10px 40px;">
                     <h4 class="text-center">Manajemen Tipe Kepribadian</h4>
-                    <div class="ms-5 mt-5">
+                    <div class="ms-3 mt-5">
                         <a href="../tipe_kepribadian/input.php">
                             <button class="btn btn-primary">Tambah Tipe Kepribadian</button>
                         </a>
                     </div>
 
-                    <div class="tabel mx-5 mt-4">
+                    <div class="tabel mx-3 mt-4">
                         <table id="example" class="table table-hover text-center">
                             <thead>
                                 <tr class="table-secondary">
@@ -55,14 +55,14 @@
                                     <th class="text-center" scope="col">Inisial</th>
                                     <th class="text-center" scope="col">Skala</th>
                                     <th class="text-center" scope="col">Deskripsi</th>
-                                    <th class="text-center" scope="col">AKSI</th>
+                                    <th class="text-center" scope="col" style="width: 130px;">AKSI</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php 
-                                    $i = 1;
-                                    foreach($kepribadian as $k) :
-                                ?>    
+                                <?php
+                                $i = 1;
+                                foreach ($kepribadian as $k):
+                                    ?>
                                     <tr>
                                         <td>
                                             <?= $i; ?>
@@ -79,11 +79,19 @@
                                         <td>
                                             <?= $k['skala']; ?>
                                         </td>
-                                        <td>
-                                            <?= $k['deskripsi']; ?>
+                                        <td class="truncate">
+                                            <?php
+                                            // Menampilkan deskripsi dengan batasan karakter
+                                            $deskripsi_terbatas = substr($k['deskripsi'], 0, 80);
+                                            echo $deskripsi_terbatas;
+                                            if (strlen($k['deskripsi']) > 80) {
+                                                echo '...';
+                                            }
+                                            ?>
                                         </td>
                                         <td>
-                                            <a class="text-decoration-none" href="edit.php?id=<?= enkripsi($k['id_kepribadian']); ?>">
+                                            <a class="text-decoration-none"
+                                                href="edit.php?id=<?= enkripsi($k['id_kepribadian']); ?>">
                                                 <button class="btn btn-primary"><i class="bi bi-pencil-fill"></i></button>
                                             </a>
                                             |
@@ -93,9 +101,9 @@
                                             </a>
                                         </td>
                                     </tr>
-                                <?php 
+                                    <?php
                                     $i++;
-                                    endforeach;
+                                endforeach;
                                 ?>
                             </tbody>
                         </table>

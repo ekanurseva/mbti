@@ -43,7 +43,7 @@
                                     <h2>About</h2>
                                 </div>
                             </div>
-                            <div class="fs-5">
+                            <div class="fs-5 mx-4">
                                 <p style="text-align : justify">
                                     MBTI atau Myers Briggs Type Indicator merupakan salah satu metode dalam mengetahui
                                     kepribadian manusia dalam melihat dunia dan membuat keputusan. MBTI dikembangkan

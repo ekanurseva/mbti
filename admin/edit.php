@@ -88,8 +88,9 @@ $data = query("SELECT * FROM user WHERE iduser = $id")[0];
                             <label for="profil" class="col-form-label">Foto Profil</label>
                             <div class="col-sm-3">
                                 <img src="../image/<?= $data['foto']; ?>" class="img-preview" style="width: 70px;">
-                                <?php if($data['foto'] != 'default.png') : ?>
-                                    <a class="btn btn-danger" id="delete" onclick="hapusFoto(<?= $data['iduser']; ?>)">Hapus Foto</a>
+                                <?php if ($data['foto'] != 'default.png'): ?>
+                                    <a class="btn btn-sm btn-outline-danger" id="delete"
+                                        onclick="hapusFoto(<?= $data['iduser']; ?>)">Hapus Foto</a>
                                 <?php endif; ?>
                             </div>
                             <div class="col-sm-6">
@@ -131,7 +132,7 @@ $data = query("SELECT * FROM user WHERE iduser = $id")[0];
                 const fileProfil = new FileReader();
                 fileProfil.readAsDataURL(profil.files[0]);
 
-                fileProfil.onload = function(e) {
+                fileProfil.onload = function (e) {
                     imgPreview.src = e.target.result;
                 }
             }

@@ -19,21 +19,21 @@
 
     <div class="content">
         <?php
-        require_once('../navbar/navbar_admin.php');
+        require_once('../navbar/navbar_inside.php');
         ?>
         <div class="main-container m-0">
             <div class="d-flex">
 
                 <!-- sidebar -->
                 <?php
-                require_once('../navbar/sidebar.php');
+                require_once('../navbar/sidebar_inside.php');
                 ?>
                 <!-- sidebar selesai -->
 
                 <div class="contents" style="margin: 75px 0; padding: 10px 40px;">
                     <h4 class="text-center">Manajemen Riwayat Pengguna</h4>
 
-                    <div class="tabel mt-5 mx-5">
+                    <div class="tabel mt-5 mx-3">
                         <table id="example" class="table table-hover text-center">
                             <thead>
                                 <tr class="table-secondary">

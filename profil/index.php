@@ -1,5 +1,5 @@
-<?php 
-    require_once '../controller/user.php';
+<?php
+require_once '../controller/user.php';
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +44,13 @@
                         <input type="hidden" name="oldemail" value="<?= $user['email']; ?>">
                         <input type="hidden" name="oldfoto" value="<?= $user['foto']; ?>">
 
-                        <div class="mb-3 mt-5 row ms-5">
+                        <div class="ms-5 mt-5">
+                            <a class="btn btn-danger" id="delete" onclick="confirmDelete(<?= $user['iduser']; ?>)">
+                                Hapus Akun
+                            </a>
+                        </div>
+
+                        <div class="mb-3 mt-3 row ms-5">
                             <label for="inputName" class="col-sm-3 me-0 col-form-label">Nama :</label>
                             <div class="col-sm-6">
                                 <input type="text" class="form-control" style="border: 1px solid black;" id="inputName"
@@ -84,8 +90,10 @@
                             <label for="profil" class="col-form-label">Foto Profil</label>
                             <div class="col-sm-3">
                                 <img src="../image/<?= $user['foto']; ?>" class="img-preview" style="width: 70px;">
-                                <?php if($user['foto'] != 'default.png') : ?>
-                                    <a class="btn btn-danger" id="delete" onclick="hapusFoto(<?= $user['iduser']; ?>)">Hapus Foto</a>
+                                <?php if ($user['foto'] != 'default.png'): ?>
+                                    <a class="btn btn-sm btn-outline-danger" id="delete"
+                                        onclick="hapusFoto(<?= $user['iduser']; ?>)">Hapus
+                                        Foto</a>
                                 <?php endif; ?>
                             </div>
                             <div class="col-sm-6">
@@ -101,9 +109,6 @@
                             <div class="col-sm-2 me-0">
                                 <a href="../index.php" class="btn btn-secondary">Kembali
                                 </a>
-                            </div>
-                            <div class="col-sm-2 ms-0 p-0">
-                                <a class="btn btn-danger" id="delete" onclick="confirmDelete(<?= $user['iduser']; ?>)">Hapus Akun</a>
                             </div>
                             <div class="col-sm-2 ms-0 p-0">
                                 <button type="submit" class="btn btn-primary" name="submit">Update</button>
@@ -130,7 +135,7 @@
                 const fileProfil = new FileReader();
                 fileProfil.readAsDataURL(profil.files[0]);
 
-                fileProfil.onload = function(e) {
+                fileProfil.onload = function (e) {
                     imgPreview.src = e.target.result;
                 }
             }
