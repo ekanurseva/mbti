@@ -1,3 +1,15 @@
+<?php 
+    require_once 'controller/hasil.php';
+
+    $jumlah_gejala = jumlah_data("SELECT * FROM gejala");
+
+    $jumlah_gejala2 = ceil($jumlah_gejala / 2);
+    $jumlah_gejala3 = $jumlah_gejala - $jumlah_gejala2;
+
+    $pertanyaan1 = query("SELECT * FROM gejala ORDER BY id_kepribadian ASC LIMIT $jumlah_gejala2 ");
+    $pertanyaan2 = query("SELECT * FROM gejala ORDER BY id_kepribadian ASC LIMIT $jumlah_gejala2 OFFSET $jumlah_gejala2");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,99 +35,119 @@
         <div class="main-container m-0">
             <div class="d-flex">
 
+                <?php
+                    if (isset($_COOKIE['SPmbti'])) {
+                        require_once('navbar/sidebar.php');
+                    }
+                ?>
                 <div class="contents" style="margin: 75px 0; padding: 10px 40px;">
 
                     <form method="post" action="">
-                        <h4 class="text-center fw-bold" style="color: black;">Seberapa yakin anda mengalami/merasakan
+                        <input type="hidden" name="nama" value="<?= $_POST['nama']; ?>">
+                        <input type="hidden" name="umur" value="<?= $_POST['umur']; ?>">
+                        <h4 class="text-center fw-bold" style="color: black;">Seberapa yakin <?= $_POST['nama']; ?> (<?= $_POST['umur']; ?> tahun) mengalami/merasakan
                             gejala di bawah ini.</h4>
                         <div class="row mt-5">
                             <div class="col-6">
-                                <h6 class="m-0 fw-medium">
-                                    1. Pertanyaan 1
-                                </h6>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" value="1" id="1" name="gejala"
-                                        required>
-                                    <label class="form-check-label" for="1">
-                                        Sangat Yakin
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" value="0.5" id="2" name="gejala"
-                                        required>
-                                    <label class="form-check-label" for="2">
-                                        Yakin
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" value="1" id="3" name="gejala"
-                                        required>
-                                    <label class="form-check-label" for="3">
-                                        Cukup Yakin
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" value="0.5" id="4" name="gejala"
-                                        required>
-                                    <label class="form-check-label" for="4">
-                                        Kurang Yakin
-                                    </label>
-                                </div>
-                                <div class="form-check mb-4">
-                                    <input class="form-check-input" type="radio" value="0.5" id="5" name="gejala"
-                                        required>
-                                    <label class="form-check-label" for="5">
-                                        Tidak tahu
-                                    </label>
-                                </div>
+                                <?php 
+                                    $i = 1;
+                                    foreach($pertanyaan1 as $p1) :
+                                ?>
+                                    <h6 class="m-0 fw-medium">
+                                        <?= $i; ?>. <?= $p1['gejala']; ?>
+                                    </h6>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" value="1" id="<?= $p1['kode_gejala']; ?>_1" name="<?= $p1['kode_gejala']; ?>"
+                                            required>
+                                        <label class="form-check-label" for="<?= $p1['kode_gejala']; ?>_1">
+                                            Sangat Yakin
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" value="0.8" id="<?= $p1['kode_gejala']; ?>_2" name="<?= $p1['kode_gejala']; ?>"
+                                            required>
+                                        <label class="form-check-label" for="<?= $p1['kode_gejala']; ?>_2">
+                                            Yakin
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" value="0.6" id="<?= $p1['kode_gejala']; ?>_3" name="<?= $p1['kode_gejala']; ?>"
+                                            required>
+                                        <label class="form-check-label" for="<?= $p1['kode_gejala']; ?>_3">
+                                            Cukup Yakin
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" value="0.4" id="<?= $p1['kode_gejala']; ?>_4" name="<?= $p1['kode_gejala']; ?>"
+                                            required>
+                                        <label class="form-check-label" for="<?= $p1['kode_gejala']; ?>_4">
+                                            Kurang Yakin
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-4">
+                                        <input class="form-check-input" type="radio" value="0.2" id="<?= $p1['kode_gejala']; ?>_5" name="<?= $p1['kode_gejala']; ?>"
+                                            required>
+                                        <label class="form-check-label" for="<?= $p1['kode_gejala']; ?>_5">
+                                            Tidak tahu
+                                        </label>
+                                    </div>
+                                <?php 
+                                    $i++;
+                                    endforeach;
+                                ?>
                             </div>
 
                             <div class="col-6">
-                                <h6 class="m-0 fw-medium">
-                                    2. Pertanyaan 2
-                                </h6>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" value="1" id="1" name="gejala"
-                                        required>
-                                    <label class="form-check-label" for="1">
-                                        Sangat Yakin
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" value="0.5" id="2" name="gejala"
-                                        required>
-                                    <label class="form-check-label" for="2">
-                                        Yakin
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" value="1" id="3" name="gejala"
-                                        required>
-                                    <label class="form-check-label" for="3">
-                                        Cukup Yakin
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" value="0.5" id="4" name="gejala"
-                                        required>
-                                    <label class="form-check-label" for="4">
-                                        Kurang Yakin
-                                    </label>
-                                </div>
-                                <div class="form-check mb-4">
-                                    <input class="form-check-input" type="radio" value="0.5" id="5" name="gejala"
-                                        required>
-                                    <label class="form-check-label" for="5">
-                                        Tidak tahu
-                                    </label>
-                                </div>
+                            <?php 
+                                    foreach($pertanyaan2 as $p2) :
+                                ?>
+                                    <h6 class="m-0 fw-medium">
+                                        <?= $i; ?>. <?= $p2['gejala']; ?>
+                                    </h6>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" value="1" id="<?= $p2['kode_gejala']; ?>_1" name="<?= $p2['kode_gejala']; ?>"
+                                            required>
+                                        <label class="form-check-label" for="<?= $p2['kode_gejala']; ?>_1">
+                                            Sangat Yakin
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" value="0.8" id="<?= $p2['kode_gejala']; ?>_2" name="<?= $p2['kode_gejala']; ?>"
+                                            required>
+                                        <label class="form-check-label" for="<?= $p2['kode_gejala']; ?>_2">
+                                            Yakin
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" value="0.6" id="<?= $p2['kode_gejala']; ?>_3" name="<?= $p2['kode_gejala']; ?>"
+                                            required>
+                                        <label class="form-check-label" for="<?= $p2['kode_gejala']; ?>_3">
+                                            Cukup Yakin
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" value="0.4" id="<?= $p2['kode_gejala']; ?>_4" name="<?= $p2['kode_gejala']; ?>"
+                                            required>
+                                        <label class="form-check-label" for="<?= $p2['kode_gejala']; ?>_4">
+                                            Kurang Yakin
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-4">
+                                        <input class="form-check-input" type="radio" value="0.2" id="<?= $p2['kode_gejala']; ?>_5" name="<?= $p2['kode_gejala']; ?>"
+                                            required>
+                                        <label class="form-check-label" for="<?= $p2['kode_gejala']; ?>_5">
+                                            Tidak tahu
+                                        </label>
+                                    </div>
+                                <?php 
+                                    $i++;
+                                    endforeach;
+                                ?>
                             </div>
                         </div>
 
                         <div class="submit text-center pt-4 btn-long">
-                            <a href="../hasil" class="fw-medium btn btn-primary" name="submit_hitung">
-                                SUBMIT
-                            </a>
+                            <button type="submit" class="fw-medium btn btn-primary" name="submit">SUBMIT</button>
                         </div>
                     </form>
                 </div>
@@ -132,3 +164,9 @@
 </body>
 
 </html>
+
+<?php 
+    if(isset($_POST['submit'])) {
+        hitung($_POST);
+    }
+?>
