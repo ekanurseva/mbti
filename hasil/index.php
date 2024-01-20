@@ -16,10 +16,15 @@
 <body>
     <div class="content">
         <?php
-        require_once('../navbar/navbar.php');
+        require_once('../navbar/navbar_inside.php');
         ?>
         <div class="main-container m-0">
             <div class="d-flex">
+                <?php
+                    if (isset($_COOKIE['SPmbti'])) {
+                        require_once('../navbar/sidebar_inside.php');
+                    }
+                ?>
                 <div class="contents" style="margin-top: 75px;">
                     <div class="d-flex justify-content-center mb-4">
                         <h3>Hasil Tes MBTI</h3>

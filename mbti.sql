@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 15 Jan 2024 pada 16.54
+-- Waktu pembuatan: 20 Jan 2024 pada 14.52
 -- Versi server: 10.4.22-MariaDB
 -- Versi PHP: 8.0.15
 
@@ -180,6 +180,35 @@ INSERT INTO `gejala` (`id_gejala`, `id_kepribadian`, `kode_gejala`, `gejala`, `n
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `hasil`
+--
+
+CREATE TABLE `hasil` (
+  `id_hasil` int(11) NOT NULL,
+  `nama` varchar(50) NOT NULL,
+  `tanggal_tes` timestamp NOT NULL DEFAULT current_timestamp(),
+  `umur` int(5) NOT NULL,
+  `introvert_cf` double NOT NULL,
+  `introvert_bayes` double NOT NULL,
+  `extrovert_cf` double NOT NULL,
+  `extrovert_bayes` double NOT NULL,
+  `sensing_cf` double NOT NULL,
+  `sensing_bayes` double NOT NULL,
+  `intuition_cf` double NOT NULL,
+  `intuition_bayes` double NOT NULL,
+  `feeling_cf` double NOT NULL,
+  `feeling_bayes` double NOT NULL,
+  `thinking_cf` double NOT NULL,
+  `thinking_bayes` double NOT NULL,
+  `perceiving_cf` double NOT NULL,
+  `perceiving_bayes` double NOT NULL,
+  `judging_cf` double NOT NULL,
+  `judging_bayes` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `saran_mbti`
 --
 
@@ -255,18 +284,6 @@ INSERT INTO `saran_mbti` (`id_saran`, `id_tpmbti`, `saran`) VALUES
 (59, 16, 'Belajar untuk menghadapi konflik dan kritik.'),
 (60, 16, 'Pikirkan kebutuhan diri sendiri.'),
 (61, 16, 'Jangan terlalu boros, belajarlah untuk mengelola keuangan sedikit demi sedikit.');
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `siswa`
---
-
-CREATE TABLE `siswa` (
-  `id_siswa` int(11) NOT NULL,
-  `nama` varchar(50) NOT NULL,
-  `umur` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -357,7 +374,8 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`iduser`, `nama`, `username`, `password`, `email`, `foto`) VALUES
 (1, 'Admin 1', 'admin', '$2y$10$P8kpflwJHTXnNUYIUxjc8un5pw0.YyI1NJY67pdziv.4Vy5n3UrQa', 'administrator@gmail.com', '659f76af2f243.jpg'),
 (2, 'Eka Nurseva Saniyah', 'ekans', '$2y$10$e9H4is/mDVjhdIlE/0BbGe3JEG8FZJ.K0yp8NLKY6IzVeCFpJCiya', 'ekanursevas@gmail.com', '659f77d5466cb.jpg'),
-(4, 'Admin2', 'admin2', '$2y$10$jVfUu/Ob0cb/FwVtGFPb7OiJicCGe8MBHk7lN94ZVALGkvN.O5yDS', 'admin2@gmail.com', 'default.png');
+(4, 'Admin2', 'admin2', '$2y$10$jVfUu/Ob0cb/FwVtGFPb7OiJicCGe8MBHk7lN94ZVALGkvN.O5yDS', 'admin2@gmail.com', 'default.png'),
+(7, 'Fillah Zaki Alhaqi', 'fillah21', '$2y$10$NnRFlc3dFczJS6JUeu8m4OBU.fjjim2KyE84Gv8blSvEkvbUufdPy', 'fillah.alhaqi11@gmail.com', 'default.png');
 
 --
 -- Indexes for dumped tables
@@ -378,17 +396,17 @@ ALTER TABLE `gejala`
   ADD KEY `id_kepribadian` (`id_kepribadian`);
 
 --
+-- Indeks untuk tabel `hasil`
+--
+ALTER TABLE `hasil`
+  ADD PRIMARY KEY (`id_hasil`);
+
+--
 -- Indeks untuk tabel `saran_mbti`
 --
 ALTER TABLE `saran_mbti`
   ADD PRIMARY KEY (`id_saran`),
   ADD KEY `id_tpmbti` (`id_tpmbti`);
-
---
--- Indeks untuk tabel `siswa`
---
-ALTER TABLE `siswa`
-  ADD PRIMARY KEY (`id_siswa`);
 
 --
 -- Indeks untuk tabel `tipe_mbti`
@@ -429,16 +447,16 @@ ALTER TABLE `gejala`
   MODIFY `id_gejala` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
+-- AUTO_INCREMENT untuk tabel `hasil`
+--
+ALTER TABLE `hasil`
+  MODIFY `id_hasil` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT untuk tabel `saran_mbti`
 --
 ALTER TABLE `saran_mbti`
   MODIFY `id_saran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
-
---
--- AUTO_INCREMENT untuk tabel `siswa`
---
-ALTER TABLE `siswa`
-  MODIFY `id_siswa` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `tipe_mbti`
@@ -456,7 +474,7 @@ ALTER TABLE `tp_kepribadian`
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)

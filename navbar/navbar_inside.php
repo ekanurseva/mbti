@@ -24,7 +24,7 @@
                 </li>
                 <li class="nav-item">
                     <?php if(!isset($_COOKIE['SPmbti'])) : ?>
-                        <a class="nav-link" href="login.php">Login</a>
+                        <a class="nav-link" href="../login.php">Login</a>
                     <?php endif; ?>
                 </li>
             </ul>

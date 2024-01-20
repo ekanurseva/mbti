@@ -30,6 +30,8 @@
 
             // echo "Hasil nilai CF " . $dk['kepribadian'] . " adalah " . $hasil . "%<br><br>";
         }
+
+        return $hasil_cf;
     }
 
     function bayes($data) {
@@ -76,16 +78,40 @@
                 ${"sigma_bayes_" . $dk['kode_kepribadian']} += ${"bayes_" . $tala['kode_gejala']};
             }
 
-            // ${"sigma_bayes_" . $dk['kode_kepribadian']} *= 100;
+            ${"sigma_bayes_" . $dk['kode_kepribadian']} *= 100;
+
+            $hasil[] = number_format(${"sigma_bayes_" . $dk['kode_kepribadian']}, 2);
 
             // echo "Hasil sigma bayes ". $dk['kode_kepribadian'] . " adalah " . ${"sigma_bayes_" . $dk['kode_kepribadian']} . "%<br><br>";
             
         }
         
+        return $hasil;
     }
 
     function hitung($data) {
-        cf($data);
-        bayes($data);
+        global $conn;
+
+        $nama = $data['nama'];
+        $umur = $data['umur'];
+        $cf = cf($data);
+        $bayes = bayes($data);
+
+        for($i = 0; $i < count($cf); $i++) {
+            $gabung[] = $cf[$i];
+            $gabung[] = $bayes[$i];
+        }
+
+        $value = implode(", ", $gabung);
+
+        $query = "INSERT INTO hasil
+                        VALUES
+                        (NULL, '$nama', CURRENT_TIMESTAMP(), '$umur', ";
+
+        $query .= $value . ")";
+
+        mysqli_query($conn, $query);
+
+        return mysqli_affected_rows($conn);
     }
 ?>

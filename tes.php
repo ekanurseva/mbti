@@ -167,6 +167,18 @@
 
 <?php 
     if(isset($_POST['submit'])) {
-        hitung($_POST);
+        if (hitung($_POST) > 0) {
+            echo "
+                <script>
+                  document.location.href='hasil/index.php?key= . " . enkripsi($_POST['nama']) . "';
+                </script>
+            ";
+        } else {
+            echo "
+                <script>
+                  document.location.href='index.php';
+                </script>
+            ";
+        }
     }
 ?>
