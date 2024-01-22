@@ -1,3 +1,9 @@
+<?php 
+    require_once '../controller/hasil.php';
+
+    $riwayat = query("SELECT * FROM hasil ORDER BY nama");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,6 +43,7 @@
                         <table id="example" class="table table-hover text-center">
                             <thead>
                                 <tr class="table-secondary">
+                                    <th class="text-center" scope="col">NO</th>
                                     <th class="text-center" scope="col">NAMA</th>
                                     <th class="text-center" scope="col">TIPE MBTI</th>
                                     <th class="text-center" scope="col">TANGGAL</th>
@@ -44,22 +51,40 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        Pill
-                                    </td>
-                                    <td>
-                                        INTJ
-                                    </td>
-                                    <td>
-                                        12.00 || 18 Januari 2024
-                                    </td>
-                                    <td>
-                                        <a class="btn btn-primary" href="../hasil">
-                                            DETAIL
-                                        </a>
-                                    </td>
-                                </tr>
+                                <?php 
+                                    $i = 1;
+                                    foreach($riwayat as $r) :
+                                        $id_riwayat = $r['id_hasil'];
+
+                                        $cf = hasil_cf($r);
+                                        $bayes = hasil_bayes($r);
+
+                                        $tanggal = $r['tanggal_tes'];
+                                        $waktu = date('H.i.s || d F Y', strtotime($tanggal));
+                                ?>
+                                    <tr>
+                                        <td>
+                                            <?= $i; ?>
+                                        </td>
+                                        <td>
+                                            <?= $r['nama']; ?>
+                                        </td>
+                                        <td>
+                                            <?= $cf; ?> (CF) | <?= $bayes; ?> (Bayes)
+                                        </td>
+                                        <td>
+                                            <?= $waktu; ?>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-primary" href="../hasil/index.php?id=<?= enkripsi($id_riwayat); ?>">
+                                                DETAIL
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php 
+                                        $i++;
+                                    endforeach;
+                                ?>
                             </tbody>
                         </table>
                     </div>

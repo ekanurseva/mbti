@@ -1,3 +1,31 @@
+<?php 
+    require_once '../controller/hasil.php';
+
+    if(isset($_GET['key'])) {
+        $nama = dekripsi($_GET['key']);
+        $data = query("SELECT * FROM hasil WHERE nama = '$nama' AND id_hasil = (SELECT MAX(id_hasil) FROM hasil WHERE nama = '$nama')") [0];
+    } elseif(isset($_GET['id'])) {
+        $id = dekripsi($_GET['id']);
+        $data = query("SELECT * FROM hasil WHERE id_hasil = $id")[0];
+    } else {
+        echo "
+        <script>
+            document.location.href='../index.php';
+        </script>
+    ";
+    }
+
+    $hasil_cf = hasil_cf($data);
+    $hasil_bayes = hasil_bayes($data);
+    $mbti = query("SELECT * FROM tipe_mbti WHERE nama_mbti = '$hasil_cf'")[0];
+    $id_mbti = $mbti['id_tpmbti'];
+
+    $data_ciri = query("SELECT * FROM ciri_mbti WHERE id_tpmbti = $id_mbti");
+    $data_saran = query("SELECT * FROM saran_mbti WHERE id_tpmbti = $id_mbti");
+
+    $data_kepribadian = query("SELECT * FROM tp_kepribadian");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,28 +62,21 @@
                         <div class="row">
                             <div class="col-sm-6 p-3">
                                 <div class="fw-bold mb-2">
-                                    <label for="Nama" class="text-dark">Nama : Orang</label>
+                                    <label for="Nama" class="text-dark">Nama : <?= $data['nama']; ?></label>
                                 </div>
                                 <div class="fw-bold">
-                                    <label for="Nama" class="text-dark">Umur : 10 tahun</label>
+                                    <label for="Nama" class="text-dark">Umur : <?= $data['umur']; ?> tahun</label>
                                 </div>
 
                                 <div class="box2 mt-4">
                                     <div class="text-dark p-2">
                                         <label for="" class="fw-bold">Ciri-Ciri :</label>
                                         <ul>
-                                            <li>
-                                                avsdyuad
-                                            </li>
-                                            <li>
-                                                avsdyuad
-                                            </li>
-                                            <li>
-                                                avsdyuad
-                                            </li>
-                                            <li>
-                                                avsdyuad
-                                            </li>
+                                            <?php foreach($data_ciri as $dc) : ?>
+                                                <li>
+                                                    <?= $dc['ciri']; ?>
+                                                </li>
+                                            <?php endforeach; ?>
                                         </ul>
                                     </div>
                                 </div>
@@ -64,18 +85,11 @@
                                     <div class="text-dark p-2">
                                         <label for="" class="fw-bold">Saran Pengembangan :</label>
                                         <ul>
-                                            <li>
-                                                avsdyuad
-                                            </li>
-                                            <li>
-                                                avsdyuad
-                                            </li>
-                                            <li>
-                                                avsdyuad
-                                            </li>
-                                            <li>
-                                                avsdyuad
-                                            </li>
+                                            <?php foreach($data_saran as $ds) : ?>
+                                                <li>
+                                                    <?= $ds['saran']; ?>
+                                                </li>
+                                            <?php endforeach; ?>
                                         </ul>
                                     </div>
                                 </div>
@@ -91,7 +105,7 @@
                                                     <h5 class="fw-bold">Certainty Factor</h5>
                                                 </div>
                                                 <div class="mt-2 fw-bold">
-                                                    <label for="">INTJ</label>
+                                                    <label for=""><?= $hasil_cf; ?></label>
                                                 </div>
                                             </div>
                                         </div>
@@ -99,13 +113,13 @@
                                         <div class="box2 mt-4">
                                             <div class="text-dark">
                                                 <ul class="p-2 m-0">
-                                                    <li style="list-style: none;">Introvert : 90.76%</li>
-                                                    <li style="list-style: none;">Introvert : 90.76%</li>
-                                                    <li style="list-style: none;">Introvert : 90.76%</li>
-                                                    <li style="list-style: none;">Introvert : 90.76%</li>
-                                                    <li style="list-style: none;">Introvert : 90.76%</li>
-                                                    <li style="list-style: none;">Introvert : 90.76%</li>
-                                                    <li style="list-style: none;">Introvert : 90.76%</li>
+                                                    <?php 
+                                                        foreach($data_kepribadian as $dk) : 
+                                                            $nama_kepribadian = strtolower(str_replace(" ", "_", $dk['kepribadian']));
+                                                            $nama_kepribadian .= "_cf";
+                                                    ?>
+                                                        <li style="list-style: none;"><?= $dk['kepribadian']; ?> : <?= $data[$nama_kepribadian]; ?>%</li>
+                                                    <?php endforeach ?>
                                                 </ul>
                                             </div>
                                         </div>
@@ -117,7 +131,7 @@
                                                     <h5 class="fw-bold">Teorema Bayes</h5>
                                                 </div>
                                                 <div class="mt-2 fw-bold">
-                                                    <label for="">INTJ</label>
+                                                    <label for=""><?= $hasil_bayes; ?></label>
                                                 </div>
                                             </div>
                                         </div>
@@ -125,13 +139,13 @@
                                         <div class="box2 mt-4">
                                             <div class="text-dark">
                                                 <ul class="p-2 m-0">
-                                                    <li style="list-style: none;">Introvert : 90.76%</li>
-                                                    <li style="list-style: none;">Introvert : 90.76%</li>
-                                                    <li style="list-style: none;">Introvert : 90.76%</li>
-                                                    <li style="list-style: none;">Introvert : 90.76%</li>
-                                                    <li style="list-style: none;">Introvert : 90.76%</li>
-                                                    <li style="list-style: none;">Introvert : 90.76%</li>
-                                                    <li style="list-style: none;">Introvert : 90.76%</li>
+                                                    <?php 
+                                                        foreach($data_kepribadian as $dakep) : 
+                                                            $nama_kepribadian = strtolower(str_replace(" ", "_", $dakep['kepribadian']));
+                                                            $nama_kepribadian .= "_bayes";
+                                                    ?>
+                                                        <li style="list-style: none;"><?= $dakep['kepribadian']; ?> : <?= $data[$nama_kepribadian]; ?>%</li>
+                                                    <?php endforeach ?>
                                                 </ul>
                                             </div>
                                         </div>
@@ -144,10 +158,7 @@
                                         <div class="text-dark p-2">
                                             <label for="" class="fw-bold">Kesimpulan :</label>
                                             <div class="p-3">
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate
-                                                numquam minima eaque incidunt impedit modi explicabo alias nesciunt
-                                                ipsa, eligendi rem ut! Nostrum voluptate odio iusto rem corrupti vero
-                                                excepturi!
+                                                Berdasarkan gejala kepribadian (pertanyaan), nilai pakar, dan nilai user yang sama antara kedua metode yaitu metode certainty factor dan teorema bayes menunjukan bahwa pengguna memiliki tipe MBTI <?= $hasil_cf; ?>.
                                             </div>
                                         </div>
                                     </div>
@@ -159,7 +170,7 @@
 
                                         <div class="col-sm-2" style="font-size: 13px;">
                                             <div class="d-flex justify-content-end">
-                                                <a type="button" href="../home" class="btn"
+                                                <a type="button" href="../index.php" class="btn"
                                                     style="background: none; border: solid 1px black;">Selesai</a>
                                             </div>
                                         </div>

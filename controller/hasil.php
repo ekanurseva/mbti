@@ -114,4 +114,74 @@
 
         return mysqli_affected_rows($conn);
     }
+
+    function hasil_cf($data) {
+        $skala = query("SELECT DISTINCT skala FROM tp_kepribadian");
+        $cek = "SELECT * FROM tipe_mbti WHERE ";
+
+        foreach($skala as $ska) {
+            $sk = $ska['skala'];
+            $data_kepribadian = query("SELECT * FROM tp_kepribadian WHERE skala = $sk");
+
+            foreach($data_kepribadian as $dk) {
+                $nama_kepribadian = strtolower(str_replace(" ", "_", $dk['kepribadian']));
+                $nama_kepribadian_cf = $nama_kepribadian . "_cf";
+
+                ${"id_kepribadian_" . $sk}[] = $dk['id_kepribadian'];
+                ${"nilai_cf_" . $sk}[] = $data[$nama_kepribadian_cf];
+            }
+
+            ${"index_max_cf_" . $sk} = array_search(max(${"nilai_cf_" . $sk}), ${"nilai_cf_" . $sk});
+
+            $hasil[] = ${"id_kepribadian_" . $sk}[${"index_max_cf_" . $sk}];
+        }
+
+        for($i = 0; $i < count($skala); $i++) {
+            $cek .= "skala_" . $skala[$i]['skala'] . " = '" . $hasil[$i] . "'";
+
+            if($i < count($skala) - 1){
+                $cek .= " AND ";
+            }
+        }
+
+        $cari_mbti = query($cek)[0];
+        $final_hasil = $cari_mbti['nama_mbti'];
+
+        return $final_hasil;
+    }
+
+    function hasil_bayes($data) {
+        $skala = query("SELECT DISTINCT skala FROM tp_kepribadian");
+        $cek = "SELECT * FROM tipe_mbti WHERE ";
+
+        foreach($skala as $ska) {
+            $sk = $ska['skala'];
+            $data_kepribadian = query("SELECT * FROM tp_kepribadian WHERE skala = $sk");
+
+            foreach($data_kepribadian as $dk) {
+                $nama_kepribadian = strtolower(str_replace(" ", "_", $dk['kepribadian']));
+                $nama_kepribadian_bayes = $nama_kepribadian . "_bayes";
+
+                ${"id_kepribadian_" . $sk}[] = $dk['id_kepribadian'];
+                ${"nilai_bayes_" . $sk}[] = $data[$nama_kepribadian_bayes];
+            }
+
+            ${"index_max_bayes_" . $sk} = array_search(max(${"nilai_bayes_" . $sk}), ${"nilai_bayes_" . $sk});
+
+            $hasil[] = ${"id_kepribadian_" . $sk}[${"index_max_bayes_" . $sk}];
+        }
+
+        for($i = 0; $i < count($skala); $i++) {
+            $cek .= "skala_" . $skala[$i]['skala'] . " = '" . $hasil[$i] . "'";
+
+            if($i < count($skala) - 1){
+                $cek .= " AND ";
+            }
+        }
+
+        $cari_mbti = query($cek)[0];
+        $final_hasil = $cari_mbti['nama_mbti'];
+
+        return $final_hasil;
+    }
 ?>
