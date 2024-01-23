@@ -106,13 +106,15 @@
 <?php 
   if(isset($_POST['submit'])) {
     if (create($_POST) > 0) {
-      $_SESSION["berhasil"] = "Data Tipe Kepribadian Berhasil Ditambahkan!";
+        
+        create_field($_POST);
+        $_SESSION["berhasil"] = "Data Tipe Kepribadian Berhasil Ditambahkan!";
 
-      echo "
-          <script>
-            document.location.href='index.php';
-          </script>
-      ";
+        echo "
+            <script>
+                document.location.href='index.php';
+            </script>
+        ";
     } else {
         echo "<script>
                 Swal.fire(

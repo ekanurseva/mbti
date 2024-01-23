@@ -114,13 +114,17 @@
 <?php 
   if(isset($_POST['submit'])) {
     if (update($_POST) > 0) {
-      $_SESSION["berhasil"] = "Data Tipe Kepribadian Berhasil Diubah!";
 
-      echo "
-          <script>
-            document.location.href='index.php';
-          </script>
-      ";
+        if($_POST['oldkepribadian'] != $_POST['kepribadian']) {
+            update_field($_POST);
+        }
+        $_SESSION["berhasil"] = "Data Tipe Kepribadian Berhasil Diubah!";
+
+        echo "
+            <script>
+                document.location.href='index.php';
+            </script>
+        ";
     } else {
         echo "<script>
                 Swal.fire(

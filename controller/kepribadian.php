@@ -126,6 +126,18 @@
         return mysqli_affected_rows($conn);
     }
 
+    function create_field($data) {
+        global $conn;
+        $kode = htmlspecialchars($data['kepribadian']);
+        $kode_kecil = strtolower(str_replace(" ", "_", $kode));
+        $cf = $kode_kecil . "_cf";
+        $bayes = $kode_kecil . "_bayes";
+
+        mysqli_query($conn, "ALTER TABLE hasil ADD $cf DOUBLE DEFAULT 0, ADD $bayes DOUBLE DEFAULT 0");
+
+        return mysqli_affected_rows($conn);
+    }
+
     function update($data) {
         global $conn;
         $id = $data['id_kepribadian'];
@@ -233,9 +245,34 @@
         return mysqli_affected_rows($conn);
     }
 
+    function update_field($data) {
+        global $conn;
+
+        $oldkepribadian = htmlspecialchars($data['oldkepribadian']);
+        $kode = htmlspecialchars($data['kepribadian']);
+        
+        if($kode != $oldkepribadian) {
+            $kode_kecil = strtolower(str_replace(" ", "_", $kode));
+            $oldkode_kecil = strtolower(str_replace(" ", "_", $oldkepribadian));
+            $cf_old = $oldkode_kecil . "_cf";
+            $bayes_old = $oldkode_kecil . "_bayes";
+            $cf = $kode_kecil . "_cf";
+            $bayes = $kode_kecil . "_bayes";
+
+            mysqli_query($conn, "ALTER TABLE hasil CHANGE $cf_old $cf DOUBLE DEFAULT 0, CHANGE $bayes_old $bayes DOUBLE DEFAULT 0");
+        }
+    }
+
     function delete($id)
     {
         global $conn;
+        $data = query("SELECT * FROM tp_kepribadian WHERE id_kepribadian = $id")[0];
+        
+        $kode_kecil = strtolower(str_replace(" ", "_", $data['kepribadian']));
+        $cf = $kode_kecil . "_cf";
+        $bayes = $kode_kecil . "_bayes";
+
+        mysqli_query($conn, "ALTER TABLE hasil DROP COLUMN $cf, DROP COLUMN $bayes");
         mysqli_query($conn, "DELETE FROM tp_kepribadian WHERE id_kepribadian = $id");
 
         $deleted = true;
