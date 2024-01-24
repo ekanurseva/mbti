@@ -74,7 +74,7 @@
                             <label for="skala" class="col-sm-3 me-0 col-form-label">Skala</label>
                             <div class="col-sm-6">
                                 <input type="number" class="form-control" style="border: 1px solid black;" id="skala"
-                                    name="skala" value="<?= $data['skala']; ?>">
+                                    name="skala" value="<?= $data['skala']; ?>" readonly>
                             </div>
                         </div>
 
@@ -117,6 +117,10 @@
 
         if($_POST['oldkepribadian'] != $_POST['kepribadian']) {
             update_field($_POST);
+        }
+
+        if($_POST['oldinisial'] != $_POST['inisial']) {
+            update_mbti($_POST);
         }
         $_SESSION["berhasil"] = "Data Tipe Kepribadian Berhasil Diubah!";
 

@@ -263,6 +263,60 @@
         }
     }
 
+    function update_all_mbti() {
+        global $conn;
+
+        $data_mbti = query("SELECT * FROM tipe_mbti");
+        $skala = query("SELECT DISTINCT skala FROM tp_kepribadian");
+
+        foreach($data_mbti as $dm) {
+            $id_mbti = $dm['id_tpmbti'];
+            $mbti = "";
+            foreach($skala as $ska) {
+                $cari = $dm["skala_" . $ska['skala']] ;
+
+                $cari_data = query("SELECT inisial FROM tp_kepribadian WHERE id_kepribadian = '$cari'")[0];
+
+                $mbti .= $cari_data['inisial'];
+            }
+
+            $query = "UPDATE tipe_mbti SET 
+                    nama_mbti = '$mbti'
+                  WHERE id_tpmbti = '$id_mbti'
+                ";
+            mysqli_query($conn, $query);
+        }
+    }
+
+    function update_mbti($data) {
+        global $conn;
+
+        $id = $data['id_kepribadian'];
+        $skala = "skala_" . $data['skala'];
+
+        $data_mbti = query("SELECT * FROM tipe_mbti WHERE $skala = $id");
+
+        $data_skala = query("SELECT DISTINCT skala FROM tp_kepribadian");
+
+        foreach($data_mbti as $dm) {
+            $id_mbti = $dm['id_tpmbti'];
+            $mbti = "";
+            foreach($data_skala as $ska) {
+                $cari = $dm["skala_" . $ska['skala']] ;
+
+                $cari_data = query("SELECT inisial FROM tp_kepribadian WHERE id_kepribadian = '$cari'")[0];
+
+                $mbti .= $cari_data['inisial'];
+            }
+
+            $query = "UPDATE tipe_mbti SET 
+                    nama_mbti = '$mbti'
+                  WHERE id_tpmbti = '$id_mbti'
+                ";
+            mysqli_query($conn, $query);
+        }
+    }
+
     function delete($id)
     {
         global $conn;
@@ -271,9 +325,28 @@
         $kode_kecil = strtolower(str_replace(" ", "_", $data['kepribadian']));
         $cf = $kode_kecil . "_cf";
         $bayes = $kode_kecil . "_bayes";
+        
+        $skala = $data['skala'];
+        $jumlah = jumlah_data("SELECT * FROM tp_kepribadian WHERE skala = $skala");
+        $params = "skala_" . $skala;
+
+        if($jumlah == 2) {
+            $query = "UPDATE tipe_mbti SET 
+                    $params = null
+                WHERE $params = '$id'
+                ";
+            mysqli_query($conn, $query);
+        } elseif($jumlah == 1) {
+            $fk = "fk_mbti_" . $skala;
+            
+            mysqli_query($conn, "ALTER TABLE tipe_mbti DROP FOREIGN KEY $fk");
+            mysqli_query($conn, "ALTER TABLE tipe_mbti DROP COLUMN $params");
+        }
 
         mysqli_query($conn, "ALTER TABLE hasil DROP COLUMN $cf, DROP COLUMN $bayes");
         mysqli_query($conn, "DELETE FROM tp_kepribadian WHERE id_kepribadian = $id");
+        
+        update_all_mbti();
 
         $deleted = true;
 
@@ -294,5 +367,18 @@
         } else {
             echo 'error';
         }
+    }
+ 
+    function create_mbti_field($data) {
+        global $conn;
+
+        $skala = htmlspecialchars($data['skala']);
+        $data_kepribadian = query("SELECT * FROM tp_kepribadian WHERE skala = $skala")[0];
+        $id_skala = $data_kepribadian['id_kepribadian'];
+        $nama = "skala_" . $skala;
+        $fk = "fk_mbti_" . $skala;
+
+        mysqli_query($conn, "ALTER TABLE tipe_mbti ADD $nama INT(11) DEFAULT $id_skala"); 
+        mysqli_query($conn, "ALTER TABLE tipe_mbti ADD CONSTRAINT $fk FOREIGN KEY ($nama) REFERENCES tp_kepribadian(id_kepribadian) ON UPDATE CASCADE ON DELETE CASCADE");
     }
 ?>

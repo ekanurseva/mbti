@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 20 Jan 2024 pada 14.52
+-- Waktu pembuatan: 24 Jan 2024 pada 05.30
 -- Versi server: 10.4.22-MariaDB
 -- Versi PHP: 8.0.15
 
@@ -206,6 +206,13 @@ CREATE TABLE `hasil` (
   `judging_bayes` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data untuk tabel `hasil`
+--
+
+INSERT INTO `hasil` (`id_hasil`, `nama`, `tanggal_tes`, `umur`, `introvert_cf`, `introvert_bayes`, `extrovert_cf`, `extrovert_bayes`, `sensing_cf`, `sensing_bayes`, `intuition_cf`, `intuition_bayes`, `feeling_cf`, `feeling_bayes`, `thinking_cf`, `thinking_bayes`, `perceiving_cf`, `perceiving_bayes`, `judging_cf`, `judging_bayes`) VALUES
+(1, 'Fillah Zaki Alhaqi', '2024-01-22 12:07:26', 22, 64.91, 23.8, 33.65, 23.21, 51.22, 22.73, 52.99, 24.71, 33.5, 20.13, 62.23, 24.88, 41.82, 22.45, 57.08, 24.21);
+
 -- --------------------------------------------------------
 
 --
@@ -295,10 +302,10 @@ CREATE TABLE `tipe_mbti` (
   `id_tpmbti` int(11) NOT NULL,
   `kode` varchar(20) NOT NULL,
   `nama_mbti` varchar(5) NOT NULL,
-  `skala_1` int(11) NOT NULL,
-  `skala_2` int(11) NOT NULL,
-  `skala_3` int(11) NOT NULL,
-  `skala_4` int(11) NOT NULL
+  `skala_1` int(11) DEFAULT NULL,
+  `skala_2` int(11) DEFAULT NULL,
+  `skala_3` int(11) DEFAULT NULL,
+  `skala_4` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -413,10 +420,10 @@ ALTER TABLE `saran_mbti`
 --
 ALTER TABLE `tipe_mbti`
   ADD PRIMARY KEY (`id_tpmbti`),
-  ADD KEY `skala_1` (`skala_1`),
-  ADD KEY `skala_2` (`skala_2`),
-  ADD KEY `skala_3` (`skala_3`),
-  ADD KEY `skala_4` (`skala_4`);
+  ADD KEY `fk_mbti_1` (`skala_1`),
+  ADD KEY `fk_mbti_2` (`skala_2`),
+  ADD KEY `fk_mbti_3` (`skala_3`),
+  ADD KEY `fk_mbti_4` (`skala_4`);
 
 --
 -- Indeks untuk tabel `tp_kepribadian`
@@ -450,7 +457,7 @@ ALTER TABLE `gejala`
 -- AUTO_INCREMENT untuk tabel `hasil`
 --
 ALTER TABLE `hasil`
-  MODIFY `id_hasil` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_hasil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `saran_mbti`
@@ -462,13 +469,13 @@ ALTER TABLE `saran_mbti`
 -- AUTO_INCREMENT untuk tabel `tipe_mbti`
 --
 ALTER TABLE `tipe_mbti`
-  MODIFY `id_tpmbti` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_tpmbti` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT untuk tabel `tp_kepribadian`
 --
 ALTER TABLE `tp_kepribadian`
-  MODIFY `id_kepribadian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_kepribadian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`
@@ -502,10 +509,10 @@ ALTER TABLE `saran_mbti`
 -- Ketidakleluasaan untuk tabel `tipe_mbti`
 --
 ALTER TABLE `tipe_mbti`
-  ADD CONSTRAINT `tipe_mbti_ibfk_1` FOREIGN KEY (`skala_1`) REFERENCES `tp_kepribadian` (`id_kepribadian`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tipe_mbti_ibfk_2` FOREIGN KEY (`skala_2`) REFERENCES `tp_kepribadian` (`id_kepribadian`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tipe_mbti_ibfk_3` FOREIGN KEY (`skala_3`) REFERENCES `tp_kepribadian` (`id_kepribadian`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tipe_mbti_ibfk_4` FOREIGN KEY (`skala_4`) REFERENCES `tp_kepribadian` (`id_kepribadian`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_mbti_1` FOREIGN KEY (`skala_1`) REFERENCES `tp_kepribadian` (`id_kepribadian`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_mbti_2` FOREIGN KEY (`skala_2`) REFERENCES `tp_kepribadian` (`id_kepribadian`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_mbti_3` FOREIGN KEY (`skala_3`) REFERENCES `tp_kepribadian` (`id_kepribadian`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_mbti_4` FOREIGN KEY (`skala_4`) REFERENCES `tp_kepribadian` (`id_kepribadian`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

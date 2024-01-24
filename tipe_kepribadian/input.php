@@ -108,6 +108,15 @@
     if (create($_POST) > 0) {
         
         create_field($_POST);
+
+        $skala = $_POST['skala'];
+        $jumlah = jumlah_data("SELECT * FROM tp_kepribadian WHERE skala = $skala");
+
+        if($jumlah == 1) {
+            create_mbti_field($_POST);
+            update_all_mbti();
+        }
+
         $_SESSION["berhasil"] = "Data Tipe Kepribadian Berhasil Ditambahkan!";
 
         echo "
