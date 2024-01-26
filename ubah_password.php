@@ -1,18 +1,27 @@
 <?php
 session_start();
 require_once 'controller/user.php';
+setcookie('SPmbti', '', time() - 3600);
 
-if (isset($_COOKIE['SPmbti'])) {
-    echo "<script>
-            document.location.href='user/index.php';
-          </script>";
-    exit;
-}
+if(isset($_GET['key'])) {
+    $email = dekripsi($_GET['key']);
 
-if (isset($_POST["submit_login"])) {
-    if (login($_POST) == 1) {
-        $error = true;
+    $result = mysqli_query($conn, "SELECT email FROM user WHERE email = '$email'");
+
+    if (!mysqli_fetch_assoc($result)) {
+        $_SESSION["gagal"] = "Email tidak ditemukan";
+        echo "
+            <script>
+                document.location.href='login.php';
+            </script>";
+        exit();
+    } else {
+        $data = query("SELECT * FROM user WHERE email = '$email'") [0];
     }
+} else {
+  echo "<script>
+            document.location.href='login.php';
+        </script>";
 }
 ?>
 
@@ -32,54 +41,31 @@ if (isset($_POST["submit_login"])) {
 </head>
 
 <body>
-    <?php
-    require_once('navbar/navbar.php');
-    ?>
-
     <!--form login-->
     <div class="content d-flex justify-content-center">
         <div class="d-flex align-items-center">
             <div class="box container-sm p-4">
                 <div class="text-center mb-2">
-                    <h5 class="text-secondary">Welcome, Please Login</h5>
+                    <h5 class="text-secondary">Ubah Password</h5>
                 </div>
                 <hr class="mb-3">
 
-                <div class="mb-3">
-                    <h4>Login</h4>
-                </div>
                 <form method="post" action="">
-                    <?php if (isset($error)): ?>
-                        <div class="alert alert-danger" role="alert">
-                            Username/Password Salah
-                        </div>
-                    <?php endif; ?>
+                    <input type="hidden" name="iduser" value="<?= $data['iduser']; ?>">
+
                     <div class="mb-3 fs-5">
-                        <input type="text" class="form-control" name="username" placeholder="Username">
+                        <input type="text" class="form-control" name="nama" placeholder="Nama" value="<?= $data['nama']; ?>" disabled>
                     </div>
                     <div class="mb-4 fs-5">
                         <input type="password" class="form-control" name="password" placeholder="Password" id="password">
                     </div>
-                    <div class="mb-5" style="font-size: 13px;">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="show-password">
-                            <label class="form-check-label" for="show">
-                                Show Password
-                            </label>
-                        </div>
+                    <div class="mb-4 fs-5">
+                        <input type="password" class="form-control" name="password2" placeholder="Konfirmasi Password" id="password2">
                     </div>
 
                     <div class="row d-flex align-items-center">
                         <div class="col-sm-4">
-                            <button type="submit" name="submit_login" class="btn btn-primary px-4">Login</button>
-                        </div>
-
-                        <div class="col-sm-8" style="font-size: 15px;">
-                            <div class="d-flex justify-content-end">
-                                <a class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="">
-                                    Lupa Password?
-                                </a>
-                            </div>
+                            <button type="submit" name="submit" class="btn btn-primary px-4">Submit</button>
                         </div>
                     </div>
                 </form>
@@ -123,52 +109,28 @@ if (isset($_POST["submit_login"])) {
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
         </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <script>
-        const passwordInput = document.getElementById('password');
-        const showPasswordCheckbox = document.getElementById('show-password');
-
-        showPasswordCheckbox.addEventListener('change', function() {
-            passwordInput.type = this.checked ? 'text' : 'password';
-        });
-    </script>
 </body>
 
 </html>
 
-<?php
-if (isset($_SESSION["berhasil"])) {
-    $pesan = $_SESSION["berhasil"];
-
-    echo "
-              <script>
-                Swal.fire(
-                  'Berhasil!',
-                  '$pesan',
-                  'success'
-                )
-              </script>
-          ";
-    $_SESSION = [];
-    session_unset();
-    session_destroy();
-
-
-} elseif (isset($_SESSION['gagal'])) {
-    $pesan = $_SESSION["gagal"];
-
-    echo "
-            <script>
-                Swal.fire(
-                    'Gagal!',
-                    '$pesan',
-                    'error'
-                )
-            </script>
+<?php 
+  if(isset($_POST['submit'])) {
+    if (update_password($_POST) > 0) {
+      $_SESSION["berhasil"] = "Ubah Password Berhasil!";
+      
+      echo "
+        <script>
+          document.location.href='login.php';
+        </script>
         ";
-    $_SESSION = [];
-    session_unset();
-    session_destroy();
+    } else {
+      $_SESSION["gagal"] = "Ubah Password Gagal!";
 
-}
+      echo "
+          <script>
+            document.location.href='login.php';
+          </script>
+      ";
+      }
+  }
 ?>
