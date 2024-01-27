@@ -1,3 +1,5 @@
+<!-- SIDEBARE -->
+
 <?php
 require_once 'controller/main.php';
 validasi();
@@ -17,9 +19,8 @@ $user = query("SELECT * FROM user WHERE iduser = $id_user")[0];
                         <button class="rounded-circle"><i class="bi bi-pencil-fill"></i></button>
                     </a>
                 </div>
-                <div class="col-sm-8 m-0">
+                <div class="col-sm-8 p-0 m-0">
                     <h6 class="fw-bold">
-                        Hallo
                         <?= $user['nama']; ?>
                     </h6>
                 </div>
@@ -33,7 +34,7 @@ $user = query("SELECT * FROM user WHERE iduser = $id_user")[0];
             <ul class="list-group list-group-flush pt-4 fw-medium">
                 <li class="list-group-item">
                     <a href="admin/data_admin.php" class="text-decoration-none d-block">
-                        <span>Data Admin</span>
+                        <span>Manajemen Data Admin</span>
                     </a>
                 </li>
                 <li class="list-group-item">

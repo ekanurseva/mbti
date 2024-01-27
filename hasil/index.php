@@ -1,29 +1,36 @@
-<?php 
-    require_once '../controller/hasil.php';
+<!-- INDEX HASIL -->
 
-    if(isset($_GET['key'])) {
-        $nama = dekripsi($_GET['key']);
-        $data = query("SELECT * FROM hasil WHERE nama = '$nama' AND id_hasil = (SELECT MAX(id_hasil) FROM hasil WHERE nama = '$nama')") [0];
-    } elseif(isset($_GET['id'])) {
-        $id = dekripsi($_GET['id']);
-        $data = query("SELECT * FROM hasil WHERE id_hasil = $id")[0];
-    } else {
-        echo "
+<?php
+require_once '../controller/hasil.php';
+
+if (isset($_GET['key'])) {
+    $nama = dekripsi($_GET['key']);
+    $data = query("SELECT * FROM hasil WHERE nama = '$nama' AND id_hasil = (SELECT MAX(id_hasil) FROM hasil WHERE nama = '$nama')")[0];
+} elseif (isset($_GET['id'])) {
+    $id = dekripsi($_GET['id']);
+    $data = query("SELECT * FROM hasil WHERE id_hasil = $id")[0];
+} else {
+    echo "
         <script>
             document.location.href='../index.php';
         </script>
     ";
-    }
+}
 
-    $hasil_cf = hasil_cf($data);
-    $hasil_bayes = hasil_bayes($data);
-    $mbti = query("SELECT * FROM tipe_mbti WHERE nama_mbti = '$hasil_cf'")[0];
-    $id_mbti = $mbti['id_tpmbti'];
 
-    $data_ciri = query("SELECT * FROM ciri_mbti WHERE id_tpmbti = $id_mbti");
-    $data_saran = query("SELECT * FROM saran_mbti WHERE id_tpmbti = $id_mbti");
+$idhasil = enkripsi($data['nama']);
 
-    $data_kepribadian = query("SELECT * FROM tp_kepribadian");
+$idhasill = enkripsi($data['id_hasil']);
+
+$hasil_cf = hasil_cf($data);
+$hasil_bayes = hasil_bayes($data);
+$mbti = query("SELECT * FROM tipe_mbti WHERE nama_mbti = '$hasil_cf'")[0];
+$id_mbti = $mbti['id_tpmbti'];
+
+$data_ciri = query("SELECT * FROM ciri_mbti WHERE id_tpmbti = $id_mbti");
+$data_saran = query("SELECT * FROM saran_mbti WHERE id_tpmbti = $id_mbti");
+
+$data_kepribadian = query("SELECT * FROM tp_kepribadian");
 ?>
 
 <!DOCTYPE html>
@@ -38,6 +45,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
         </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="../style.css">
 </head>
 
@@ -49,30 +58,34 @@
         <div class="main-container m-0">
             <div class="d-flex">
                 <?php
-                    if (isset($_COOKIE['SPmbti'])) {
-                        require_once('../navbar/sidebar_inside.php');
-                    }
+                if (isset($_COOKIE['SPmbti'])) {
+                    require_once('../navbar/sidebar_inside.php');
+                }
                 ?>
                 <div class="contents" style="margin-top: 75px;">
                     <div class="d-flex justify-content-center mb-4">
-                        <h3>Hasil Tes MBTI</h3>
+                        <h3 class="fw-bold">Hasil Tes MBTI</h3>
                     </div>
 
                     <div class="container">
                         <div class="row">
                             <div class="col-sm-6 p-3">
                                 <div class="fw-bold mb-2">
-                                    <label for="Nama" class="text-dark">Nama : <?= $data['nama']; ?></label>
+                                    <label for="Nama" class="text-dark">Nama :
+                                        <?= $data['nama']; ?>
+                                    </label>
                                 </div>
                                 <div class="fw-bold">
-                                    <label for="Nama" class="text-dark">Umur : <?= $data['umur']; ?> tahun</label>
+                                    <label for="Nama" class="text-dark">Umur :
+                                        <?= $data['umur']; ?> tahun
+                                    </label>
                                 </div>
 
                                 <div class="box2 mt-4">
                                     <div class="text-dark p-2">
                                         <label for="" class="fw-bold">Ciri-Ciri :</label>
                                         <ul>
-                                            <?php foreach($data_ciri as $dc) : ?>
+                                            <?php foreach ($data_ciri as $dc): ?>
                                                 <li>
                                                     <?= $dc['ciri']; ?>
                                                 </li>
@@ -83,9 +96,13 @@
 
                                 <div class="box2 mt-4">
                                     <div class="text-dark p-2">
-                                        <label for="" class="fw-bold">Saran Pengembangan :</label>
+                                        <label for="" class="fw-bold">Saran Pengembangan untuk tipe
+                                            <b>
+                                                <?= $hasil_cf; ?>
+                                            </b> :
+                                        </label>
                                         <ul>
-                                            <?php foreach($data_saran as $ds) : ?>
+                                            <?php foreach ($data_saran as $ds): ?>
                                                 <li>
                                                     <?= $ds['saran']; ?>
                                                 </li>
@@ -105,7 +122,9 @@
                                                     <h5 class="fw-bold">Certainty Factor</h5>
                                                 </div>
                                                 <div class="mt-2 fw-bold">
-                                                    <label for=""><?= $hasil_cf; ?></label>
+                                                    <label for="">
+                                                        <?= $hasil_cf; ?>
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -113,12 +132,14 @@
                                         <div class="box2 mt-4">
                                             <div class="text-dark">
                                                 <ul class="p-2 m-0">
-                                                    <?php 
-                                                        foreach($data_kepribadian as $dk) : 
-                                                            $nama_kepribadian = strtolower(str_replace(" ", "_", $dk['kepribadian']));
-                                                            $nama_kepribadian .= "_cf";
-                                                    ?>
-                                                        <li style="list-style: none;"><?= $dk['kepribadian']; ?> : <?= $data[$nama_kepribadian]; ?>%</li>
+                                                    <?php foreach ($data_kepribadian as $dk):
+                                                        $nama_kepribadian = strtolower(str_replace(" ", "_", $dk['kepribadian']));
+                                                        $nama_kepribadian .= "_cf";
+                                                        ?>
+                                                        <li style="list-style: none;">
+                                                            <?= $dk['kepribadian']; ?> :
+                                                            <?= $data[$nama_kepribadian]; ?>%
+                                                        </li>
                                                     <?php endforeach ?>
                                                 </ul>
                                             </div>
@@ -131,7 +152,9 @@
                                                     <h5 class="fw-bold">Teorema Bayes</h5>
                                                 </div>
                                                 <div class="mt-2 fw-bold">
-                                                    <label for=""><?= $hasil_bayes; ?></label>
+                                                    <label for="">
+                                                        <?= $hasil_bayes; ?>
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -139,12 +162,14 @@
                                         <div class="box2 mt-4">
                                             <div class="text-dark">
                                                 <ul class="p-2 m-0">
-                                                    <?php 
-                                                        foreach($data_kepribadian as $dakep) : 
-                                                            $nama_kepribadian = strtolower(str_replace(" ", "_", $dakep['kepribadian']));
-                                                            $nama_kepribadian .= "_bayes";
-                                                    ?>
-                                                        <li style="list-style: none;"><?= $dakep['kepribadian']; ?> : <?= $data[$nama_kepribadian]; ?>%</li>
+                                                    <?php foreach ($data_kepribadian as $dakep):
+                                                        $nama_kepribadian = strtolower(str_replace(" ", "_", $dakep['kepribadian']));
+                                                        $nama_kepribadian .= "_bayes";
+                                                        ?>
+                                                        <li style="list-style: none;">
+                                                            <?= $dakep['kepribadian']; ?> :
+                                                            <?= $data[$nama_kepribadian]; ?>%
+                                                        </li>
                                                     <?php endforeach ?>
                                                 </ul>
                                             </div>
@@ -158,15 +183,37 @@
                                         <div class="text-dark p-2">
                                             <label for="" class="fw-bold">Kesimpulan :</label>
                                             <div class="p-3">
-                                                Berdasarkan gejala kepribadian (pertanyaan), nilai pakar, dan nilai user yang sama antara kedua metode yaitu metode certainty factor dan teorema bayes menunjukan bahwa pengguna memiliki tipe MBTI <?= $hasil_cf; ?>.
+                                                Berdasarkan gejala kepribadian (pertanyaan), nilai pakar, dan nilai user
+                                                yang mungkin sama antara kedua metode yaitu metode certainty factor dan
+                                                teorema bayes menunjukan bahwa pengguna memiliki tipe MBTI
+                                                <b>
+                                                    <?= $hasil_cf; ?>
+                                                </b>.
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="row d-flex justify-content-end mt-4 mb-5">
-                                        <div class="col-sm-2">
-                                            <button type="submit" class="btn btn-secondary">Print</button>
-                                        </div>
+
+                                        <?php
+                                        if (isset($_COOKIE['SPmbti'])) {
+                                            echo '
+                                                <div class="col-sm-3">
+                                                    <a class="text-decoration-none btn btn-info" href="../print.php?id_hasil=' . $idhasill . '" target="_blank">
+                                                        <span><i class="bi bi-printer me-2"></i>Print</span>
+                                                    </a>
+                                                </div>
+                                            ';
+                                        } else {
+                                            echo '
+                                                <div class="col-sm-3">
+                                                    <a class="text-decoration-none btn btn-info" href="../print.php?id_hasil=' . $idhasil . '" target="_blank">
+                                                        <span><i class="bi bi-printer me-2"></i>Print</span>
+                                                    </a>
+                                                </div>
+                                            ';
+                                        }
+                                        ?>
 
                                         <div class="col-sm-2" style="font-size: 13px;">
                                             <div class="d-flex justify-content-end">

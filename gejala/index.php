@@ -1,3 +1,5 @@
+<!-- INDEX GEJALA -->
+
 <?php
 session_start();
 require_once '../controller/gejala.php';

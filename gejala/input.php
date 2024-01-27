@@ -1,8 +1,8 @@
-<?php 
-    session_start();
-    require_once '../controller/gejala.php';
+<?php
+session_start();
+require_once '../controller/gejala.php';
 
-    $kepribadian = query("SELECT * FROM tp_kepribadian ORDER BY skala ASC");
+$kepribadian = query("SELECT * FROM tp_kepribadian ORDER BY skala ASC");
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +26,7 @@
 
     <div class="content">
         <?php
-        require_once('../navbar/navbar.php');
+        require_once('../navbar/navbar_inside.php');
         ?>
         <div class="main-container m-0">
             <div class="d-flex">
@@ -44,9 +44,10 @@
                         <div class="mb-3 mt-5 row ms-5">
                             <label for="kepribadian" class="col-sm-3 me-0 col-form-label">Tipe Kepribadian</label>
                             <div class="col-sm-6">
-                                <select class="boxc form-control" style="border-color: black;" name="id_kepribadian"require>
+                                <select class="boxc form-control" style="border-color: black;" name="id_kepribadian"
+                                    require>
                                     <option hidden selected value="">--Pilih Gejala--</option>
-                                    <?php foreach($kepribadian as $kep) :?>
+                                    <?php foreach ($kepribadian as $kep): ?>
                                         <option value="<?php echo $kep['id_kepribadian'] ?>"><?php echo $kep['kepribadian'] ?> (<?= $kep['inisial']; ?>) - <?= $kep['kode_kepribadian']; ?></option>
                                     <?php endforeach; ?>
                                 </select>
@@ -99,25 +100,25 @@
 
 </html>
 
-<?php 
-    if(isset($_POST['submit'])) {
-        if (create($_POST) > 0) {
-            $_SESSION["berhasil"] = "Data Gejala Berhasil Ditambahkan!";
+<?php
+if (isset($_POST['submit'])) {
+    if (create($_POST) > 0) {
+        $_SESSION["berhasil"] = "Data Gejala Berhasil Ditambahkan!";
 
-            echo "
+        echo "
                 <script>
                     document.location.href='index.php';
                 </script>
             ";
-        } else {
-            echo "<script>
+    } else {
+        echo "<script>
                     Swal.fire(
                         'Gagal!',
                         'Data Gejala Gagal Ditambahkan',
                         'error'
                     )
                 </script>";
-            exit();
-        }
+        exit();
     }
+}
 ?>

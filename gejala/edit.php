@@ -1,11 +1,11 @@
-<?php 
-    session_start();
-    require_once '../controller/gejala.php';
+<?php
+session_start();
+require_once '../controller/gejala.php';
 
-    $id = dekripsi($_GET['id']);
-    $data = query("SELECT * FROM gejala WHERE id_gejala = $id")[0];
+$id = dekripsi($_GET['id']);
+$data = query("SELECT * FROM gejala WHERE id_gejala = $id")[0];
 
-    $kepribadian = query("SELECT * FROM tp_kepribadian ORDER BY skala ASC");
+$kepribadian = query("SELECT * FROM tp_kepribadian ORDER BY skala ASC");
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +29,7 @@
 
     <div class="content">
         <?php
-        require_once('../navbar/navbar.php');
+        require_once('../navbar/navbar_inside.php');
         ?>
         <div class="main-container m-0">
             <div class="d-flex">
@@ -49,10 +49,12 @@
                         <div class="mb-3 mt-5 row ms-5">
                             <label for="kepribadian" class="col-sm-3 me-0 col-form-label">Tipe Kepribadian</label>
                             <div class="col-sm-6">
-                                <select class="boxc form-control" style="border-color: black;" name="id_kepribadian"require>
+                                <select class="boxc form-control" style="border-color: black;" name="id_kepribadian"
+                                    require>
                                     <option hidden selected value="">--Pilih Gejala--</option>
-                                    <?php foreach($kepribadian as $kep) :?>
-                                        <option value="<?php echo $kep['id_kepribadian'] ?>" <?= $kep['id_kepribadian'] == $data['id_kepribadian'] ? "selected" : ""; ?>><?php echo $kep['kepribadian'] ?> (<?= $kep['inisial']; ?>) - <?= $kep['kode_kepribadian']; ?></option>
+                                    <?php foreach ($kepribadian as $kep): ?>
+                                        <option value="<?php echo $kep['id_kepribadian'] ?>"
+                                            <?= $kep['id_kepribadian'] == $data['id_kepribadian'] ? "selected" : ""; ?>><?php echo $kep['kepribadian'] ?> (<?= $kep['inisial']; ?>) - <?= $kep['kode_kepribadian']; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -74,8 +76,9 @@
                         <div class="mb-3 mt-2 row ms-5">
                             <label for="kepribadian" class="col-sm-3 me-0 col-form-label">Nilai Pakar</label>
                             <div class="col-sm-6">
-                                <input type="number" max="1" min="0" step="0.01" class="form-control" style="border: 1px solid black;"
-                                    id="kepribadian" name="nilai_pakar" value="<?= $data['nilai_pakar']; ?>">
+                                <input type="number" max="1" min="0" step="0.01" class="form-control"
+                                    style="border: 1px solid black;" id="kepribadian" name="nilai_pakar"
+                                    value="<?= $data['nilai_pakar']; ?>">
                             </div>
                         </div>
 
@@ -104,25 +107,25 @@
 
 </html>
 
-<?php 
-    if(isset($_POST['submit'])) {
-        if (update($_POST) > 0) {
-            $_SESSION["berhasil"] = "Data Gejala Berhasil Diubah!";
+<?php
+if (isset($_POST['submit'])) {
+    if (update($_POST) > 0) {
+        $_SESSION["berhasil"] = "Data Gejala Berhasil Diubah!";
 
-            echo "
+        echo "
                 <script>
                     document.location.href='index.php';
                 </script>
             ";
-        } else {
-            echo "<script>
+    } else {
+        echo "<script>
                     Swal.fire(
                         'Gagal!',
                         'Data Gejala Gagal Diubah',
                         'error'
                     )
                 </script>";
-            exit();
-        }
+        exit();
     }
+}
 ?>

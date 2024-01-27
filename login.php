@@ -1,3 +1,5 @@
+<!-- LOGIN -->
+
 <?php
 session_start();
 require_once 'controller/user.php';
@@ -50,20 +52,21 @@ if (isset($_POST["submit_login"])) {
                 </div>
                 <form method="post" action="">
                     <?php if (isset($error)): ?>
-                        <div class="alert alert-danger" role="alert">
-                            Username/Password Salah
-                        </div>
+                            <div class="alert alert-danger" role="alert">
+                                Username/Password Salah
+                            </div>
                     <?php endif; ?>
                     <div class="mb-3 fs-5">
                         <input type="text" class="form-control" name="username" placeholder="Username">
                     </div>
                     <div class="mb-4 fs-5">
-                        <input type="password" class="form-control" name="password" placeholder="Password" id="password">
+                        <input type="password" class="form-control" name="password" placeholder="Password"
+                            id="password">
                     </div>
                     <div class="mb-5" style="font-size: 13px;">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="" id="show-password">
-                            <label class="form-check-label" for="show">
+                            <label class="form-check-label" for="show-password">
                                 Show Password
                             </label>
                         </div>
@@ -76,7 +79,8 @@ if (isset($_POST["submit_login"])) {
 
                         <div class="col-sm-8" style="font-size: 15px;">
                             <div class="d-flex justify-content-end">
-                                <a class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="">
+                                <a class="btn text-decoration-none text-primary" data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop">
                                     Lupa Password?
                                 </a>
                             </div>
@@ -95,7 +99,7 @@ if (isset($_POST["submit_login"])) {
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
 
-                        <form action="sendmail.php" method="post">
+                        <form action="sendemail.php" method="post">
                             <div class="modal-body">
                                 <div class="mb-3">
                                     <label for="email" class="form-label text-dark">Masukkan email yang
@@ -122,13 +126,12 @@ if (isset($_POST["submit_login"])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
         </script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         const passwordInput = document.getElementById('password');
         const showPasswordCheckbox = document.getElementById('show-password');
 
-        showPasswordCheckbox.addEventListener('change', function() {
+        showPasswordCheckbox.addEventListener('change', function () {
             passwordInput.type = this.checked ? 'text' : 'password';
         });
     </script>

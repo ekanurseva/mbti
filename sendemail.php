@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <title>Sistem Pakar Tes Kepribadian MBTI</title>
+    <title>SP Penyakit Ibu Hamil</title>
 </head>
 
 <body>
@@ -14,6 +14,7 @@
     <?php
 
     session_start();
+    var_dump(session_start());
     require_once 'controller/main.php';
 
     if (isset($_POST['email'])) {
@@ -52,12 +53,12 @@
 
     try {
         //Server settings
-        $mail->SMTPDebug = SMTP::DEBUG_SERVER; //Enable verbose debug output
+        $mail->SMTPDebug = SMTP::DEBUG_OFF; //Enable verbose debug output
         $mail->isSMTP(); //Send using SMTP
         $mail->Host = 'smtp.gmail.com'; //Set the SMTP server to send through
         $mail->SMTPAuth = true; //Enable SMTP authentication
-        $mail->Username = 'lauranzsiskaly@gmail.com'; //SMTP username
-        $mail->Password = 'afwksbtstiqnvswc'; //SMTP password 
+        $mail->Username = 'welcometomyemail567@gmail.com'; //SMTP username
+        $mail->Password = 'iithhcevtpyqcxbf'; //SMTP password 
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; //Enable implicit TLS encryption
         $mail->Port = 587; //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
     
@@ -67,8 +68,8 @@
     
         //Content
         $mail->isHTML(true); //Set email format to HTML
-        $mail->Subject = 'Ubah Password Sistem Pakar Tes Kepribadian MBTI'; 
-        $mail->Body = '<p>Klik tombol di bawah <br> Anda akan diarahkan pada halaman ubah password, agar dapat login dengan password baru.</p><a href="http://localhost/mbti/ubah_password.php?key=' . $enkripsi_email . '">Klik ini untuk ubah password</a>';
+        $mail->Subject = 'Ubah Password Sistem Pakar Tes Kepribadian MBTI';
+        $mail->Body = '<p>Klik tombol di bawah <br> Anda akan diarahkan pada halaman ubah password, agar dapat login dengan password baru.</p><a href="http://localhost/sp_kehamilan/ubah_password.php?key=' . $enkripsi_email . '">Klik ini untuk ubah password</a>';
         $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
         $mail->send();
@@ -81,14 +82,13 @@
         </script>
     ";
     } catch (Exception $e) {
-    //     $_SESSION["gagal"] = "Email gagal dikirim";
+        $_SESSION["gagal"] = "Email gagal dikirim";
 
-    //     echo "
-    //     <script>
-    //         document.location.href='login.php';
-    //     </script>
-    // ";
-        $mail->ErrorInfo;
+        echo "
+        <script>
+            document.location.href='login.php';
+        </script>
+    ";
     }
 
     ?>
