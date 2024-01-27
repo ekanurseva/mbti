@@ -1,3 +1,6 @@
+<?php 
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,15 +9,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <title>SP Penyakit Ibu Hamil</title>
+    <title>Sistem Pakar Tes Kepribadian MBTI</title>
 </head>
 
 <body>
-
     <?php
-
-    session_start();
-    var_dump(session_start());
     require_once 'controller/main.php';
 
     if (isset($_POST['email'])) {
@@ -69,7 +68,7 @@
         //Content
         $mail->isHTML(true); //Set email format to HTML
         $mail->Subject = 'Ubah Password Sistem Pakar Tes Kepribadian MBTI';
-        $mail->Body = '<p>Klik tombol di bawah <br> Anda akan diarahkan pada halaman ubah password, agar dapat login dengan password baru.</p><a href="http://localhost/sp_kehamilan/ubah_password.php?key=' . $enkripsi_email . '">Klik ini untuk ubah password</a>';
+        $mail->Body = '<p>Klik tombol di bawah <br> Anda akan diarahkan pada halaman ubah password, agar dapat login dengan password baru.</p><a href="http://localhost/mbti/ubah_password.php?key=' . $enkripsi_email . '">Klik ini untuk ubah password</a>';
         $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
         $mail->send();

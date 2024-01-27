@@ -6,12 +6,28 @@ $data = null;
 $hasil = null;
 $data_relasi = null;
 
-if (isset($_GET['key'])) {
-    $nama = dekripsi($_GET['key']);
-    $data = query("SELECT * FROM hasil WHERE nama = '$nama' AND id_hasil = (SELECT MAX(id_hasil) FROM hasil WHERE nama = '$nama')")[0];
-} elseif (isset($_GET['id'])) {
-    $id = dekripsi($_GET['id']);
+if (isset($_GET['id_hasil'])) {
+    $id = dekripsi($_GET['id_hasil']);
     $data = query("SELECT * FROM hasil WHERE id_hasil = $id")[0];
+
+    $hasil_cf = hasil_cf($data);
+    $hasil_bayes = hasil_bayes($data);
+    $mbti = query("SELECT * FROM tipe_mbti WHERE nama_mbti = '$hasil_cf'")[0];
+    $id_mbti = $mbti['id_tpmbti'];
+
+    $data_ciri = query("SELECT * FROM ciri_mbti WHERE id_tpmbti = $id_mbti");
+    $data_saran = query("SELECT * FROM saran_mbti WHERE id_tpmbti = $id_mbti");
+
+    $data_kepribadian = query("SELECT * FROM tp_kepribadian");
+
+    $tanggal = $data['tanggal_tes'];
+    $waktu = date('H.i.s | d F Y', strtotime($tanggal));
+} else {
+    echo "
+        <script>
+            document.location.href='index.php';
+        </script>
+    ";
 }
 
 use Dompdf\Dompdf;
@@ -57,25 +73,42 @@ $html = '<!DOCTYPE html>
             </head>
             <body>
                 <h1 style="text-align: center;">LAPORAN HASIL TES MBTI</h1>
-                <h3 style="text-align: center;">EKA NURSEVA S (23 Tahun)</h3>
-                <h4 style="text-align: center;">19:07:26 | 22 January 2024</h4>
+                <h3 style="text-align: center;">'; $html .= $data['nama'] . ' (' . $data['umur'] . ' Tahun)</h3>
+                <h4 style="text-align: center;">' . $waktu . '</h4>
 
     <h4 style="margin: 0;">Ciri-Ciri:</h4>
-        <ul>
-            <li>Ciri 1</li>
-            <li>Ciri 2</li>
-        </ul>
+        <ul>';
+        foreach ($data_ciri as $daci) {
+            $html .= '<li>' . $daci['ciri'] . '</li>';
+        };
+            
+        $html .= '</ul>
 
             <table>
                 <tr>
-                    <th>Perhitungan Certainty Factor: INTJ</th>
-                    <th>Perhitungan Teorema Bayes: INTJ</th>
+                    <th>Perhitungan Certainty Factor: ' . $hasil_cf . '</th>
+                    <th>Perhitungan Teorema Bayes: ' . $hasil_bayes . '</th>
                 </tr>
 
                 <tr>
-                    <td>Introvert: 64%</td> 
-                    <td>Introvert: 23%</td> 
-                </tr>
+                    <td>';
+                foreach ($data_kepribadian as $dk){
+                    $nama_kepribadian = strtolower(str_replace(" ", "_", $dk['kepribadian']));
+                    $nama_kepribadian .= "_cf";
+
+                    $html .= '<p>' . $dk['kepribadian'] . ': ' . $data[$nama_kepribadian] . '%</p>'; 
+                }
+                    $html .= '</td> <td>';
+                    
+                foreach ($data_kepribadian as $dk){
+                    $nama_kepribadian = strtolower(str_replace(" ", "_", $dk['kepribadian']));
+                    $nama_kepribadian .= "_bayes";
+    
+                    $html .= '<p>' . $dk['kepribadian'] . ': ' . $data[$nama_kepribadian] . '%</p>'; 
+                }
+                    $html .= '</td>';
+                    
+                $html .= '</tr>
             </table>
 
 
@@ -87,7 +120,7 @@ $html = '<!DOCTYPE html>
             </tr>
             <tr>
                 <td>
-                Berdasarkan gejala kepribadian (pertanyaan), nilai pakar, dan nilai user yang mungkin sama antara kedua metode yaitu metode certainty factor dan teorema bayes menunjukan bahwa pengguna memiliki tipe MBTI <b>INTJ</b> .
+                Berdasarkan gejala kepribadian (pertanyaan), nilai pakar, dan nilai user yang mungkin sama antara kedua metode yaitu metode certainty factor dan teorema bayes menunjukan bahwa pengguna memiliki tipe MBTI <b>' . $hasil_bayes . '</b> .
                 </td>
             </tr>";
         </table>
@@ -96,15 +129,16 @@ $html = '<!DOCTYPE html>
 
         <table>
             <tr>
-                <th>Saran Pengembangan untuk tipe INTJ :</th>
+                <th>Saran Pengembangan untuk tipe ' . $hasil_bayes . ' :</th>
             </tr>
             <tr>
                 <td>
-                    <ul>
-                        <li>
-                            Belajarlah untuk mengungkapkan emosi dan perasaan anda.
-                        </li>
-                    </ul>
+                    <ul>';
+                    foreach ($data_saran as $daran) {
+                        $html .= '<li>' . $daran['saran'] . '</li>';
+                    };
+
+                    $html .= '</ul>
                 </td>
             </tr>";
         </table>';

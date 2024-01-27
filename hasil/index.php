@@ -17,11 +17,6 @@ if (isset($_GET['key'])) {
     ";
 }
 
-
-$idhasil = enkripsi($data['nama']);
-
-$idhasill = enkripsi($data['id_hasil']);
-
 $hasil_cf = hasil_cf($data);
 $hasil_bayes = hasil_bayes($data);
 $mbti = query("SELECT * FROM tipe_mbti WHERE nama_mbti = '$hasil_cf'")[0];
@@ -194,26 +189,13 @@ $data_kepribadian = query("SELECT * FROM tp_kepribadian");
                                     </div>
 
                                     <div class="row d-flex justify-content-end mt-4 mb-5">
+                                    <div class="col-sm-3">
+                                        <a class="text-decoration-none btn btn-info" href="../print.php?id_hasil=<?= enkripsi($data['id_hasil']); ?>" target="_blank">
+                                            <span><i class="bi bi-printer me-2"></i>Print</span>
+                                        </a>
+                                    </div>
 
-                                        <?php
-                                        if (isset($_COOKIE['SPmbti'])) {
-                                            echo '
-                                                <div class="col-sm-3">
-                                                    <a class="text-decoration-none btn btn-info" href="../print.php?id_hasil=' . $idhasill . '" target="_blank">
-                                                        <span><i class="bi bi-printer me-2"></i>Print</span>
-                                                    </a>
-                                                </div>
-                                            ';
-                                        } else {
-                                            echo '
-                                                <div class="col-sm-3">
-                                                    <a class="text-decoration-none btn btn-info" href="../print.php?id_hasil=' . $idhasil . '" target="_blank">
-                                                        <span><i class="bi bi-printer me-2"></i>Print</span>
-                                                    </a>
-                                                </div>
-                                            ';
-                                        }
-                                        ?>
+                                        
 
                                         <div class="col-sm-2" style="font-size: 13px;">
                                             <div class="d-flex justify-content-end">
