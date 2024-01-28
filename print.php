@@ -21,7 +21,7 @@ if (isset($_GET['id_hasil'])) {
     $data_kepribadian = query("SELECT * FROM tp_kepribadian");
 
     $tanggal = $data['tanggal_tes'];
-    $waktu = date('H.i.s | d F Y', strtotime($tanggal));
+    $waktu = date('H:i:s || d F Y', strtotime($tanggal));
 } else {
     echo "
         <script>
@@ -49,9 +49,9 @@ $html = '<!DOCTYPE html>
 
                     th, td {
                         border: 1px solid black;
-                        padding: 8px;
+                        padding: 3px;
                         text-align: center;
-                    vertical-align: middle;
+                        vertical-align: middle;
                     }
 
                     th {
@@ -59,8 +59,9 @@ $html = '<!DOCTYPE html>
                     }
 
                     p {
+                        margin: 1.5px;
                         text-align: justify; 
-                        text-indent: 0.5in;
+                        text-indent: 0.55in;
                     }
                     li {
                         text-align: left;
@@ -73,16 +74,19 @@ $html = '<!DOCTYPE html>
             </head>
             <body>
                 <h1 style="text-align: center;">LAPORAN HASIL TES MBTI</h1>
-                <h3 style="text-align: center;">'; $html .= $data['nama'] . ' (' . $data['umur'] . ' Tahun)</h3>
+                <h3 style="text-align: center;">';
+$html .= $data['nama'] . ' (' . $data['umur'] . ' Tahun)
+                </h3>
                 <h4 style="text-align: center;">' . $waktu . '</h4>
 
     <h4 style="margin: 0;">Ciri-Ciri:</h4>
         <ul>';
-        foreach ($data_ciri as $daci) {
-            $html .= '<li>' . $daci['ciri'] . '</li>';
-        };
-            
-        $html .= '</ul>
+foreach ($data_ciri as $daci) {
+    $html .= '<li>' . $daci['ciri'] . '</li>';
+}
+;
+
+$html .= '</ul>
 
             <table>
                 <tr>
@@ -92,23 +96,23 @@ $html = '<!DOCTYPE html>
 
                 <tr>
                     <td>';
-                foreach ($data_kepribadian as $dk){
-                    $nama_kepribadian = strtolower(str_replace(" ", "_", $dk['kepribadian']));
-                    $nama_kepribadian .= "_cf";
+foreach ($data_kepribadian as $dk) {
+    $nama_kepribadian = strtolower(str_replace(" ", "_", $dk['kepribadian']));
+    $nama_kepribadian .= "_cf";
 
-                    $html .= '<p>' . $dk['kepribadian'] . ': ' . $data[$nama_kepribadian] . '%</p>'; 
-                }
-                    $html .= '</td> <td>';
-                    
-                foreach ($data_kepribadian as $dk){
-                    $nama_kepribadian = strtolower(str_replace(" ", "_", $dk['kepribadian']));
-                    $nama_kepribadian .= "_bayes";
-    
-                    $html .= '<p>' . $dk['kepribadian'] . ': ' . $data[$nama_kepribadian] . '%</p>'; 
-                }
-                    $html .= '</td>';
-                    
-                $html .= '</tr>
+    $html .= '<p>' . $dk['kepribadian'] . ': ' . $data[$nama_kepribadian] . '%</p>';
+}
+$html .= '</td> <td>';
+
+foreach ($data_kepribadian as $dk) {
+    $nama_kepribadian = strtolower(str_replace(" ", "_", $dk['kepribadian']));
+    $nama_kepribadian .= "_bayes";
+
+    $html .= '<p>' . $dk['kepribadian'] . ': ' . $data[$nama_kepribadian] . '%</p>';
+}
+$html .= '</td>';
+
+$html .= '</tr>
             </table>
 
 
@@ -120,7 +124,7 @@ $html = '<!DOCTYPE html>
             </tr>
             <tr>
                 <td>
-                Berdasarkan gejala kepribadian (pertanyaan), nilai pakar, dan nilai user yang mungkin sama antara kedua metode yaitu metode certainty factor dan teorema bayes menunjukan bahwa pengguna memiliki tipe MBTI <b>' . $hasil_bayes . '</b> .
+                Berdasarkan gejala kepribadian (pertanyaan), nilai pakar, dan nilai user yang mungkin sama antara kedua metode yaitu metode certainty factor dan teorema bayes menunjukan bahwa pengguna memiliki tipe MBTI <b>' . $hasil_cf . '</b> .
                 </td>
             </tr>";
         </table>
@@ -129,16 +133,17 @@ $html = '<!DOCTYPE html>
 
         <table>
             <tr>
-                <th>Saran Pengembangan untuk tipe ' . $hasil_bayes . ' :</th>
+                <th>Saran Pengembangan untuk tipe ' . $hasil_cf . ' :</th>
             </tr>
             <tr>
                 <td>
                     <ul>';
-                    foreach ($data_saran as $daran) {
-                        $html .= '<li>' . $daran['saran'] . '</li>';
-                    };
+foreach ($data_saran as $daran) {
+    $html .= '<li>' . $daran['saran'] . '</li>';
+}
+;
 
-                    $html .= '</ul>
+$html .= '</ul>
                 </td>
             </tr>";
         </table>';

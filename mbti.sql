@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Waktu pembuatan: 24 Jan 2024 pada 05.30
--- Versi server: 10.4.22-MariaDB
--- Versi PHP: 8.0.15
+-- Host: 127.0.0.1
+-- Waktu pembuatan: 28 Jan 2024 pada 05.34
+-- Versi server: 10.4.32-MariaDB
+-- Versi PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -31,7 +31,7 @@ CREATE TABLE `ciri_mbti` (
   `id_ciri` int(11) NOT NULL,
   `id_tpmbti` int(11) NOT NULL,
   `ciri` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `ciri_mbti`
@@ -129,7 +129,7 @@ CREATE TABLE `gejala` (
   `kode_gejala` varchar(20) NOT NULL,
   `gejala` text NOT NULL,
   `nilai_pakar` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `gejala`
@@ -204,14 +204,17 @@ CREATE TABLE `hasil` (
   `perceiving_bayes` double NOT NULL,
   `judging_cf` double NOT NULL,
   `judging_bayes` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `hasil`
 --
 
 INSERT INTO `hasil` (`id_hasil`, `nama`, `tanggal_tes`, `umur`, `introvert_cf`, `introvert_bayes`, `extrovert_cf`, `extrovert_bayes`, `sensing_cf`, `sensing_bayes`, `intuition_cf`, `intuition_bayes`, `feeling_cf`, `feeling_bayes`, `thinking_cf`, `thinking_bayes`, `perceiving_cf`, `perceiving_bayes`, `judging_cf`, `judging_bayes`) VALUES
-(1, 'Fillah Zaki Alhaqi', '2024-01-22 12:07:26', 22, 64.91, 23.8, 33.65, 23.21, 51.22, 22.73, 52.99, 24.71, 33.5, 20.13, 62.23, 24.88, 41.82, 22.45, 57.08, 24.21);
+(1, 'Fillah Zaki Alhaqi', '2024-01-22 12:07:26', 22, 64.91, 23.8, 33.65, 23.21, 51.22, 22.73, 52.99, 24.71, 33.5, 20.13, 62.23, 24.88, 41.82, 22.45, 57.08, 24.21),
+(2, 'Eka Nurseva', '2024-01-28 03:57:00', 23, 52.72, 22.54, 37.17, 23.18, 45.29, 23.75, 42.8, 24.04, 40.44, 22.14, 41.15, 22.4, 36.53, 22.91, 42.96, 24.81),
+(3, 'Ali Asyidiqiansyah', '2024-01-28 04:20:18', 13, 56.64, 26.23, 41.35, 19.8, 45.51, 23.75, 37.04, 25.7, 53.18, 24.85, 46.45, 23.28, 47.54, 25.86, 44, 20),
+(4, 'Eka Nurseva Saniyah', '2024-01-28 04:23:04', 23, 33.12, 21.05, 41.59, 24.6, 39.15, 25.22, 34.55, 20.25, 61.61, 24.64, 32.85, 21.05, 41.7, 24.6, 52.18, 25.3);
 
 -- --------------------------------------------------------
 
@@ -223,7 +226,7 @@ CREATE TABLE `saran_mbti` (
   `id_saran` int(11) NOT NULL,
   `id_tpmbti` int(11) NOT NULL,
   `saran` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `saran_mbti`
@@ -306,7 +309,7 @@ CREATE TABLE `tipe_mbti` (
   `skala_2` int(11) DEFAULT NULL,
   `skala_3` int(11) DEFAULT NULL,
   `skala_4` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `tipe_mbti`
@@ -343,7 +346,7 @@ CREATE TABLE `tp_kepribadian` (
   `inisial` varchar(10) NOT NULL,
   `skala` int(5) NOT NULL,
   `deskripsi` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `tp_kepribadian`
@@ -372,7 +375,7 @@ CREATE TABLE `user` (
   `password` varchar(100) NOT NULL,
   `email` varchar(50) NOT NULL,
   `foto` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `user`
@@ -380,7 +383,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`iduser`, `nama`, `username`, `password`, `email`, `foto`) VALUES
 (1, 'Admin 1', 'admin', '$2y$10$P8kpflwJHTXnNUYIUxjc8un5pw0.YyI1NJY67pdziv.4Vy5n3UrQa', 'administrator@gmail.com', '659f76af2f243.jpg'),
-(2, 'Eka Nurseva Saniyah', 'ekans', '$2y$10$e9H4is/mDVjhdIlE/0BbGe3JEG8FZJ.K0yp8NLKY6IzVeCFpJCiya', 'ekanursevas@gmail.com', '659f77d5466cb.jpg'),
+(2, 'Eka Nurseva Saniyah', 'ekans', '$2y$10$IZNY8cV4yYNQt9AXbr5x0Os0sP4oJ2Lp6YgiyD0zgaGUBMYuPgita', 'ekanursevas@gmail.com', '65b4abc1ebc54.jpg'),
 (4, 'Admin2', 'admin2', '$2y$10$jVfUu/Ob0cb/FwVtGFPb7OiJicCGe8MBHk7lN94ZVALGkvN.O5yDS', 'admin2@gmail.com', 'default.png'),
 (7, 'Fillah Zaki Alhaqi', 'fillah21', '$2y$10$NnRFlc3dFczJS6JUeu8m4OBU.fjjim2KyE84Gv8blSvEkvbUufdPy', 'fillah.alhaqi11@gmail.com', 'default.png');
 
@@ -457,7 +460,7 @@ ALTER TABLE `gejala`
 -- AUTO_INCREMENT untuk tabel `hasil`
 --
 ALTER TABLE `hasil`
-  MODIFY `id_hasil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_hasil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `saran_mbti`
