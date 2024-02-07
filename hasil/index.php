@@ -128,32 +128,27 @@ $skala = query("SELECT DISTINCT skala FROM tp_kepribadian");
                                         <div class="box2 mt-4">
                                             <div class="text-dark">
                                                 <ul class="p-2 m-0">
-                                                    <?php foreach($skala as $s) :
-                                                        $nilai = $s['skala'];
-                                                        ?>
-                                                            <?php 
+                                                    <div class="row">
+                                                    <?php 
+                                                        foreach($skala as $s) :
+                                                            $nilai = $s['skala'];
                                                             $data_kepribadian = query("SELECT * FROM tp_kepribadian WHERE skala = $nilai");
                                                             foreach ($data_kepribadian as $dk):
                                                                 $nama_kepribadian = strtolower(str_replace(" ", "_", $dk['kepribadian']));
                                                                 $nama_kepribadian .= "_cf";
                                                                 $skala_kepribadian = $dk['skala'];
-                                                            ?>
-                                                            <div class="row">
-                                                                <div class="col-6">
-                                                                    <li style="list-style: none;">
-                                                                        <?= $dk['kepribadian']; ?> :
-                                                                        <?= $data[$nama_kepribadian]; ?>%
-                                                                    </li>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    <li style="list-style: none;">
-                                                                        <?= $dk['kepribadian']; ?> :
-                                                                        <?= $data[$nama_kepribadian]; ?>%
-                                                                    </li>
-                                                                </div>
-                                                            </div>
-                                                        <?php endforeach ?>
-                                                        <?php endforeach; ?>
+                                                    ?>
+                                                        <div class="col-6">
+                                                            <li style="list-style: none;">
+                                                                <?= $dk['kepribadian']; ?> :
+                                                                <?= $data[$nama_kepribadian]; ?>%
+                                                            </li>
+                                                        </div>
+                                                    <?php 
+                                                            endforeach; 
+                                                        endforeach; 
+                                                    ?>
+                                                    </div>
                                                 </ul>
                                             </div>
                                         </div>
@@ -175,15 +170,27 @@ $skala = query("SELECT DISTINCT skala FROM tp_kepribadian");
                                         <div class="box2 mt-4">
                                             <div class="text-dark">
                                                 <ul class="p-2 m-0">
-                                                    <?php foreach ($data_kepribadian as $dakep):
-                                                        $nama_kepribadian = strtolower(str_replace(" ", "_", $dakep['kepribadian']));
-                                                        $nama_kepribadian .= "_bayes";
-                                                        ?>
-                                                    <li style="list-style: none;">
-                                                        <?= $dakep['kepribadian']; ?> :
-                                                        <?= $data[$nama_kepribadian]; ?>%
-                                                    </li>
-                                                    <?php endforeach ?>
+                                                    <div class="row">
+                                                    <?php 
+                                                        foreach($skala as $s) :
+                                                            $nilai = $s['skala'];
+                                                            $data_kepribadian = query("SELECT * FROM tp_kepribadian WHERE skala = $nilai");
+                                                            foreach ($data_kepribadian as $dk):
+                                                                $nama_kepribadian = strtolower(str_replace(" ", "_", $dk['kepribadian']));
+                                                                $nama_kepribadian .= "_bayes";
+                                                                $skala_kepribadian = $dk['skala'];
+                                                    ?>
+                                                        <div class="col-6">
+                                                            <li style="list-style: none;">
+                                                                <?= $dk['kepribadian']; ?> :
+                                                                <?= $data[$nama_kepribadian]; ?>%
+                                                            </li>
+                                                        </div>
+                                                    <?php 
+                                                            endforeach; 
+                                                        endforeach; 
+                                                    ?>
+                                                    </div>
                                                 </ul>
                                             </div>
                                         </div>
