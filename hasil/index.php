@@ -40,7 +40,7 @@ $skala = query("SELECT DISTINCT skala FROM tp_kepribadian");
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-    </script>
+        </script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="../style.css">
@@ -82,9 +82,9 @@ $skala = query("SELECT DISTINCT skala FROM tp_kepribadian");
                                         <label for="" class="fw-bold">Ciri-Ciri :</label>
                                         <ul>
                                             <?php foreach ($data_ciri as $dc): ?>
-                                            <li>
-                                                <?= $dc['ciri']; ?>
-                                            </li>
+                                                <li>
+                                                    <?= $dc['ciri']; ?>
+                                                </li>
                                             <?php endforeach; ?>
                                         </ul>
                                     </div>
@@ -99,9 +99,9 @@ $skala = query("SELECT DISTINCT skala FROM tp_kepribadian");
                                         </label>
                                         <ul>
                                             <?php foreach ($data_saran as $ds): ?>
-                                            <li>
-                                                <?= $ds['saran']; ?>
-                                            </li>
+                                                <li>
+                                                    <?= $ds['saran']; ?>
+                                                </li>
                                             <?php endforeach; ?>
                                         </ul>
                                     </div>
@@ -128,26 +128,24 @@ $skala = query("SELECT DISTINCT skala FROM tp_kepribadian");
                                         <div class="box2 mt-4">
                                             <div class="text-dark">
                                                 <ul class="p-2 m-0">
-                                                    <div class="row">
-                                                    <?php 
-                                                        foreach($skala as $s) :
+                                                    <div class="row" style="font-size: 14px;">
+                                                        <?php foreach ($skala as $s):
                                                             $nilai = $s['skala'];
-                                                            $data_kepribadian = query("SELECT * FROM tp_kepribadian WHERE skala = $nilai");
-                                                            foreach ($data_kepribadian as $dk):
+                                                            $data_kepribadian = query("SELECT * FROM tp_kepribadian WHERE skala = $nilai"); foreach ($data_kepribadian as $dk):
                                                                 $nama_kepribadian = strtolower(str_replace(" ", "_", $dk['kepribadian']));
                                                                 $nama_kepribadian .= "_cf";
                                                                 $skala_kepribadian = $dk['skala'];
-                                                    ?>
-                                                        <div class="col-6">
-                                                            <li style="list-style: none;">
-                                                                <?= $dk['kepribadian']; ?> :
-                                                                <?= $data[$nama_kepribadian]; ?>%
-                                                            </li>
-                                                        </div>
-                                                    <?php 
-                                                            endforeach; 
-                                                        endforeach; 
-                                                    ?>
+                                                                ?>
+                                                                <div class="col-6">
+                                                                    <li style="list-style: none;">
+                                                                        <?= $dk['kepribadian']; ?> :
+                                                                        <?= $data[$nama_kepribadian]; ?>%
+                                                                    </li>
+                                                                </div>
+                                                                <?php
+                                                            endforeach;
+                                                        endforeach;
+                                                        ?>
                                                     </div>
                                                 </ul>
                                             </div>
@@ -170,26 +168,24 @@ $skala = query("SELECT DISTINCT skala FROM tp_kepribadian");
                                         <div class="box2 mt-4">
                                             <div class="text-dark">
                                                 <ul class="p-2 m-0">
-                                                    <div class="row">
-                                                    <?php 
-                                                        foreach($skala as $s) :
+                                                    <div class="row" style="font-size: 14px;">
+                                                        <?php foreach ($skala as $s):
                                                             $nilai = $s['skala'];
-                                                            $data_kepribadian = query("SELECT * FROM tp_kepribadian WHERE skala = $nilai");
-                                                            foreach ($data_kepribadian as $dk):
+                                                            $data_kepribadian = query("SELECT * FROM tp_kepribadian WHERE skala = $nilai"); foreach ($data_kepribadian as $dk):
                                                                 $nama_kepribadian = strtolower(str_replace(" ", "_", $dk['kepribadian']));
                                                                 $nama_kepribadian .= "_bayes";
                                                                 $skala_kepribadian = $dk['skala'];
-                                                    ?>
-                                                        <div class="col-6">
-                                                            <li style="list-style: none;">
-                                                                <?= $dk['kepribadian']; ?> :
-                                                                <?= $data[$nama_kepribadian]; ?>%
-                                                            </li>
-                                                        </div>
-                                                    <?php 
-                                                            endforeach; 
-                                                        endforeach; 
-                                                    ?>
+                                                                ?>
+                                                                <div class="col-6">
+                                                                    <li style="list-style: none;">
+                                                                        <?= $dk['kepribadian']; ?> :
+                                                                        <?= $data[$nama_kepribadian]; ?>%
+                                                                    </li>
+                                                                </div>
+                                                                <?php
+                                                            endforeach;
+                                                        endforeach;
+                                                        ?>
                                                     </div>
                                                 </ul>
                                             </div>
@@ -227,13 +223,13 @@ $skala = query("SELECT DISTINCT skala FROM tp_kepribadian");
                                         <div class="col-sm-2" style="font-size: 13px;">
                                             <div class="d-flex justify-content-end">
                                                 <?php
-                                                    if (isset($_COOKIE['SPmbti'])) {
-                                                        echo '<a type="button" href="../riwayat" class="btn"
+                                                if (isset($_COOKIE['SPmbti'])) {
+                                                    echo '<a type="button" href="../riwayat" class="btn"
                                                         style="background: none; border: solid 1px black;">Selesai</a>';
-                                                    } else{
-                                                        echo '<a type="button" href="../index.php" class="btn"
+                                                } else {
+                                                    echo '<a type="button" href="../index.php" class="btn"
                                                         style="background: none; border: solid 1px black;">Selesai</a>';
-                                                    }
+                                                }
                                                 ?>
 
                                             </div>
@@ -251,10 +247,10 @@ $skala = query("SELECT DISTINCT skala FROM tp_kepribadian");
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
-    </script>
+        </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
-    </script>
+        </script>
 </body>
 
 </html>
