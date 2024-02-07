@@ -44,11 +44,13 @@ $kepribadian = query("SELECT * FROM tp_kepribadian ORDER BY skala ASC");
                         <div class="mb-3 mt-5 row ms-5">
                             <label for="kepribadian" class="col-sm-3 me-0 col-form-label">Tipe Kepribadian</label>
                             <div class="col-sm-6">
-                                <select class="boxc form-control" style="border-color: black;" name="id_kepribadian"
+                            <select class="boxc form-control" style="border-color: black;" name="id_kepribadian"
                                     require>
-                                    <option hidden selected value="">--Pilih Gejala--</option>
+                                    <option hidden selected value="">--Pilih Tipe Kepribadian--</option>
                                     <?php foreach ($kepribadian as $kep): ?>
-                                        <option value="<?php echo $kep['id_kepribadian'] ?>"><?php echo $kep['kepribadian'] ?> (<?= $kep['inisial']; ?>) - <?= $kep['kode_kepribadian']; ?></option>
+                                    <option value="<?php echo $kep['id_kepribadian'] ?>">
+                                        <?php echo $kep['kepribadian'] ?> (<?= $kep['inisial']; ?>) -
+                                        <?= $kep['kode_kepribadian']; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>

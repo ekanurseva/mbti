@@ -3,6 +3,8 @@ session_start();
 require_once '../controller/tipe.php';
 
 $tipe_mbti = query("SELECT * FROM tipe_mbti");
+$ciri = query("SELECT * FROM ciri_mbti ORDER BY id_tpmbti ASC");
+$saran = query("SELECT * FROM saran_mbti ORDER BY id_tpmbti ASC");
 ?>
 
 <!DOCTYPE html>
@@ -38,62 +40,105 @@ $tipe_mbti = query("SELECT * FROM tipe_mbti");
                 <!-- sidebar selesai -->
 
                 <div class="contents" style="margin: 75px 0; padding: 10px 40px;">
-                    <h4 class="text-center">Manajemen Tipe MBTI</h4>
+                    <h4 class="text-center">Manajemen Saran Tipe MBTI</h4>
                     <div class="ms-3 mt-5">
-                        <a href="../tipe_mbti/input.php">
-                            <button class="btn btn-primary">Tambah Tipe MBTI</button>
-                        </a>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#saran">
+                            Tambah Saran Pengembangan
+                        </button>
                     </div>
 
-                    <div class="box2 mx-3 mt-5">
-                        <h5 class="text-center fw-bold">Tabel Tipe MBTI</h5>
+                    <div class="box2 mx-3 mt-4">
+                        <h5 class="text-center fw-bold">Tabel Saran Pengembangan Tipe MBTI</h5>
                         <hr>
                         <div class="tabel mx-2">
-                            <table id="example" class="table table-hover text-center">
+                            <table id="example3" class="table table-hover text-center">
                                 <thead>
                                     <tr class="table-secondary">
                                         <th class="text-center" scope="col">No</th>
-                                        <th class="text-center" scope="col">Kode</th>
                                         <th class="text-center" scope="col">Tipe MBTI</th>
-                                        <th class="text-center" scope="col">AKSI</th>
+                                        <th class="text-center" scope="col">Saran Pengembangan</th>
+                                        <th class="text-center" scope="col" style="width: 130px;">AKSI</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $i = 1;
-                                    foreach ($tipe_mbti as $tm):
+                                    $k = 1; foreach ($saran as $sar):
+                                        $idmbti = $sar['id_tpmbti'];
+                                        $nama_mbti = query("SELECT * FROM tipe_mbti WHERE id_tpmbti = $idmbti")[0];
                                         ?>
                                     <tr>
                                         <td>
-                                            <?= $i; ?>
+                                            <?= $k; ?>
                                         </td>
                                         <td>
-                                            <?= $tm['kode']; ?>
+                                            <?= $nama_mbti['nama_mbti']; ?>
                                         </td>
                                         <td>
-                                            <?= $tm['nama_mbti']; ?>
+                                            <?= $sar['saran']; ?>
                                         </td>
                                         <td>
                                             <a class="text-decoration-none"
-                                                href="edit.php?id=<?= enkripsi($tm['id_tpmbti']); ?>">
+                                                href="edit_saran.php?id=<?= enkripsi($sar['id_saran']); ?>">
                                                 <button class="btn btn-primary"><i
                                                         class="bi bi-pencil-fill"></i></button>
                                             </a>
                                             |
                                             <a class="delete bg-danger" id="delete"
-                                                onclick="deleteTipe(<?= $tm['id_tpmbti']; ?>)">
+                                                onclick="deleteSaran(<?= $sar['id_saran']; ?>)">
                                                 <button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
                                             </a>
                                         </td>
                                     </tr>
                                     <?php
-                                        $i++;
+                                        $k++;
                                     endforeach;
                                     ?>
                                 </tbody>
                             </table>
                         </div>
                     </div>
+
+                    <!-- Modal Input Saran = Pilih Tipe MBTI -->
+                    <div class="modal fade" id="saran" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                        aria-labelledby="ciriLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="ciriLabel">Pilih Tipe MBTI</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+
+                                <form action="input_saran.php" method="post">
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label for="kriteria" class="form-label">Pilih tipe MBTI untuk menambahkan
+                                                saran pengembangan tipe MBTI</label>
+
+                                            <div class="">
+                                                <select id="kriteria" class="form-select"
+                                                    style="border: 1px solid black;" aria-label="Default select example"
+                                                    name="id_tpmbti">
+                                                    <?php foreach ($tipe_mbti as $timb): ?>
+                                                    <option value="<?= $timb['id_tpmbti']; ?>">
+                                                        <?= $timb['nama_mbti']; ?>
+                                                    </option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="submit" name="submit_saran" class="btn btn-primary">Pilih</button>
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Kembali</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal Input Saran = Pilih Tipe MBTI Selesai -->
                 </div>
             </div>
         </div>
@@ -109,10 +154,10 @@ $tipe_mbti = query("SELECT * FROM tipe_mbti");
         <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
         <script>
         $(document).ready(function() {
-            $('#example').DataTable();
+            $('#example3').DataTable();
         });
 
-        function deleteTipe(id) {
+        function deleteSaran(id) {
             // Menampilkan Sweet Alert dengan tombol Yes dan No
             Swal.fire({
                 title: 'Konfirmasi',
@@ -126,7 +171,7 @@ $tipe_mbti = query("SELECT * FROM tipe_mbti");
                 if (result.isConfirmed) {
                     // Memanggil fungsi PHP menggunakan AJAX saat tombol Yes diklik
                     $.ajax({
-                        url: '../controller/tipe.php',
+                        url: '../controller/saran.php',
                         type: 'POST',
                         data: {
                             action: 'delete',
@@ -136,7 +181,7 @@ $tipe_mbti = query("SELECT * FROM tipe_mbti");
                             // Menampilkan pesan sukses jika data berhasil dihapus 
                             Swal.fire({
                                 title: 'Berhasil!',
-                                text: 'Data Tipe MBTI Berhasil Dihapus!',
+                                text: 'Data Saran MBTI Berhasil Dihapus!',
                                 icon: 'success'
                             }).then((result) => {
                                 /* Read more about isConfirmed, isDenied below */

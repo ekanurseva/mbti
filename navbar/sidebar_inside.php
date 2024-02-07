@@ -38,8 +38,23 @@ $user = query("SELECT * FROM user WHERE iduser = $id_user")[0];
                     </a>
                 </li>
                 <li class="list-group-item">
+                    <a href="../tipe_kepribadian" class="text-decoration-none d-block">
+                        <span>Manajemen Tipe Kepribadian</span>
+                    </a>
+                </li>
+                <li class="list-group-item">
                     <a href="../tipe_mbti" class="text-decoration-none d-block">
                         <span>Manajemen Tipe MBTI</span>
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a href="../ciri-ciri" class="text-decoration-none d-block">
+                        <span>Manajemen Ciri Tipe MBTI</span>
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a href="../saran" class="text-decoration-none d-block">
+                        <span>Manajemen Saran Tipe MBTI</span>
                     </a>
                 </li>
                 <li class="list-group-item">
@@ -50,16 +65,6 @@ $user = query("SELECT * FROM user WHERE iduser = $id_user")[0];
                 <li class="list-group-item">
                     <a href="../riwayat" class="text-decoration-none d-block">
                         <span>Manajemen Riwayat Pengguna</span>
-                    </a>
-                </li>
-                <li class="list-group-item">
-                    <a href="../tipe_kepribadian" class="text-decoration-none d-block">
-                        <span>Manajemen Tipe Kepribadian</span>
-                    </a>
-                </li>
-                <li class="list-group-item">
-                    <a href="rule" class="text-decoration-none d-block">
-                        <span>Manajemen Rule</span>
                     </a>
                 </li>
             </ul>

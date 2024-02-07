@@ -26,6 +26,7 @@ $data_ciri = query("SELECT * FROM ciri_mbti WHERE id_tpmbti = $id_mbti");
 $data_saran = query("SELECT * FROM saran_mbti WHERE id_tpmbti = $id_mbti");
 
 $data_kepribadian = query("SELECT * FROM tp_kepribadian");
+$skala = query("SELECT DISTINCT skala FROM tp_kepribadian");
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +40,7 @@ $data_kepribadian = query("SELECT * FROM tp_kepribadian");
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-        </script>
+    </script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="../style.css">
@@ -64,7 +65,7 @@ $data_kepribadian = query("SELECT * FROM tp_kepribadian");
 
                     <div class="container">
                         <div class="row">
-                            <div class="col-sm-6 p-3">
+                            <div class="col-sm-4 p-3">
                                 <div class="fw-bold mb-2">
                                     <label for="Nama" class="text-dark">Nama :
                                         <?= $data['nama']; ?>
@@ -81,9 +82,9 @@ $data_kepribadian = query("SELECT * FROM tp_kepribadian");
                                         <label for="" class="fw-bold">Ciri-Ciri :</label>
                                         <ul>
                                             <?php foreach ($data_ciri as $dc): ?>
-                                                <li>
-                                                    <?= $dc['ciri']; ?>
-                                                </li>
+                                            <li>
+                                                <?= $dc['ciri']; ?>
+                                            </li>
                                             <?php endforeach; ?>
                                         </ul>
                                     </div>
@@ -98,9 +99,9 @@ $data_kepribadian = query("SELECT * FROM tp_kepribadian");
                                         </label>
                                         <ul>
                                             <?php foreach ($data_saran as $ds): ?>
-                                                <li>
-                                                    <?= $ds['saran']; ?>
-                                                </li>
+                                            <li>
+                                                <?= $ds['saran']; ?>
+                                            </li>
                                             <?php endforeach; ?>
                                         </ul>
                                     </div>
@@ -108,7 +109,7 @@ $data_kepribadian = query("SELECT * FROM tp_kepribadian");
                             </div>
 
 
-                            <div class="col-sm-6">
+                            <div class="col-sm-8">
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="box2">
@@ -127,15 +128,32 @@ $data_kepribadian = query("SELECT * FROM tp_kepribadian");
                                         <div class="box2 mt-4">
                                             <div class="text-dark">
                                                 <ul class="p-2 m-0">
-                                                    <?php foreach ($data_kepribadian as $dk):
-                                                        $nama_kepribadian = strtolower(str_replace(" ", "_", $dk['kepribadian']));
-                                                        $nama_kepribadian .= "_cf";
+                                                    <?php foreach($skala as $s) :
+                                                        $nilai = $s['skala'];
                                                         ?>
-                                                        <li style="list-style: none;">
-                                                            <?= $dk['kepribadian']; ?> :
-                                                            <?= $data[$nama_kepribadian]; ?>%
-                                                        </li>
-                                                    <?php endforeach ?>
+                                                            <?php 
+                                                            $data_kepribadian = query("SELECT * FROM tp_kepribadian WHERE skala = $nilai");
+                                                            foreach ($data_kepribadian as $dk):
+                                                                $nama_kepribadian = strtolower(str_replace(" ", "_", $dk['kepribadian']));
+                                                                $nama_kepribadian .= "_cf";
+                                                                $skala_kepribadian = $dk['skala'];
+                                                            ?>
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <li style="list-style: none;">
+                                                                        <?= $dk['kepribadian']; ?> :
+                                                                        <?= $data[$nama_kepribadian]; ?>%
+                                                                    </li>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <li style="list-style: none;">
+                                                                        <?= $dk['kepribadian']; ?> :
+                                                                        <?= $data[$nama_kepribadian]; ?>%
+                                                                    </li>
+                                                                </div>
+                                                            </div>
+                                                        <?php endforeach ?>
+                                                        <?php endforeach; ?>
                                                 </ul>
                                             </div>
                                         </div>
@@ -161,10 +179,10 @@ $data_kepribadian = query("SELECT * FROM tp_kepribadian");
                                                         $nama_kepribadian = strtolower(str_replace(" ", "_", $dakep['kepribadian']));
                                                         $nama_kepribadian .= "_bayes";
                                                         ?>
-                                                        <li style="list-style: none;">
-                                                            <?= $dakep['kepribadian']; ?> :
-                                                            <?= $data[$nama_kepribadian]; ?>%
-                                                        </li>
+                                                    <li style="list-style: none;">
+                                                        <?= $dakep['kepribadian']; ?> :
+                                                        <?= $data[$nama_kepribadian]; ?>%
+                                                    </li>
                                                     <?php endforeach ?>
                                                 </ul>
                                             </div>
@@ -189,18 +207,28 @@ $data_kepribadian = query("SELECT * FROM tp_kepribadian");
                                     </div>
 
                                     <div class="row d-flex justify-content-end mt-4 mb-5">
-                                    <div class="col-sm-3">
-                                        <a class="text-decoration-none btn btn-info" href="../print.php?id_hasil=<?= enkripsi($data['id_hasil']); ?>" target="_blank">
-                                            <span><i class="bi bi-printer me-2"></i>Print</span>
-                                        </a>
-                                    </div>
+                                        <div class="col-sm-3">
+                                            <a class="text-decoration-none btn btn-info"
+                                                href="../print.php?id_hasil=<?= enkripsi($data['id_hasil']); ?>"
+                                                target="_blank">
+                                                <span><i class="bi bi-printer me-2"></i>Print</span>
+                                            </a>
+                                        </div>
 
-                                        
+
 
                                         <div class="col-sm-2" style="font-size: 13px;">
                                             <div class="d-flex justify-content-end">
-                                                <a type="button" href="../index.php" class="btn"
-                                                    style="background: none; border: solid 1px black;">Selesai</a>
+                                                <?php
+                                                    if (isset($_COOKIE['SPmbti'])) {
+                                                        echo '<a type="button" href="../riwayat" class="btn"
+                                                        style="background: none; border: solid 1px black;">Selesai</a>';
+                                                    } else{
+                                                        echo '<a type="button" href="../index.php" class="btn"
+                                                        style="background: none; border: solid 1px black;">Selesai</a>';
+                                                    }
+                                                ?>
+
                                             </div>
                                         </div>
                                     </div>
@@ -216,10 +244,10 @@ $data_kepribadian = query("SELECT * FROM tp_kepribadian");
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
-        </script>
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
-        </script>
+    </script>
 </body>
 
 </html>
