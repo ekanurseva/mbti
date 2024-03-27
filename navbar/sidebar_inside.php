@@ -1,21 +1,30 @@
-<!-- SIDEBAR_SIDE -->
-
 <?php
 require_once '../controller/main.php';
 validasi_admin();
 $id_user = dekripsi($_COOKIE['SPmbti']);
 
 $user = query("SELECT * FROM user WHERE iduser = $id_user")[0];
+
+// Array untuk menyimpan sidebar links dan teksnya
+$sidebar_links = array(
+    '/mbti/admin/data_admin.php' => 'Manajemen Data Admin',
+    '/mbti/tipe_kepribadian/index.php' => 'Manajemen Tipe Kepribadian',
+    '/mbti/tipe_mbti/index.php' => 'Manajemen Tipe MBTI',
+    '/mbti/ciri-ciri/index.php' => 'Manajemen Ciri Tipe MBTI',
+    '/mbti/saran/index.php' => 'Manajemen Saran Tipe MBTI',
+    '/mbti/gejala/index.php' => 'Manajemen Gejala',
+    '/mbti/riwayat/index.php' => 'Manajemen Riwayat Pengguna'
+);
 ?>
 
 <div class="sidebar" id="side_nav">
-    <!--PROFIL-->
+    <!-- PROFILE -->
     <div class="content-side">
         <div class="profil pt-4">
             <div class="row d-flex align-items-center">
                 <div class="col-sm-4 me-0">
-                    <img src="../image/<?= $user['foto']; ?>" class="rounded-circle" alt="profi">
-                    <a href="../profil">
+                    <img src="../image/<?= $user['foto']; ?>" class="rounded-circle" alt="profil">
+                    <a href="profil">
                         <button class="rounded-circle"><i class="bi bi-pencil-fill"></i></button>
                     </a>
                 </div>
@@ -25,55 +34,30 @@ $user = query("SELECT * FROM user WHERE iduser = $id_user")[0];
                     </h6>
                 </div>
             </div>
-
         </div>
-        <!--PROFIL SELESAI-->
+        <!-- PROFILE FINISHED -->
 
-        <!-- menu -->
+        <!-- Menu -->
         <div class="">
             <ul class="list-group list-group-flush pt-4 fw-medium">
-                <li class="list-group-item">
-                    <a href="../admin/data_admin.php" class="text-decoration-none d-block">
-                        <span>Manajemen Data Admin</span>
-                    </a>
-                </li>
-                <li class="list-group-item">
-                    <a href="../tipe_kepribadian" class="text-decoration-none d-block">
-                        <span>Manajemen Tipe Kepribadian</span>
-                    </a>
-                </li>
-                <li class="list-group-item">
-                    <a href="../tipe_mbti" class="text-decoration-none d-block">
-                        <span>Manajemen Tipe MBTI</span>
-                    </a>
-                </li>
-                <li class="list-group-item">
-                    <a href="../ciri-ciri" class="text-decoration-none d-block">
-                        <span>Manajemen Ciri Tipe MBTI</span>
-                    </a>
-                </li>
-                <li class="list-group-item">
-                    <a href="../saran" class="text-decoration-none d-block">
-                        <span>Manajemen Saran Tipe MBTI</span>
-                    </a>
-                </li>
-                <li class="list-group-item">
-                    <a href="../gejala" class="text-decoration-none d-block">
-                        <span>Manajemen Gejala</span>
-                    </a>
-                </li>
-                <li class="list-group-item">
-                    <a href="../riwayat" class="text-decoration-none d-block">
-                        <span>Manajemen Riwayat Pengguna</span>
-                    </a>
-                </li>
+                <?php foreach ($sidebar_links as $link => $text): ?>
+                    <li class="list-group-item">
+                        <a href="<?= $link ?>" class="text-decoration-none d-block" <?php if ($current_page === $link)
+                              echo 'style="color:mediumblue;"'; ?>>
+                            <span>
+                                <?= $text ?>
+                            </span>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
             </ul>
         </div>
+
         <hr class="hr-color">
 
         <ul class="list-unstyled fw-medium pb-5">
             <li>
-                <a href="../logout.php" class="text-decoration-none d-block">
+                <a class="text-decoration-none btn" id="logout" onclick="confirmLogout();">
                     <i class="bi bi-box-arrow-right fs-5"></i>
                     <span>Logout</span>
                 </a>
@@ -81,3 +65,23 @@ $user = query("SELECT * FROM user WHERE iduser = $id_user")[0];
         </ul>
     </div>
 </div>
+
+<script>
+    function confirmLogout() {
+        Swal.fire({
+            title: 'Konfirmasi',
+            text: 'Apakah Anda yakin ingin menghapus data?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            focusCancel: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirect ke halaman logout atau lakukan proses logout di sini
+                Swal.fire('Logout Berhasil', '', 'success');
+                window.location.href = '../logout.php';
+            }
+        });
+    }
+</script>

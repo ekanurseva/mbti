@@ -3,6 +3,9 @@ session_start();
 require_once '../controller/user.php';
 
 $data = query("SELECT * FROM user");
+
+// Dapatkan jalur skrip saat ini
+$current_page = $_SERVER['REQUEST_URI'];
 ?>
 
 <!DOCTYPE html>

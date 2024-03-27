@@ -1,5 +1,5 @@
-<?php 
-    require_once '../controller/main.php';
+<?php
+require_once '../controller/main.php';
 ?>
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -23,7 +23,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <?php if(!isset($_COOKIE['SPmbti'])) : ?>
+                    <?php if (!isset($_COOKIE['SPmbti'])): ?>
                         <a class="nav-link" href="../login.php">Login</a>
                     <?php endif; ?>
                 </li>
@@ -47,17 +47,29 @@
                     <div class="">
                         <label class="form-label text-dark">Silahkan isi data dibawah ini untuk melanjutkan
                             tes.</label>
-                            <?php 
-                                if(isset($_COOKIE['SPmbti'])) : 
-                                    $id_nama_user = dekripsi($_COOKIE['SPmbti']);
+                        <?php
+                        if (isset($_COOKIE['SPmbti'])):
+                            $id_nama_user = dekripsi($_COOKIE['SPmbti']);
 
-                                    $nama_user = query("SELECT nama FROM user WHERE iduser = $id_nama_user")[0];
+                            $nama_user = query("SELECT nama FROM user WHERE iduser = $id_nama_user")[0];
                             ?>
-                                <input type="text" class="form-control mt-3" id="nama" name="nama" placeholder="Nama" value="<?= $nama_user['nama']; ?>" readonly>
-                            <?php else : ?>
-                                <input type="text" class="form-control mt-3" id="nama" name="nama" placeholder="Nama" required>
-                            <?php endif; ?>
-                        <input type="number" class="form-control mt-3" id="umur" name="umur" placeholder="Umur" required>
+                            <input type="text" class="form-control mt-3" id="nama" name="nama" placeholder="Nama"
+                                value="<?= $nama_user['nama']; ?>" readonly>
+                        <?php else: ?>
+                            <input type="text" class="form-control mt-3" id="nama" name="nama" placeholder="Nama" required>
+                        <?php endif; ?>
+                        <input type="number" class="form-control mt-3" id="nim" name="nim" placeholder="NIM" required>
+                        <select class="form-control mt-3" name="jenis_kelamin" require id="jk">
+                            <option hidden selected value="">--Pilih Jenis Kelamin--</option>
+                            <option value="Laki-Laki">Laki-Laki</option>
+                            <option value="Perempuan">Perempuan</option>
+                        </select>
+                        <input type="number" class="form-control mt-3" id="angkatan" name="angkatan"
+                            placeholder="Angkatan" required>
+                        <input type="text" class="form-control mt-3" id="prodi" name="prodi" placeholder="Prodi"
+                            required>
+                        <input type="number" class="form-control mt-3" id="umur" name="umur" placeholder="Umur"
+                            required>
                     </div>
                 </div>
                 <hr style="margin-bottom: 25px;">

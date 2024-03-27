@@ -1,6 +1,9 @@
-<?php 
-    session_start();
-    require_once '../controller/kepribadian.php';
+<?php
+session_start();
+require_once '../controller/kepribadian.php';
+
+// Dapatkan jalur skrip saat ini
+$current_page = $_SERVER['REQUEST_URI'];
 ?>
 
 <!DOCTYPE html>
@@ -51,7 +54,7 @@
                             <label for="inputEmail" class="col-sm-3 me-0 col-form-label">Tipe Kepribadian</label>
                             <div class="col-sm-6">
                                 <input type="text" class="form-control" style="border: 1px solid black;" id="inputEmail"
-                                name="kepribadian">
+                                    name="kepribadian">
                             </div>
                         </div>
 
@@ -73,8 +76,8 @@
                         <div class="mb-4 mt-2 row ms-5">
                             <label for="deskripsi" class="col-sm-3 me-0 col-form-label">Deskripsi</label>
                             <div class="col-sm-6">
-                                <textarea type="text" style="border-color: black;" class="form-control"
-                                        id="deskripsi" name="deskripsi" rows="10"></textarea>
+                                <textarea type="text" style="border-color: black;" class="form-control" id="deskripsi"
+                                    name="deskripsi" rows="10"></textarea>
                             </div>
                         </div>
 
@@ -103,16 +106,16 @@
 
 </html>
 
-<?php 
-  if(isset($_POST['submit'])) {
+<?php
+if (isset($_POST['submit'])) {
     if (create($_POST) > 0) {
-        
+
         create_field($_POST);
 
         $skala = $_POST['skala'];
         $jumlah = jumlah_data("SELECT * FROM tp_kepribadian WHERE skala = $skala");
 
-        if($jumlah == 1) {
+        if ($jumlah == 1) {
             create_mbti_field($_POST);
             update_all_mbti();
         }
@@ -134,5 +137,5 @@
             </script>";
         exit();
     }
-  }
+}
 ?>

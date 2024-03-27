@@ -1,11 +1,14 @@
-<?php 
-    session_start();
-    require_once '../controller/tipe.php';
+<?php
+session_start();
+require_once '../controller/tipe.php';
 
-    $skala = query("SELECT DISTINCT skala FROM tp_kepribadian");
+$skala = query("SELECT DISTINCT skala FROM tp_kepribadian");
 
-    $id = dekripsi($_GET['id']);
-    $data = query("SELECT * FROM tipe_mbti WHERE id_tpmbti = $id")[0];
+$id = dekripsi($_GET['id']);
+$data = query("SELECT * FROM tipe_mbti WHERE id_tpmbti = $id")[0];
+
+// Dapatkan jalur skrip saat ini
+$current_page = $_SERVER['REQUEST_URI'];
 ?>
 
 <!DOCTYPE html>
@@ -53,25 +56,27 @@
                             </div>
                         </div>
 
-                        <?php 
-                            foreach($skala as $s) :
-                                $nilai = $s['skala'];
-                        ?>
+                        <?php
+                        foreach ($skala as $s):
+                            $nilai = $s['skala'];
+                            ?>
                             <input type="hidden" name="old_<?= $nilai; ?>" value="<?= $data["skala_" . $nilai]; ?>">
                             <div class="mb-4 mt-2 row ms-5">
-                                <label for="inputEmail" class="col-sm-3 me-0 col-form-label">Tipe Kepribadian Skala <?= $nilai; ?></label>
+                                <label for="inputEmail" class="col-sm-3 me-0 col-form-label">Tipe Kepribadian Skala
+                                    <?= $nilai; ?>
+                                </label>
                                 <div class="col-sm-6">
-                                    <select class="boxc form-control" style="border-color: black;" name="skala_<?= $nilai;?>"
-                                        require>
+                                    <select class="boxc form-control" style="border-color: black;"
+                                        name="skala_<?= $nilai; ?>" require>
                                         <option hidden selected value="">--Pilih Gejala--</option>
                                         <?php
-                                            $kepribadian = query("SELECT * FROM tp_kepribadian WHERE skala = $nilai");
-                                            foreach ($kepribadian as $kep):
-                                                ?>
-                                                <option value="<?php echo $kep['id_kepribadian'] ?>" <?= $kep['id_kepribadian'] == $data['skala_' . $nilai] ? 'selected' : '' ?>><?php echo $kep['kepribadian'] ?> (<?= $kep['inisial']; ?>)
-                                                </option>
-                                                <?php
-                                            endforeach
+                                        $kepribadian = query("SELECT * FROM tp_kepribadian WHERE skala = $nilai"); foreach ($kepribadian as $kep):
+                                            ?>
+                                            <option value="<?php echo $kep['id_kepribadian'] ?>"
+                                                <?= $kep['id_kepribadian'] == $data['skala_' . $nilai] ? 'selected' : '' ?>><?php echo $kep['kepribadian'] ?> (<?= $kep['inisial']; ?>)
+                                            </option>
+                                            <?php
+                                        endforeach
                                         ?>
                                     </select>
                                 </div>
@@ -103,12 +108,12 @@
 
 </html>
 
-<?php 
-  if(isset($_POST['submit'])) {
+<?php
+if (isset($_POST['submit'])) {
     if (update($_POST) > 0) {
-      $_SESSION["berhasil"] = "Data Tipe MBTI Berhasil Diubah!";
+        $_SESSION["berhasil"] = "Data Tipe MBTI Berhasil Diubah!";
 
-      echo "
+        echo "
           <script>
             document.location.href='index.php';
           </script>
@@ -123,5 +128,5 @@
             </script>";
         exit();
     }
-  }
+}
 ?>

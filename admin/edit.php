@@ -4,6 +4,9 @@ require_once '../controller/user.php';
 
 $id = dekripsi($_GET['id']);
 $data = query("SELECT * FROM user WHERE iduser = $id")[0];
+
+// Dapatkan jalur skrip saat ini
+$current_page = $_SERVER['REQUEST_URI'];
 ?>
 
 <!DOCTYPE html>

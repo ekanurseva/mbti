@@ -5,6 +5,9 @@ session_start();
 require_once '../controller/gejala.php';
 
 $gejala = query("SELECT * FROM gejala ORDER BY CAST(SUBSTRING(kode_gejala, 2) AS UNSIGNED)");
+
+// Dapatkan jalur skrip saat ini
+$current_page = $_SERVER['REQUEST_URI'];
 ?>
 
 <!DOCTYPE html>

@@ -27,6 +27,9 @@ $data_saran = query("SELECT * FROM saran_mbti WHERE id_tpmbti = $id_mbti");
 
 $data_kepribadian = query("SELECT * FROM tp_kepribadian");
 $skala = query("SELECT DISTINCT skala FROM tp_kepribadian");
+
+// Dapatkan jalur skrip saat ini
+$current_page = $_SERVER['REQUEST_URI'];
 ?>
 
 <!DOCTYPE html>
@@ -69,6 +72,26 @@ $skala = query("SELECT DISTINCT skala FROM tp_kepribadian");
                                 <div class="fw-bold mb-2">
                                     <label for="Nama" class="text-dark">Nama :
                                         <?= $data['nama']; ?>
+                                    </label>
+                                </div>
+                                <div class="fw-bold mb-2">
+                                    <label for="NIM" class="text-dark">NIM :
+                                        <?= $data['nim']; ?>
+                                    </label>
+                                </div>
+                                <div class="fw-bold mb-2">
+                                    <label for="jk" class="text-dark">Jenis Kelamin :
+                                        <?= $data['jk']; ?>
+                                    </label>
+                                </div>
+                                <div class="fw-bold mb-2">
+                                    <label for="angkatan" class="text-dark">Angkatan :
+                                        <?= $data['angkatan']; ?>
+                                    </label>
+                                </div>
+                                <div class="fw-bold mb-2">
+                                    <label for="prodi" class="text-dark">Prodi :
+                                        <?= $data['prodi']; ?>
                                     </label>
                                 </div>
                                 <div class="fw-bold">
@@ -251,6 +274,7 @@ $skala = query("SELECT DISTINCT skala FROM tp_kepribadian");
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
         </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

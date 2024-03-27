@@ -1,8 +1,11 @@
-<?php 
-    session_start();
-    require_once '../controller/tipe.php';
+<?php
+session_start();
+require_once '../controller/tipe.php';
 
-    $skala = query("SELECT DISTINCT skala FROM tp_kepribadian");
+$skala = query("SELECT DISTINCT skala FROM tp_kepribadian");
+
+// Dapatkan jalur skrip saat ini
+$current_page = $_SERVER['REQUEST_URI'];
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +19,7 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-    </script>
+        </script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../style.css">
@@ -49,30 +52,30 @@
                             </div>
                         </div>
 
-                        <?php 
-                            foreach($skala as $s) :
-                                $nilai = $s['skala'];
-                        ?>
-                        <div class="mb-4 mt-2 row ms-5">
-                            <label for="inputEmail" class="col-sm-3 me-0 col-form-label">Tipe Kepribadian Skala
-                                <?= $nilai; ?></label>
-                            <div class="col-sm-6">
-                                <select class="boxc form-control" style="border-color: black;"
-                                    name="skala_<?= $nilai;?>" require>
-                                    <option hidden selected value="">--Pilih Tipe Kepribadian--</option>
-                                    <?php
-                                            $kepribadian = query("SELECT * FROM tp_kepribadian WHERE skala = $nilai");
-                                            foreach ($kepribadian as $kep):
-                                                ?>
-                                    <option value="<?php echo $kep['id_kepribadian'] ?>">
-                                        <?php echo $kep['kepribadian'] ?> (<?= $kep['inisial']; ?>)
-                                    </option>
-                                    <?php
-                                            endforeach
+                        <?php
+                        foreach ($skala as $s):
+                            $nilai = $s['skala'];
+                            ?>
+                            <div class="mb-4 mt-2 row ms-5">
+                                <label for="inputEmail" class="col-sm-3 me-0 col-form-label">Tipe Kepribadian Skala
+                                    <?= $nilai; ?>
+                                </label>
+                                <div class="col-sm-6">
+                                    <select class="boxc form-control" style="border-color: black;"
+                                        name="skala_<?= $nilai; ?>" require>
+                                        <option hidden selected value="">--Pilih Tipe Kepribadian--</option>
+                                        <?php
+                                        $kepribadian = query("SELECT * FROM tp_kepribadian WHERE skala = $nilai"); foreach ($kepribadian as $kep):
+                                            ?>
+                                            <option value="<?php echo $kep['id_kepribadian'] ?>">
+                                                <?php echo $kep['kepribadian'] ?> (<?= $kep['inisial']; ?>)
+                                            </option>
+                                            <?php
+                                        endforeach
                                         ?>
-                                </select>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
                         <?php endforeach; ?>
 
                         <div class="row justify-content-end">
@@ -91,21 +94,21 @@
 
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
             integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
-        </script>
+            </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
             integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
-        </script>
+            </script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>
 
-<?php 
-  if(isset($_POST['submit'])) {
+<?php
+if (isset($_POST['submit'])) {
     if (create($_POST) > 0) {
-      $_SESSION["berhasil"] = "Data Tipe MBTI Berhasil Ditambahkan!";
+        $_SESSION["berhasil"] = "Data Tipe MBTI Berhasil Ditambahkan!";
 
-      echo "
+        echo "
           <script>
             document.location.href='index.php';
           </script>
@@ -120,5 +123,5 @@
             </script>";
         exit();
     }
-  }
+}
 ?>

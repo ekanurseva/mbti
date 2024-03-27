@@ -8,6 +8,9 @@ $jumlah_gejala3 = $jumlah_gejala - $jumlah_gejala2;
 
 $pertanyaan1 = query("SELECT * FROM gejala ORDER BY id_kepribadian ASC LIMIT $jumlah_gejala2 ");
 $pertanyaan2 = query("SELECT * FROM gejala ORDER BY id_kepribadian ASC LIMIT $jumlah_gejala2 OFFSET $jumlah_gejala2");
+
+// Dapatkan jalur skrip saat ini
+$current_page = $_SERVER['REQUEST_URI'];
 ?>
 
 <!DOCTYPE html>
@@ -44,6 +47,10 @@ $pertanyaan2 = query("SELECT * FROM gejala ORDER BY id_kepribadian ASC LIMIT $ju
 
                     <form method="post" action="">
                         <input type="hidden" name="nama" value="<?= $_POST['nama']; ?>">
+                        <input type="hidden" name="nim" value="<?= $_POST['nim']; ?>">
+                        <input type="hidden" name="jk" value="<?= $_POST['jk']; ?>">
+                        <input type="hidden" name="angkatan" value="<?= $_POST['angkatan']; ?>">
+                        <input type="hidden" name="prodi" value="<?= $_POST['prodi']; ?>">
                         <input type="hidden" name="umur" value="<?= $_POST['umur']; ?>">
                         <h4 class="text-center fw-bold" style="color: black;">Seberapa yakin
                             <?= $_POST['nama']; ?> (

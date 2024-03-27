@@ -1,5 +1,8 @@
 <?php
 require_once '../controller/user.php';
+
+// Dapatkan jalur skrip saat ini
+$current_page = $_SERVER['REQUEST_URI'];
 ?>
 
 <!DOCTYPE html>

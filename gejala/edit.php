@@ -6,6 +6,9 @@ $id = dekripsi($_GET['id']);
 $data = query("SELECT * FROM gejala WHERE id_gejala = $id")[0];
 
 $kepribadian = query("SELECT * FROM tp_kepribadian ORDER BY skala ASC");
+
+// Dapatkan jalur skrip saat ini
+$current_page = $_SERVER['REQUEST_URI'];
 ?>
 
 <!DOCTYPE html>

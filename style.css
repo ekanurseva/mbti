@@ -97,4 +97,8 @@ hr.hr-color {
   margin-left: -3px;
   position: absolute;
 }
+
+.active{
+  color: mediumblue;
+}
 /* sidebar selesai */

@@ -1,3 +1,8 @@
+<?php
+// Dapatkan jalur skrip saat ini
+$current_page = $_SERVER['REQUEST_URI'];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,28 +38,30 @@
                     <h1 class="text-center fw-bold" style="color: #7ebeea;">WELCOME TO</h1>
                     <div class="d-flex justify-content-center">
                         <img style="width: 800px;" src="../image/1.jpg" alt="Logo MBTI">
-                    </div>
 
-                    <!-- about -->
-                    <section class id="about">
-                        <div class="container" style="margin-top: 30px; margin-bottom: 170px;">
-                            <div class="row text-center mb-3">
-                                <div class="col">
-                                    <h2>About</h2>
+                        <!-- about -->
+                        <section class id="about">
+                            <div class="container" style="margin-top: 30px; margin-bottom: 170px;">
+                                <div class="row text-center mb-3">
+                                    <div class="col">
+                                        <h2>About</h2>
+                                    </div>
+                                </div>
+                                <div class="fs-5 mx-4">
+                                    <p style="text-align : justify">
+                                        MBTI atau Myers Briggs Type Indicator merupakan salah satu metode dalam
+                                        mengetahui
+                                        kepribadian manusia dalam melihat dunia dan membuat keputusan. MBTI dikembangkan
+                                        oleh Katharine Cook Briggs dan putrinya Isabel Briggs Myers berdasarkan teori
+                                        kepribadian dari Carl Gustav Jung yang menduga bahwa manusia mengalami dunia
+                                        dengan
+                                        menggunakan empat ungsi psikologis utama yaitu sensasi, intuisi, perasaan dan
+                                        pemikiran.</p>
                                 </div>
                             </div>
-                            <div class="fs-5 mx-4">
-                                <p style="text-align : justify">
-                                    MBTI atau Myers Briggs Type Indicator merupakan salah satu metode dalam mengetahui
-                                    kepribadian manusia dalam melihat dunia dan membuat keputusan. MBTI dikembangkan
-                                    oleh Katharine Cook Briggs dan putrinya Isabel Briggs Myers berdasarkan teori
-                                    kepribadian dari Carl Gustav Jung yang menduga bahwa manusia mengalami dunia dengan
-                                    menggunakan empat ungsi psikologis utama yaitu sensasi, intuisi, perasaan dan
-                                    pemikiran.</p>
-                            </div>
-                        </div>
-                    </section>
-                    <!-- akhir about-->
+                        </section>
+                        <!-- akhir about-->
+                    </div>
                 </div>
             </div>
 
@@ -66,6 +73,7 @@
                 integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
                 crossorigin="anonymous">
                 </script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

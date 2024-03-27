@@ -1,9 +1,12 @@
-<?php 
-    session_start();
-    require_once '../controller/kepribadian.php';
+<?php
+session_start();
+require_once '../controller/kepribadian.php';
 
-    $id = dekripsi($_GET['id']);
-    $data = query("SELECT * FROM tp_kepribadian WHERE id_kepribadian = $id")[0];
+$id = dekripsi($_GET['id']);
+$data = query("SELECT * FROM tp_kepribadian WHERE id_kepribadian = $id")[0];
+
+// Dapatkan jalur skrip saat ini
+$current_page = $_SERVER['REQUEST_URI'];
 ?>
 
 <!DOCTYPE html>
@@ -59,7 +62,7 @@
                             <label for="inputEmail" class="col-sm-3 me-0 col-form-label">Tipe Kepribadian</label>
                             <div class="col-sm-6">
                                 <input type="text" class="form-control" style="border: 1px solid black;" id="inputEmail"
-                                name="kepribadian" value="<?= $data['kepribadian']; ?>">
+                                    name="kepribadian" value="<?= $data['kepribadian']; ?>">
                             </div>
                         </div>
 
@@ -81,8 +84,8 @@
                         <div class="mb-4 mt-2 row ms-5">
                             <label for="deskripsi" class="col-sm-3 me-0 col-form-label">Deskripsi</label>
                             <div class="col-sm-6">
-                                <textarea type="text" style="border-color: black;" class="form-control"
-                                        id="deskripsi" name="deskripsi" rows="10"><?= $data['deskripsi']; ?></textarea>
+                                <textarea type="text" style="border-color: black;" class="form-control" id="deskripsi"
+                                    name="deskripsi" rows="10"><?= $data['deskripsi']; ?></textarea>
                             </div>
                         </div>
 
@@ -111,15 +114,15 @@
 
 </html>
 
-<?php 
-  if(isset($_POST['submit'])) {
+<?php
+if (isset($_POST['submit'])) {
     if (update($_POST) > 0) {
 
-        if($_POST['oldkepribadian'] != $_POST['kepribadian']) {
+        if ($_POST['oldkepribadian'] != $_POST['kepribadian']) {
             update_field($_POST);
         }
 
-        if($_POST['oldinisial'] != $_POST['inisial']) {
+        if ($_POST['oldinisial'] != $_POST['inisial']) {
             update_mbti($_POST);
         }
         $_SESSION["berhasil"] = "Data Tipe Kepribadian Berhasil Diubah!";
@@ -139,5 +142,5 @@
             </script>";
         exit();
     }
-  }
+}
 ?>

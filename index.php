@@ -1,3 +1,8 @@
+<?php
+// Dapatkan jalur skrip saat ini
+$current_page = $_SERVER['REQUEST_URI'];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,14 +38,14 @@
                         <img style="width: 800px;" src="image/1.jpg" alt="Logo MBTI">
                     </div>
                     <!-- about -->
-                    <section class id="about">
+                    <section id="about">
                         <div class="container">
                             <div class="row text-center mb-3">
                                 <div class="col">
                                     <h2>About</h2>
                                 </div>
                             </div>
-                            <div class="fs-5 mx-4" style="margin-bottom: 300px;">
+                            <div class="fs-5 mx-4" style="margin-bottom: 100px;">
                                 <p style="text-align : justify">
                                     MBTI atau Myers Briggs Type Indicator merupakan salah satu metode dalam mengetahui
                                     kepribadian manusia dalam melihat dunia dan membuat keputusan. MBTI dikembangkan
@@ -52,6 +57,18 @@
                         </div>
                     </section>
                     <!-- akhir about-->
+
+
+
+                    <!-- Footer -->
+                    <footer class="text-white text-center p-3" style="background: #7ebeeab0;">
+                        <img src="image/UMC.png" alt="UMC" style="width: 80px;">
+                        <p class="fw-bold">Universitas Muhammadiyah Cirebon <br /> Fakultas Teknik</p>
+                        <p class="head-about">Created with <i class="bi bi-suit-heart-fill text-danger"></i> by <a
+                                href="" class="text-white fw-bold about">Rury Afriliani
+                            </a></p>
+                    </footer>
+                    <!-- Akhir Footer -->
                 </div>
             </div>
         </div>
@@ -62,6 +79,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
         </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

@@ -4,7 +4,11 @@ require_once '../controller/main.php';
 validasi_admin();
 
 $kepribadian = query("SELECT * FROM tp_kepribadian ORDER BY CAST(skala AS SIGNED)");
+
+// Dapatkan jalur skrip saat ini
+$current_page = $_SERVER['REQUEST_URI'];
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 

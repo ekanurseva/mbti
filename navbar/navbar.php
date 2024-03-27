@@ -58,8 +58,19 @@ require_once 'controller/main.php';
                         <?php else: ?>
                             <input type="text" class="form-control mt-3" id="nama" name="nama" placeholder="Nama" required>
                         <?php endif; ?>
+                        <input type="number" class="form-control mt-3" id="nim" name="nim" placeholder="NIM" required>
+                        <select class="form-control mt-3" name="jk" require id="jk">
+                            <option hidden selected value="">--Pilih Jenis Kelamin--</option>
+                            <option value="Laki-Laki">Laki-Laki</option>
+                            <option value="Perempuan">Perempuan</option>
+                        </select>
+                        <input type="number" class="form-control mt-3" id="angkatan" name="angkatan"
+                            placeholder="Angkatan" required>
+                        <input type="text" class="form-control mt-3" id="prodi" name="prodi" placeholder="Prodi"
+                            required>
                         <input type="number" class="form-control mt-3" id="umur" name="umur" placeholder="Umur"
                             required>
+
                     </div>
                 </div>
                 <hr style="margin-bottom: 25px;">

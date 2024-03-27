@@ -20,8 +20,12 @@ if (isset($_GET['id_hasil'])) {
 
     $data_kepribadian = query("SELECT * FROM tp_kepribadian");
 
+    $max_cf = max_cf($data);
+    $max_bayes = max_bayes($data);
+
     $tanggal = $data['tanggal_tes'];
-    $waktu = date('H:i:s || d F Y', strtotime($tanggal));
+    $waktu = cari_tanggal($tanggal, 'H:i:s || d F Y');
+    $tgl = cari_tanggal($tanggal, 'd F Y');
 } else {
     echo "
         <script>
@@ -70,17 +74,30 @@ $html = '<!DOCTYPE html>
                         margin: 0;
                         left: 0;
                     }
+                    header{
+                        padding-top: 0;
+                        padding-bottom: 15px;
+                        text-align: center;
+                    }
                 </style>
             </head>
             <body>
-                <h1 style="text-align: center;">LAPORAN HASIL TES MBTI</h1>
-                <h3 style="text-align: center;">';
+            <header>
+                <h3 style="margin: 0; color: red;">UNIVERSITAS MUHAMMADIYAH CIREBON</h3>
+                <h5 style="margin: 0; color: blue;">FAKULTAS TEKNIK</h5>
+                <h6 style="margin: 0; font-size: 9px">Kampus 1 : Jl. Tuparev No 70 Cirebon 45153 Telp. +62-231-209608, +62-231-204276, Fax +62-231-209608, +62-231-209617 Email : ft@umc.ac.id Website : www.umc.ac.id <br/> Kampus 2 dan 3 : Jl. Fatahillah – Watubelah – Cirebon, Email : rektorat@umc.ac.id Website : www.umc.ac.id
+                </h6>
+                <hr>
+            </header>
+
+                <h2 style="text-align: center; margin: 0">LAPORAN HASIL TES MBTI</h2>
+                <h3 style="text-align: center; margin: 0">';
 $html .= $data['nama'] . ' (' . $data['umur'] . ' Tahun)
                 </h3>
-                <h4 style="text-align: center;">' . $waktu . '</h4>
+                <h4 style="text-align: center; margin: 0">' . $waktu . '</h4>
 
     <h4 style="margin: 0;">Ciri-Ciri:</h4>
-        <ul>';
+        <ul style="margin: 0;">';
 foreach ($data_ciri as $daci) {
     $html .= '<li>' . $daci['ciri'] . '</li>';
 }
@@ -100,7 +117,12 @@ foreach ($data_kepribadian as $dk) {
     $nama_kepribadian = strtolower(str_replace(" ", "_", $dk['kepribadian']));
     $nama_kepribadian .= "_cf";
 
-    $html .= '<p>' . $dk['kepribadian'] . ': ' . $data[$nama_kepribadian] . '%</p>';
+    // Periksa apakah tipe kepribadian ini sama dengan tipe kepribadian dengan nilai tertinggi CF
+    if (is_numeric(array_search($dk['id_kepribadian'], $max_cf))) {
+        $html .= '<p><strong>' . $dk['kepribadian'] . ': ' . $data[$nama_kepribadian] . '%</strong></p>';
+    } else {
+        $html .= '<p>' . $dk['kepribadian'] . ': ' . $data[$nama_kepribadian] . '%</p>';
+    }
 }
 $html .= '</td> <td>';
 
@@ -108,7 +130,12 @@ foreach ($data_kepribadian as $dk) {
     $nama_kepribadian = strtolower(str_replace(" ", "_", $dk['kepribadian']));
     $nama_kepribadian .= "_bayes";
 
-    $html .= '<p>' . $dk['kepribadian'] . ': ' . $data[$nama_kepribadian] . '%</p>';
+    // Periksa apakah tipe kepribadian ini sama dengan tipe kepribadian dengan nilai tertinggi Bayes
+    if (is_numeric(array_search($dk['id_kepribadian'], $max_bayes))) {
+        $html .= '<p><strong>' . $dk['kepribadian'] . ': ' . $data[$nama_kepribadian] . '%</strong></p>';
+    } else {
+        $html .= '<p>' . $dk['kepribadian'] . ': ' . $data[$nama_kepribadian] . '%</p>';
+    }
 }
 $html .= '</td>';
 
@@ -117,7 +144,7 @@ $html .= '</tr>
 
 
 
-    <h4>Penjabaran Hasil :</h4>
+    <h4 style="margin-bottom: 0;">Penjabaran Hasil :</h4>
         <table>
             <tr>
                 <th>Kesimpulan</th>
@@ -148,8 +175,14 @@ $html .= '</ul>
             </tr>";
         </table>';
 
-$html .= '</body>
-            </html>';
+$html .= '<div style="margin-top: 20px; margin-left: 430px;">
+                        <h4 style="margin: 0; font-weight: medium;">Cirebon, ' . $tgl . '</h4>
+                        <h4 style="margin: 0;">Dekan Teknik,</h4><br><br>
+                        <h4 style="margin: 0;">Nuri Kartini, M.T., IPM., AER</h4>
+                        <h4 style="margin: 0; font-weight: medium;">NIDN: 0423047203</h4>
+                    </div>
+        </body>
+</html>';
 
 $dompdf->loadHtml($html);
 

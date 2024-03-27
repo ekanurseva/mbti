@@ -63,21 +63,21 @@ function dekripsi($kata)
 function validasi_admin()
 {
     global $conn;
-    if(!isset($_COOKIE['SPmbti'])) {
+    if (!isset($_COOKIE['SPmbti'])) {
         echo "<script>
                 document.location.href='../logout.php';
               </script>";
         exit;
     }
-    
+
     $id = dekripsi($_COOKIE['SPmbti']);
-    
+
 
     $cek = query("SELECT * FROM user WHERE iduser = $id")[0];
 
-    
+
     $result = mysqli_query($conn, "SELECT * FROM user WHERE iduser = '$id'");
-    
+
     if (mysqli_num_rows($result) != 1) {
         echo "<script>
                 document.location.href='../logout.php';
@@ -89,21 +89,21 @@ function validasi_admin()
 function validasi()
 {
     global $conn;
-    if(!isset($_COOKIE['SPmbti'])) {
+    if (!isset($_COOKIE['SPmbti'])) {
         echo "<script>
                 document.location.href='logout.php';
               </script>";
         exit;
     }
-    
+
     $id = dekripsi($_COOKIE['SPmbti']);
-    
+
 
     $cek = query("SELECT * FROM user WHERE iduser = $id")[0];
 
-    
+
     $result = mysqli_query($conn, "SELECT * FROM user WHERE iduser = '$id'");
-    
+
     if (mysqli_num_rows($result) != 1) {
         echo "<script>
                 document.location.href='logout.php';
@@ -121,5 +121,29 @@ function jumlah_data($data)
     $jumlah_data = mysqli_num_rows($query);
 
     return $jumlah_data;
+}
+
+function translate($kata)
+{
+    $hari_inggris = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    $hari_indo = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+
+    $bulan_inggris = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    $bulan_indo = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+    $ganti_hari = str_replace($hari_inggris, $hari_indo, $kata);
+    $ganti_bulan = str_replace($bulan_inggris, $bulan_indo, $ganti_hari);
+
+    return $ganti_bulan;
+}
+
+function cari_tanggal($tanggal, $format)
+{
+    $waktu_convert = strtotime($tanggal);
+    $jadwal_convert = date($format, $waktu_convert);
+
+    $jadwal = translate($jadwal_convert);
+
+    return $jadwal;
 }
 ?>

@@ -4,6 +4,9 @@ require_once '../controller/tipe.php';
 
 $tipe_mbti = query("SELECT * FROM tipe_mbti");
 $ciri = query("SELECT * FROM ciri_mbti ORDER BY id_tpmbti ASC");
+
+// Dapatkan jalur skrip saat ini
+$current_page = $_SERVER['REQUEST_URI'];
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +20,7 @@ $ciri = query("SELECT * FROM ciri_mbti ORDER BY id_tpmbti ASC");
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-    </script>
+        </script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../style.css">
@@ -61,34 +64,35 @@ $ciri = query("SELECT * FROM ciri_mbti ORDER BY id_tpmbti ASC");
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $j = 1; foreach ($ciri as $ci):
+                                    $j = 1;
+                                    foreach ($ciri as $ci):
                                         $idmbti = $ci['id_tpmbti'];
                                         $nama_mbti = query("SELECT * FROM tipe_mbti WHERE id_tpmbti = $idmbti")[0];
                                         ?>
-                                    <tr>
-                                        <td>
-                                            <?= $j; ?>
-                                        </td>
-                                        <td>
-                                            <?= $nama_mbti['nama_mbti']; ?>
-                                        </td>
-                                        <td>
-                                            <?= $ci['ciri']; ?>
-                                        </td>
-                                        <td>
-                                            <a class="text-decoration-none"
-                                                href="edit_ciri.php?id=<?= enkripsi($ci['id_ciri']); ?>">
-                                                <button class="btn btn-primary"><i
-                                                        class="bi bi-pencil-fill"></i></button>
-                                            </a>
-                                            |
-                                            <a class="delete bg-danger" id="delete"
-                                                onclick="deleteCiri(<?= $ci['id_ciri']; ?>)">
-                                                <button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <?php
+                                        <tr>
+                                            <td>
+                                                <?= $j; ?>
+                                            </td>
+                                            <td>
+                                                <?= $nama_mbti['nama_mbti']; ?>
+                                            </td>
+                                            <td>
+                                                <?= $ci['ciri']; ?>
+                                            </td>
+                                            <td>
+                                                <a class="text-decoration-none"
+                                                    href="edit_ciri.php?id=<?= enkripsi($ci['id_ciri']); ?>">
+                                                    <button class="btn btn-primary"><i
+                                                            class="bi bi-pencil-fill"></i></button>
+                                                </a>
+                                                |
+                                                <a class="delete bg-danger" id="delete"
+                                                    onclick="deleteCiri(<?= $ci['id_ciri']; ?>)">
+                                                    <button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <?php
                                         $j++;
                                     endforeach;
                                     ?>
@@ -120,9 +124,9 @@ $ciri = query("SELECT * FROM ciri_mbti ORDER BY id_tpmbti ASC");
                                                     style="border: 1px solid black;" aria-label="Default select example"
                                                     name="id_tpmbti">
                                                     <?php foreach ($tipe_mbti as $tim): ?>
-                                                    <option value="<?= $tim['id_tpmbti']; ?>">
-                                                        <?= $tim['nama_mbti']; ?>
-                                                    </option>
+                                                        <option value="<?= $tim['id_tpmbti']; ?>">
+                                                            <?= $tim['nama_mbti']; ?>
+                                                        </option>
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
@@ -145,66 +149,66 @@ $ciri = query("SELECT * FROM ciri_mbti ORDER BY id_tpmbti ASC");
 
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
             integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
-        </script>
+            </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
             integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
-        </script>
+            </script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
         <script>
-        $(document).ready(function() {
-            $('#example2').DataTable();
-        });
-
-        function deleteCiri(id) {
-            // Menampilkan Sweet Alert dengan tombol Yes dan No
-            Swal.fire({
-                title: 'Konfirmasi',
-                text: 'Apakah Anda yakin ingin menghapus data?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'No',
-                focusCancel: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Memanggil fungsi PHP menggunakan AJAX saat tombol Yes diklik
-                    $.ajax({
-                        url: '../controller/ciri.php',
-                        type: 'POST',
-                        data: {
-                            action: 'delete',
-                            id: id
-                        },
-                        success: function(response) {
-                            // Menampilkan pesan sukses jika data berhasil dihapus 
-                            Swal.fire({
-                                title: 'Berhasil!',
-                                text: 'Data Ciri-Ciri MBTI Berhasil Dihapus!',
-                                icon: 'success'
-                            }).then((result) => {
-                                /* Read more about isConfirmed, isDenied below */
-                                if (result.isConfirmed) {
-                                    window.location.href = 'index.php';
-                                }
-                            })
-                        },
-                        error: function(xhr, status, error) {
-                            // Menampilkan pesan error jika terjadi kesalahan dalam penghapusan data
-                            Swal.fire({
-                                title: 'Error',
-                                text: 'Terjadi kesalahan dalam menghapus data: ' + error,
-                                icon: 'error'
-                            });
-                        }
-                    });
-                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                    // Menampilkan pesan jika tombol No diklik
-                    Swal.fire('Batal', 'Penghapusan data dibatalkan', 'info');
-                }
+            $(document).ready(function () {
+                $('#example2').DataTable();
             });
-        }
+
+            function deleteCiri(id) {
+                // Menampilkan Sweet Alert dengan tombol Yes dan No
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: 'Apakah Anda yakin ingin menghapus data?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No',
+                    focusCancel: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Memanggil fungsi PHP menggunakan AJAX saat tombol Yes diklik
+                        $.ajax({
+                            url: '../controller/ciri.php',
+                            type: 'POST',
+                            data: {
+                                action: 'delete',
+                                id: id
+                            },
+                            success: function (response) {
+                                // Menampilkan pesan sukses jika data berhasil dihapus 
+                                Swal.fire({
+                                    title: 'Berhasil!',
+                                    text: 'Data Ciri-Ciri MBTI Berhasil Dihapus!',
+                                    icon: 'success'
+                                }).then((result) => {
+                                    /* Read more about isConfirmed, isDenied below */
+                                    if (result.isConfirmed) {
+                                        window.location.href = 'index.php';
+                                    }
+                                })
+                            },
+                            error: function (xhr, status, error) {
+                                // Menampilkan pesan error jika terjadi kesalahan dalam penghapusan data
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: 'Terjadi kesalahan dalam menghapus data: ' + error,
+                                    icon: 'error'
+                                });
+                            }
+                        });
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        // Menampilkan pesan jika tombol No diklik
+                        Swal.fire('Batal', 'Penghapusan data dibatalkan', 'info');
+                    }
+                });
+            }
         </script>
 </body>
 
