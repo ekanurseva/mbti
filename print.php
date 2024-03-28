@@ -74,10 +74,19 @@ $html = '<!DOCTYPE html>
                         margin: 0;
                         left: 0;
                     }
-                    header{
-                        padding-top: 0;
-                        padding-bottom: 15px;
+
+                    @page { margin: 120px 30px; }
+                    header { 
+                        position: fixed; 
+                        top: -90px; 
+                        left: 0; 
+                        right: 0; 
+                        height: 50px; 
                         text-align: center;
+                    }
+
+                    .content{
+                        margin-top: -10px;
                     }
                 </style>
             </head>
@@ -90,18 +99,22 @@ $html = '<!DOCTYPE html>
                 <hr>
             </header>
 
+            <div class ="content">
                 <h2 style="text-align: center; margin: 0">LAPORAN HASIL TES MBTI</h2>
                 <h3 style="text-align: center; margin: 0">';
-$html .= $data['nama'] . ' (' . $data['umur'] . ' Tahun)
+                    $html .= $data['nama'] . ' (' . $data['umur'] . ' Tahun)
                 </h3>
+                <h4 style="text-align: center; margin: 0">';
+                    $html .= $data['nim']. ' '. $data['prodi'] . ' ' .$data['angkatan'].'
+                </h4>
                 <h4 style="text-align: center; margin: 0">' . $waktu . '</h4>
 
     <h4 style="margin: 0;">Ciri-Ciri:</h4>
         <ul style="margin: 0;">';
-foreach ($data_ciri as $daci) {
-    $html .= '<li>' . $daci['ciri'] . '</li>';
-}
-;
+            foreach ($data_ciri as $daci) {
+                $html .= '<li>' . $daci['ciri'] . '</li>';
+            }
+            ;
 
 $html .= '</ul>
 
@@ -142,8 +155,6 @@ $html .= '</td>';
 $html .= '</tr>
             </table>
 
-
-
     <h4 style="margin-bottom: 0;">Penjabaran Hasil :</h4>
         <table>
             <tr>
@@ -155,34 +166,53 @@ $html .= '</tr>
                 </td>
             </tr>";
         </table>
-
-<br>
-
+        <br>
         <table>
             <tr>
                 <th>Saran Pengembangan untuk tipe ' . $hasil_cf . ' :</th>
             </tr>
             <tr>
                 <td>
-                    <ul>';
-foreach ($data_saran as $daran) {
-    $html .= '<li>' . $daran['saran'] . '</li>';
-}
-;
+                <ul>';
+                foreach ($data_saran as $daran) {
+                    $html .= '<li>' . $daran['saran'] . '</li>';
+                }
+                ;
 
-$html .= '</ul>
+        $html .= '</ul>
                 </td>
             </tr>";
         </table>';
 
-$html .= '<div style="margin-top: 20px; margin-left: 430px;">
-                        <h4 style="margin: 0; font-weight: medium;">Cirebon, ' . $tgl . '</h4>
-                        <h4 style="margin: 0;">Dekan Teknik,</h4><br><br>
-                        <h4 style="margin: 0;">Nuri Kartini, M.T., IPM., AER</h4>
-                        <h4 style="margin: 0; font-weight: medium;">NIDN: 0423047203</h4>
-                    </div>
-        </body>
+    $html .='<div style="margin-top: 20px; margin-left: 430px;">
+                <h4 style="margin: 0; font-weight: medium;">Cirebon, ' . $tgl . '</h4>
+                <h4 style="margin: 0;">Dekan Teknik,</h4><br><br>
+                <h4 style="margin: 0;">Nuri Kartini, M.T., IPM., AER</h4>
+                <h4 style="margin: 0; font-weight: medium;">NIDN: 0423047203</h4>
+            </div>
+        </div>
+    </body>
 </html>';
+
+// Aktifkan fitur header
+$options = $dompdf->getOptions();
+$options->setIsPhpEnabled(true);
+$options->setIsHtml5ParserEnabled(true);
+$options->setIsFontSubsettingEnabled(true);
+$options->setIsRemoteEnabled(true);
+$options->setDefaultFont('Helvetica');
+$options->setChroot(__DIR__);
+
+$dompdf->setOptions($options);
+$dompdf->setHttpContext(
+    stream_context_create([
+        'ssl' => [
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true,
+        ],
+    ])
+);
 
 $dompdf->loadHtml($html);
 

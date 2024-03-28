@@ -60,10 +60,19 @@ if (isset($_POST['option'])) {
                         margin: 0;
                         left: 0;
                     }
-                    header{
-                        padding-top: 0;
-                        padding-bottom: 15px;
+
+                    @page { margin: 120px 25px; }
+                    header { 
+                        position: fixed; 
+                        top: -90px; 
+                        left: 0; 
+                        right: 0; 
+                        height: 50px; 
                         text-align: center;
+                    }
+
+                    .content{
+                        margin-top: -20px;
                     }
                 </style>
             </head>
@@ -76,51 +85,73 @@ if (isset($_POST['option'])) {
                 <hr>
             </header>
 
+            <div class="content">
                 <h2 style="text-align: center;">LAPORAN HASIL TES MBTI</h2>
 
-            <table>
-                <tr>
-                    <th>No</th>
-                    <th>Nama</th>
-                    <th>NIM</th>
-                    <th>Prodi</th>
-                    <th>Angkatan</th>
-                    <th>Tanggal Tes</th>
-                    <th>Tipe MBTI (CF)</th>
-                    <th>Tipe MBTI (Bayes)</th>
-                </tr>';
-    $i = 1;
-    foreach ($riwayat as $h) {
-        $idhasil = $h['id_hasil'];
+                    <table>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama</th>
+                            <th>NIM</th>
+                            <th>Prodi</th>
+                            <th>Angkatan</th>
+                            <th>Tanggal Tes</th>
+                            <th>Tipe MBTI (CF)</th>
+                            <th>Tipe MBTI (Bayes)</th>
+                        </tr>';
+                    $i = 1;
+                    foreach ($riwayat as $h) {
+                        $idhasil = $h['id_hasil'];
 
-        $cf = hasil_cf($h);
-        $bayes = hasil_bayes($h);
-        $tanggal = $h['tanggal_tes'];
-        $waktu = cari_tanggal($tanggal, 'H:i:s || d F Y');
+                        $cf = hasil_cf($h);
+                        $bayes = hasil_bayes($h);
+                        $tanggal = $h['tanggal_tes'];
+                        $waktu = cari_tanggal($tanggal, 'H:i:s || d F Y');
 
-        $html .= '<tr>
-                <td>' . $i . '</td>
-                <td>' . $h['nama'] . '</td>
-                <td>' . $h['nim'] . '</td>
-                <td>' . $h['prodi'] . '</td>
-                <td>' . $h['angkatan'] . '</td>
-                <td>' . $waktu . '</td>
-                <td> ' . $cf . '</td>
-                <td> ' . $bayes . '</td>
-            </tr>';
-        $i++;
-    }
-    $html .= '
-        </table>';
+                        $html .= '<tr>
+                                <td>' . $i . '</td>
+                                <td>' . $h['nama'] . '</td>
+                                <td>' . $h['nim'] . '</td>
+                                <td>' . $h['prodi'] . '</td>
+                                <td>' . $h['angkatan'] . '</td>
+                                <td>' . $waktu . '</td>
+                                <td> ' . $cf . '</td>
+                                <td> ' . $bayes . '</td>
+                            </tr>';
+                        $i++;
+                    }
+                    $html .= '
+                        </table>';
 
-    $html .= '<div style="margin-top: 20px; margin-left: 430px;">
-                        <h4 style="margin: 0; font-weight: medium;">Cirebon, ' . $tgl . '</h4>
-                        <h4 style="margin: 0;">Dekan Teknik,</h4><br><br>
-                        <h4 style="margin: 0;">Nuri Kartini, M.T., IPM., AER</h4>
-                        <h4 style="margin: 0; font-weight: medium;">NIDN: 0423047203</h4>
-                    </div>
+                    $html .= '<div style="margin-top: 20px; margin-left: 430px;">
+                                        <h4 style="margin: 0; font-weight: medium;">Cirebon, ' . $tgl . '</h4>
+                                        <h4 style="margin: 0;">Dekan Teknik,</h4><br><br>
+                                        <h4 style="margin: 0;">Nuri Kartini, M.T., IPM., AER</h4>
+                                        <h4 style="margin: 0; font-weight: medium;">NIDN: 0423047203</h4>
+                                    </div>
+            </div>
         </body>
 </html>';
+
+// Aktifkan fitur header
+$options = $dompdf->getOptions();
+$options->setIsPhpEnabled(true);
+$options->setIsHtml5ParserEnabled(true);
+$options->setIsFontSubsettingEnabled(true);
+$options->setIsRemoteEnabled(true);
+$options->setDefaultFont('Helvetica');
+$options->setChroot(__DIR__);
+
+$dompdf->setOptions($options);
+$dompdf->setHttpContext(
+    stream_context_create([
+        'ssl' => [
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true,
+        ],
+    ])
+);
 
     $dompdf->loadHtml($html);
 
