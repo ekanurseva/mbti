@@ -4,8 +4,11 @@ require_once 'controller/hasil.php';
 
 use Dompdf\Dompdf;
 
+
 if (isset($_POST['option'])) {
     $option = $_POST['option'];
+
+    $riwayat = query("SELECT * FROM hasil");
 
     // Query database berdasarkan opsi yang dipilih
     if ($option == "I") {
@@ -16,7 +19,6 @@ if (isset($_POST['option'])) {
         $riwayat = query("SELECT * FROM hasil");
     }
 
-    $riwayat = query("SELECT * FROM hasil");
     $tgll = date('d F Y');
     $tgl = cari_tanggal($tgll, 'd F Y');
 
