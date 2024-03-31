@@ -1,10 +1,9 @@
-<!-- INDEX GEJALA -->
-
 <?php
 session_start();
 require_once '../controller/gejala.php';
 
 $gejala = query("SELECT * FROM gejala ORDER BY CAST(SUBSTRING(kode_gejala, 2) AS UNSIGNED)");
+$skala  = query("SELECT skala FROM tp_kepribadian GROUP BY skala ORDER BY skala ASC");
 
 // Dapatkan jalur skrip saat ini
 $current_page = $_SERVER['REQUEST_URI'];
@@ -45,9 +44,7 @@ $current_page = $_SERVER['REQUEST_URI'];
                 <div class="contents" style="margin: 75px 0; padding: 10px 40px;">
                     <h4 class="text-center">Manajemen Data Gejala</h4>
                     <div class="ms-3 mt-3">
-                        <a href="../gejala/input.php">
-                            <button class="btn btn-primary">Tambah Data Gejala</button>
-                        </a>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#saran">Tambah Data Gejala</button>
                     </div>
 
                     <div class="tabel mt-4 mx-3">
@@ -92,7 +89,7 @@ $current_page = $_SERVER['REQUEST_URI'];
                                             </a>
                                             |
                                             <a class="delete bg-danger" id="delete"
-                                                onclick="confirmDelete(<?= $g['id_gejala']; ?>)">
+                                                onclick="confirmDelete(<?= $g['relasi']; ?>)">
                                                 <button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
                                             </a>
                                         </td>
@@ -103,6 +100,54 @@ $current_page = $_SERVER['REQUEST_URI'];
                                 ?>
                             </tbody>
                         </table>
+
+                        <div class="modal fade" id="saran" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                        aria-labelledby="ciriLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="ciriLabel">Pilih Tipe MBTI</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+
+                                    <form action="input.php">
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <label for="kriteria" class="form-label">Pilih skala kepribadian MBTI</label>
+
+                                                <div class="">
+                                                    <select id="kriteria" class="form-select"
+                                                        style="border: 1px solid black;" aria-label="Default select example"
+                                                        name="skala">
+                                                        <?php 
+                                                            foreach ($skala as $item): 
+                                                                $scale = $item['skala'];
+                                                                $cari_kepribadian = query("SELECT * FROM tp_kepribadian WHERE skala = '$scale'");
+
+                                                                $kata = [];
+                                                                foreach($cari_kepribadian as $search) {
+                                                                    $kata[] = $search['kepribadian'];
+                                                                }
+                                                        ?>
+                                                            <option value="<?= $scale; ?>">
+                                                                <?= $scale; ?> (<?= implode(' | ', $kata); ?>)
+                                                            </option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary">Pilih</button>
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Kembali</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -127,7 +172,7 @@ $current_page = $_SERVER['REQUEST_URI'];
                 // Menampilkan Sweet Alert dengan tombol Yes dan No
                 Swal.fire({
                     title: 'Konfirmasi',
-                    text: 'Apakah Anda yakin ingin menghapus data?',
+                    text: 'Apakah Anda yakin ingin menghapus data? Seluruh data gejala yang terkai dengan data ini akan ikut terhapus',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Yes',

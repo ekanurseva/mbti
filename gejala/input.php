@@ -1,11 +1,15 @@
 <?php
 session_start();
 require_once '../controller/gejala.php';
+$skala = $_GET['skala'];
 
-$kepribadian = query("SELECT * FROM tp_kepribadian ORDER BY skala ASC");
-
+$kepribadian = query("SELECT * FROM tp_kepribadian WHERE skala = '$skala'");
 // Dapatkan jalur skrip saat ini
 $current_page = $_SERVER['REQUEST_URI'];
+
+$kode = kode();
+preg_match('/\d+/', $kode, $matches);
+$kode2 = "G" . $matches[0] + 1;
 ?>
 
 <!DOCTYPE html>
@@ -44,39 +48,67 @@ $current_page = $_SERVER['REQUEST_URI'];
                     <h4 class="text-center">Manajemen Data Gejala</h4>
 
                     <form method="post" action="">
+                        <input type="hidden" name="id_kepribadian[]" value="<?= $kepribadian[0]['id_kepribadian']; ?>">
+                        <input type="hidden" name="id_kepribadian[]" value="<?= $kepribadian[1]['id_kepribadian']; ?>">
+                        <input type="hidden" name="relasi" value="<?= relasi(); ?>">
+
                         <div class="mb-3 mt-5 row ms-5">
                             <label for="kepribadian" class="col-sm-3 me-0 col-form-label">Tipe Kepribadian</label>
                             <div class="col-sm-6">
-                                <select class="boxc form-control" style="border-color: black;" name="id_kepribadian"
-                                    require>
-                                    <option hidden selected value="">--Pilih Tipe Kepribadian--</option>
-                                    <?php foreach ($kepribadian as $kep): ?>
-                                        <option value="<?php echo $kep['id_kepribadian'] ?>">
-                                            <?php echo $kep['kepribadian'] ?> (<?= $kep['inisial']; ?>) -
-                                            <?= $kep['kode_kepribadian']; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
+                                <input type="text" class="form-control" style="border: 1px solid black;"
+                                    id="kepribadian" name="kepribadian" value="<?= $kepribadian[0]['kepribadian']; ?>" readonly>
                             </div>
                         </div>
                         <div class="mb-4 mt-2 row ms-5">
-                            <label for="kode_gejala" class="col-sm-3 me-0 col-form-label">Kode Gejala</label>
+                            <label for="kode_gejala1" class="col-sm-3 me-0 col-form-label">Kode Gejala</label>
                             <div class="col-sm-6">
                                 <input type="text" class="form-control" style="border: 1px solid black;"
-                                    id="kode_gejala" name="kode_gejala" value="<?= kode(); ?>" readonly>
+                                    id="kode_gejala1" name="kode_gejala[]" value="<?= $kode; ?>" readonly>
                             </div>
                         </div>
                         <div class="mb-4 mt-2 row ms-5">
-                            <label class="col-sm-3 me-0 col-form-label">Gejala</label>
+                            <label class="col-sm-3 me-0 col-form-label" for="inputGejala1">Gejala</label>
                             <div class="col-sm-6">
-                                <textarea type="text" style="border-color: black;" class="form-control" id="inputGejala"
-                                    name="gejala" rows="6"></textarea>
+                                <textarea type="text" style="border-color: black;" class="form-control" id="inputGejala1"
+                                    name="gejala[]" rows="6"></textarea>
                             </div>
                         </div>
                         <div class="mb-3 mt-2 row ms-5">
-                            <label for="kepribadian" class="col-sm-3 me-0 col-form-label">Nilai Pakar</label>
+                            <label for="nilai_pakar1" class="col-sm-3 me-0 col-form-label">Nilai Pakar</label>
                             <div class="col-sm-6">
                                 <input type="number" step="0.01" class="form-control" style="border: 1px solid black;"
-                                    id="kepribadian" name="nilai_pakar">
+                                    id="nilai_pakar1" name="nilai_pakar[]">
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="mb-3 mt-5 row ms-5">
+                            <label for="kepribadian" class="col-sm-3 me-0 col-form-label">Tipe Kepribadian</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" style="border: 1px solid black;"
+                                    id="kepribadian" name="kepribadian" value="<?= $kepribadian[1]['kepribadian']; ?>" readonly>
+                            </div>
+                        </div>
+                        <div class="mb-4 mt-2 row ms-5">
+                            <label for="kode_gejala2" class="col-sm-3 me-0 col-form-label">Kode Gejala</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" style="border: 1px solid black;"
+                                    id="kode_gejala2" name="kode_gejala[]" value="<?= $kode2; ?>" readonly>
+                            </div>
+                        </div>
+                        <div class="mb-4 mt-2 row ms-5">
+                            <label class="col-sm-3 me-0 col-form-label" for="inputGejala2">Gejala</label>
+                            <div class="col-sm-6">
+                                <textarea type="text" style="border-color: black;" class="form-control" id="inputGejala2"
+                                    name="gejala[]" rows="6"></textarea>
+                            </div>
+                        </div>
+                        <div class="mb-3 mt-2 row ms-5">
+                            <label for="nilai_pakar2" class="col-sm-3 me-0 col-form-label">Nilai Pakar</label>
+                            <div class="col-sm-6">
+                                <input type="number" step="0.01" class="form-control" style="border: 1px solid black;"
+                                    id="nilai_pakar2" name="nilai_pakar[]">
                             </div>
                         </div>
 
@@ -107,7 +139,7 @@ $current_page = $_SERVER['REQUEST_URI'];
 
 <?php
 if (isset($_POST['submit'])) {
-    if (create($_POST) > 0) {
+    if (create($_POST) == 2) {
         $_SESSION["berhasil"] = "Data Gejala Berhasil Ditambahkan!";
 
         echo "
