@@ -42,7 +42,7 @@ require_once '../controller/main.php';
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form action="../tes.php" method="post">
+            <form action="../tes.php">
                 <div class="modal-body">
                     <div class="">
                         <label class="form-label text-dark">Silahkan isi data dibawah ini untuk melanjutkan

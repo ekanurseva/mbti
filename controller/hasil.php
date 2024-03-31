@@ -56,7 +56,7 @@ function bayes($data)
         foreach ($data_gejala as $dagej) {
             ${"p_h_" . $dagej['kode_gejala']} = $dagej['nilai_pakar'] / ${"sigma_h_" . $dk['kode_kepribadian']};
 
-            echo "Hasil P[H]" . $dagej['kode_gejala'] . " yaitu " . $dagej['nilai_pakar'] . " / " . ${"sigma_h_" . $dk['kode_kepribadian']} . " = " . ${"p_h_" . $dagej['kode_gejala']} . "<br><br>";
+            // echo "Hasil P[H]" . $dagej['kode_gejala'] . " yaitu " . $dagej['nilai_pakar'] . " / " . ${"sigma_h_" . $dk['kode_kepribadian']} . " = " . ${"p_h_" . $dagej['kode_gejala']} . "<br><br>";
 
             ${"sigma_p_e_h_dikali_p_h_" . $dk['kode_kepribadian']} += $data[$dagej['kode_gejala']] * ${"p_h_" . $dagej['kode_gejala']};
 
