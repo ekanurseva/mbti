@@ -102,19 +102,19 @@ $html = '<!DOCTYPE html>
             <div class ="content">
                 <h2 style="text-align: center; margin: 0">LAPORAN HASIL TES MBTI</h2>
                 <h3 style="text-align: center; margin: 0">';
-                    $html .= $data['nama'] . ' (' . $data['umur'] . ' Tahun)
+$html .= $data['nama'] . ' (' . $data['umur'] . ' Tahun)
                 </h3>
-                <h4 style="text-align: center; margin: 0">';
-                    $html .= $data['nim']. ' '. $data['prodi'] . ' ' .$data['angkatan'].'
-                </h4>
-                <h4 style="text-align: center; margin: 0">' . $waktu . '</h4>
+                <h5 style="text-align: center; margin: 0">';
+$html .= $data['nim'] . ' ' . $data['prodi'] . ' ' . $data['angkatan'] . '
+                </h5>
+                <h5 style="text-align: center; margin: 0">' . $waktu . '</h5>
 
     <h4 style="margin: 0;">Ciri-Ciri:</h4>
-        <ul style="margin: 0;">';
-            foreach ($data_ciri as $daci) {
-                $html .= '<li>' . $daci['ciri'] . '</li>';
-            }
-            ;
+        <ul style="margin-top: 5px;">';
+foreach ($data_ciri as $daci) {
+    $html .= '<li>' . $daci['ciri'] . '</li>';
+}
+;
 
 $html .= '</ul>
 
@@ -174,17 +174,17 @@ $html .= '</tr>
             <tr>
                 <td>
                 <ul>';
-                foreach ($data_saran as $daran) {
-                    $html .= '<li>' . $daran['saran'] . '</li>';
-                }
-                ;
+foreach ($data_saran as $daran) {
+    $html .= '<li>' . $daran['saran'] . '</li>';
+}
+;
 
-        $html .= '</ul>
+$html .= '</ul>
                 </td>
             </tr>";
         </table>';
 
-    $html .='<div style="margin-top: 20px; margin-left: 430px;">
+$html .= '<div style="margin-top: 20px; margin-left: 430px;">
                 <h4 style="margin: 0; font-weight: medium;">Cirebon, ' . $tgl . '</h4>
                 <h4 style="margin: 0;">Dekan Teknik,</h4><br><br>
                 <h4 style="margin: 0;">Nuri Kartini, M.T., IPM., AER</h4>

@@ -52,123 +52,123 @@ $current_page = $_SERVER['REQUEST_URI'];
                             gejala di bawah ini.
                         </h4>
                         <div class="row mt-5">
-                            <?php 
-                                $i = 1;
-                                foreach ($relasi as $rel) :
-                                    $relasi_now = $rel['relasi'];
-                                    $pertanyaan = query("SELECT * FROM gejala WHERE relasi = '$relasi_now'");
+                            <?php
+                            $i = 1;
+                            foreach ($relasi as $rel):
+                                $relasi_now = $rel['relasi'];
+                                $pertanyaan = query("SELECT * FROM gejala WHERE relasi = '$relasi_now'");
 
-                                    if(count($pertanyaan) == 2) :
-                            ?>
-                                    <div class="col-6">
-                                        <h6 class="m-0 fw-medium">
-                                            <div class="row">
-                                                <div class="col-sm-1 me-0" style="width: 7%;">
-                                                    <?= $i; ?>.
+                                if (count($pertanyaan) == 2):
+                                    ?>
+                                            <div class="col-6">
+                                                <h6 class="m-0 fw-medium">
+                                                    <div class="row">
+                                                        <div class="col-sm-1 me-0" style="width: 7%;">
+                                                            <?= $i; ?>.
+                                                        </div>
+                                                        <div class="col-sm-11 ms-0 p-0">
+                                                            <?= $pertanyaan[0]['gejala']; ?>
+                                                        </div>
+                                                    </div>
+                                                </h6>
+                                                <div class="form-check">
+                                                    <input class="form-check-input ms-1 me-2" style="border: solid 1px black;" type="radio"
+                                                        value="1" id="<?= $pertanyaan[0]['kode_gejala']; ?>_1" name="<?= $pertanyaan[0]['kode_gejala']; ?>"
+                                                        required>
+                                                    <label class="form-check-label" for="<?= $pertanyaan[0]['kode_gejala']; ?>_1">
+                                                        Sangat Yakin
+                                                    </label>
                                                 </div>
-                                                <div class="col-sm-11 ms-0 p-0">
-                                                    <?= $pertanyaan[0]['gejala']; ?>
+                                                <div class="form-check">
+                                                    <input class="form-check-input ms-1 me-2" style="border: solid 1px black;" type="radio"
+                                                        value="0.8" id="<?= $pertanyaan[0]['kode_gejala']; ?>_2" name="<?= $pertanyaan[0]['kode_gejala']; ?>"
+                                                        required>
+                                                    <label class="form-check-label" for="<?= $pertanyaan[0]['kode_gejala']; ?>_2">
+                                                        Yakin
+                                                    </label>
                                                 </div>
-                                            </div>
-                                        </h6>
-                                        <div class="form-check">
-                                            <input class="form-check-input ms-1 me-2" style="border: solid 1px black;" type="radio"
-                                                value="1" id="<?= $pertanyaan[0]['kode_gejala']; ?>_1" name="<?= $pertanyaan[0]['kode_gejala']; ?>"
-                                                required>
-                                            <label class="form-check-label" for="<?= $pertanyaan[0]['kode_gejala']; ?>_1">
-                                                Sangat Yakin
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input ms-1 me-2" style="border: solid 1px black;" type="radio"
-                                                value="0.8" id="<?= $pertanyaan[0]['kode_gejala']; ?>_2" name="<?= $pertanyaan[0]['kode_gejala']; ?>"
-                                                required>
-                                            <label class="form-check-label" for="<?= $pertanyaan[0]['kode_gejala']; ?>_2">
-                                                Yakin
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input ms-1 me-2" style="border: solid 1px black;" type="radio"
-                                                value="0.6" id="<?= $pertanyaan[0]['kode_gejala']; ?>_3" name="<?= $pertanyaan[0]['kode_gejala']; ?>"
-                                                required>
-                                            <label class="form-check-label" for="<?= $pertanyaan[0]['kode_gejala']; ?>_3">
-                                                Cukup Yakin
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input ms-1 me-2" style="border: solid 1px black;" type="radio"
-                                                value="0.4" id="<?= $pertanyaan[0]['kode_gejala']; ?>_4" name="<?= $pertanyaan[0]['kode_gejala']; ?>"
-                                                required>
-                                            <label class="form-check-label" for="<?= $pertanyaan[0]['kode_gejala']; ?>_4">
-                                                Kurang Yakin
-                                            </label>
-                                        </div>
-                                        <div class="form-check mb-4">
-                                            <input class="form-check-input ms-1 me-2" style="border: solid 1px black;" type="radio"
-                                                value="0.2" id="<?= $pertanyaan[0]['kode_gejala']; ?>_5" name="<?= $pertanyaan[0]['kode_gejala']; ?>"
-                                                required>
-                                            <label class="form-check-label" for="<?= $pertanyaan[0]['kode_gejala']; ?>_5">
-                                                Tidak tahu
-                                            </label>
-                                        </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input ms-1 me-2" style="border: solid 1px black;" type="radio"
+                                                        value="0.6" id="<?= $pertanyaan[0]['kode_gejala']; ?>_3" name="<?= $pertanyaan[0]['kode_gejala']; ?>"
+                                                        required>
+                                                    <label class="form-check-label" for="<?= $pertanyaan[0]['kode_gejala']; ?>_3">
+                                                        Cukup Yakin
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input ms-1 me-2" style="border: solid 1px black;" type="radio"
+                                                        value="0.4" id="<?= $pertanyaan[0]['kode_gejala']; ?>_4" name="<?= $pertanyaan[0]['kode_gejala']; ?>"
+                                                        required>
+                                                    <label class="form-check-label" for="<?= $pertanyaan[0]['kode_gejala']; ?>_4">
+                                                        Kurang Yakin
+                                                    </label>
+                                                </div>
+                                                <div class="form-check mb-4">
+                                                    <input class="form-check-input ms-1 me-2" style="border: solid 1px black;" type="radio"
+                                                        value="0.2" id="<?= $pertanyaan[0]['kode_gejala']; ?>_5" name="<?= $pertanyaan[0]['kode_gejala']; ?>"
+                                                        required>
+                                                    <label class="form-check-label" for="<?= $pertanyaan[0]['kode_gejala']; ?>_5">
+                                                        Tidak tahu
+                                                    </label>
+                                                </div>
                                         
-                                    </div>
+                                            </div>
                                     
-                                    <div class="col-6">
-                                        <h6 class="m-0 fw-medium">
-                                            <div class="row">
-                                                <div class="col-sm-11 ms-0 p-0">
-                                                    <?= $pertanyaan[1]['gejala']; ?>
+                                            <div class="col-6">
+                                                <h6 class="m-0 fw-medium">
+                                                    <div class="row">
+                                                        <div class="col-sm-11 ms-0 p-0">
+                                                            <?= $pertanyaan[1]['gejala']; ?>
+                                                        </div>
+                                                    </div>
+                                                </h6>
+                                                <div class="form-check">
+                                                    <input class="form-check-input ms-1 me-2" style="border: solid 1px black;" type="radio"
+                                                        value="1" id="<?= $pertanyaan[1]['kode_gejala']; ?>_1" name="<?= $pertanyaan[1]['kode_gejala']; ?>"
+                                                        required>
+                                                    <label class="form-check-label" for="<?= $pertanyaan[1]['kode_gejala']; ?>_1">
+                                                        Sangat Yakin
+                                                    </label>
                                                 </div>
-                                            </div>
-                                        </h6>
-                                        <div class="form-check">
-                                            <input class="form-check-input ms-1 me-2" style="border: solid 1px black;" type="radio"
-                                                value="1" id="<?= $pertanyaan[1]['kode_gejala']; ?>_1" name="<?= $pertanyaan[1]['kode_gejala']; ?>"
-                                                required>
-                                            <label class="form-check-label" for="<?= $pertanyaan[1]['kode_gejala']; ?>_1">
-                                                Sangat Yakin
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input ms-1 me-2" style="border: solid 1px black;" type="radio"
-                                                value="0.8" id="<?= $pertanyaan[1]['kode_gejala']; ?>_2" name="<?= $pertanyaan[1]['kode_gejala']; ?>"
-                                                required>
-                                            <label class="form-check-label" for="<?= $pertanyaan[1]['kode_gejala']; ?>_2">
-                                                Yakin
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input ms-1 me-2" style="border: solid 1px black;" type="radio"
-                                                value="0.6" id="<?= $pertanyaan[1]['kode_gejala']; ?>_3" name="<?= $pertanyaan[1]['kode_gejala']; ?>"
-                                                required>
-                                            <label class="form-check-label" for="<?= $pertanyaan[1]['kode_gejala']; ?>_3">
-                                                Cukup Yakin
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input ms-1 me-2" style="border: solid 1px black;" type="radio"
-                                                value="0.4" id="<?= $pertanyaan[1]['kode_gejala']; ?>_4" name="<?= $pertanyaan[1]['kode_gejala']; ?>"
-                                                required>
-                                            <label class="form-check-label" for="<?= $pertanyaan[1]['kode_gejala']; ?>_4">
-                                                Kurang Yakin
-                                            </label>
-                                        </div>
-                                        <div class="form-check mb-4">
-                                            <input class="form-check-input ms-1 me-2" style="border: solid 1px black;" type="radio"
-                                                value="0.2" id="<?= $pertanyaan[1]['kode_gejala']; ?>_5" name="<?= $pertanyaan[1]['kode_gejala']; ?>"
-                                                required>
-                                            <label class="form-check-label" for="<?= $pertanyaan[1]['kode_gejala']; ?>_5">
-                                                Tidak tahu
-                                            </label>
-                                        </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input ms-1 me-2" style="border: solid 1px black;" type="radio"
+                                                        value="0.8" id="<?= $pertanyaan[1]['kode_gejala']; ?>_2" name="<?= $pertanyaan[1]['kode_gejala']; ?>"
+                                                        required>
+                                                    <label class="form-check-label" for="<?= $pertanyaan[1]['kode_gejala']; ?>_2">
+                                                        Yakin
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input ms-1 me-2" style="border: solid 1px black;" type="radio"
+                                                        value="0.6" id="<?= $pertanyaan[1]['kode_gejala']; ?>_3" name="<?= $pertanyaan[1]['kode_gejala']; ?>"
+                                                        required>
+                                                    <label class="form-check-label" for="<?= $pertanyaan[1]['kode_gejala']; ?>_3">
+                                                        Cukup Yakin
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input ms-1 me-2" style="border: solid 1px black;" type="radio"
+                                                        value="0.4" id="<?= $pertanyaan[1]['kode_gejala']; ?>_4" name="<?= $pertanyaan[1]['kode_gejala']; ?>"
+                                                        required>
+                                                    <label class="form-check-label" for="<?= $pertanyaan[1]['kode_gejala']; ?>_4">
+                                                        Kurang Yakin
+                                                    </label>
+                                                </div>
+                                                <div class="form-check mb-4">
+                                                    <input class="form-check-input ms-1 me-2" style="border: solid 1px black;" type="radio"
+                                                        value="0.2" id="<?= $pertanyaan[1]['kode_gejala']; ?>_5" name="<?= $pertanyaan[1]['kode_gejala']; ?>"
+                                                        required>
+                                                    <label class="form-check-label" for="<?= $pertanyaan[1]['kode_gejala']; ?>_5">
+                                                        Tidak tahu
+                                                    </label>
+                                                </div>
                                         
-                                    </div>
-                                <hr>
-                            <?php 
-                                        $i++;
-                                    endif;
-                                endforeach;
+                                            </div>
+                                        <hr>
+                                    <?php
+                                    $i++;
+                                endif;
+                            endforeach;
                             ?>
                         </div>
 
@@ -188,67 +188,67 @@ $current_page = $_SERVER['REQUEST_URI'];
                 crossorigin="anonymous">
                 </script>
             <script>
-                <?php foreach($relasi as $item) {
+                <?php foreach ($relasi as $item) {
                     $relasi_now = $item['relasi'];
                     $pertanyaan = query("SELECT * FROM gejala WHERE relasi = '$relasi_now'");
 
                     if (count($pertanyaan) == 2) {
                         echo "
-                            const " . $pertanyaan[0]['kode_gejala'] . " = document.getElementsByName('". $pertanyaan[0]['kode_gejala'] ."')
-                            const ". $pertanyaan[1]['kode_gejala'] ." = document.getElementsByName('". $pertanyaan[1]['kode_gejala'] ."')
+                            const " . $pertanyaan[0]['kode_gejala'] . " = document.getElementsByName('" . $pertanyaan[0]['kode_gejala'] . "')
+                            const " . $pertanyaan[1]['kode_gejala'] . " = document.getElementsByName('" . $pertanyaan[1]['kode_gejala'] . "')
         
-                            ". $pertanyaan[0]['kode_gejala'] .".forEach(element => {
+                            " . $pertanyaan[0]['kode_gejala'] . ".forEach(element => {
                                 element.addEventListener('change', function(event) {
                                     if (event.target.value == '1') {
-                                        ". $pertanyaan[1]['kode_gejala'] .".forEach(radio => {
+                                        " . $pertanyaan[1]['kode_gejala'] . ".forEach(radio => {
                                             radio.checked = (radio.value === '0.2');
                                         });
                                     } else if(event.target.value == '0.8') {
-                                        ". $pertanyaan[1]['kode_gejala'] .".forEach(radio => {
+                                        " . $pertanyaan[1]['kode_gejala'] . ".forEach(radio => {
                                             radio.checked = (radio.value === '0.4');
                                         });
                                     } else if(event.target.value == '0.4') {
-                                        ". $pertanyaan[1]['kode_gejala'] .".forEach(radio => {
+                                        " . $pertanyaan[1]['kode_gejala'] . ".forEach(radio => {
                                             radio.checked = (radio.value === '0.8');
                                         });
                                     } else if(event.target.value == '0.2') {
-                                        ". $pertanyaan[1]['kode_gejala'] .".forEach(radio => {
+                                        " . $pertanyaan[1]['kode_gejala'] . ".forEach(radio => {
                                             radio.checked = (radio.value === '1');
                                         });
                                     } else {
-                                        ". $pertanyaan[1]['kode_gejala'] .".forEach(radio => {
+                                        " . $pertanyaan[1]['kode_gejala'] . ".forEach(radio => {
                                             radio.checked = (radio.value === '0.6');
                                         });
                                     }
                                 });
                             });
         
-                            ". $pertanyaan[1]['kode_gejala'] .".forEach(items => {
+                            " . $pertanyaan[1]['kode_gejala'] . ".forEach(items => {
                                 items.addEventListener('change', function(event) {
                                     if (event.target.value == '1') {
-                                        ". $pertanyaan[0]['kode_gejala'] .".forEach(radios => {
+                                        " . $pertanyaan[0]['kode_gejala'] . ".forEach(radios => {
                                             radios.checked = (radios.value === '0.2');
                                         });
                                     } else if(event.target.value == '0.8') {
-                                        ". $pertanyaan[0]['kode_gejala'] .".forEach(radios => {
+                                        " . $pertanyaan[0]['kode_gejala'] . ".forEach(radios => {
                                             radios.checked = (radios.value === '0.4');
                                         });
                                     } else if(event.target.value == '0.4') {
-                                        ". $pertanyaan[0]['kode_gejala'] .".forEach(radios => {
+                                        " . $pertanyaan[0]['kode_gejala'] . ".forEach(radios => {
                                             radios.checked = (radios.value === '0.8');
                                         });
                                     } else if(event.target.value == '0.2') {
-                                        ". $pertanyaan[0]['kode_gejala'] .".forEach(radios => {
+                                        " . $pertanyaan[0]['kode_gejala'] . ".forEach(radios => {
                                             radios.checked = (radios.value === '1');
                                         });
                                     } else {
-                                        ". $pertanyaan[0]['kode_gejala'] .".forEach(radios => {
+                                        " . $pertanyaan[0]['kode_gejala'] . ".forEach(radios => {
                                             radios.checked = (radios.value === '0.6');
                                         });
                                     }
                                 });
                             });
-                        "; 
+                        ";
                     }
                 } ?>
 
@@ -259,19 +259,19 @@ $current_page = $_SERVER['REQUEST_URI'];
 
 <?php
 if (isset($_POST['submit'])) {
-    // if (hitung($_POST) > 0) {
-    //     echo "
-    //             <script>
-    //               document.location.href='hasil/index.php?key= . " . enkripsi($_POST['nama']) . "';
-    //             </script>
-    //         ";
-    // } else {
-    //     echo "
-    //             <script>
-    //               document.location.href='index.php';
-    //             </script>
-    //         ";
-    // }
+    if (hitung($_POST) > 0) {
+        echo "
+                <script>
+                  document.location.href='hasil/index.php?key= . " . enkripsi($_POST['nama']) . "';
+                </script>
+            ";
+    } else {
+        echo "
+                <script>
+                  document.location.href='index.php';
+                </script>
+            ";
+    }
 
     hitung($_POST);
 }
