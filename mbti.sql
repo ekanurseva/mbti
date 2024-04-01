@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 28 Jan 2024 pada 05.34
+-- Waktu pembuatan: 01 Apr 2024 pada 05.12
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -128,54 +128,79 @@ CREATE TABLE `gejala` (
   `id_kepribadian` int(11) NOT NULL,
   `kode_gejala` varchar(20) NOT NULL,
   `gejala` text NOT NULL,
-  `nilai_pakar` double NOT NULL
+  `nilai_pakar` double NOT NULL,
+  `relasi` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `gejala`
 --
 
-INSERT INTO `gejala` (`id_gejala`, `id_kepribadian`, `kode_gejala`, `gejala`, `nilai_pakar`) VALUES
-(1, 1, 'G1', 'Tidak terlalu suka bergaul dengan banyak orang', 0.15),
-(2, 1, 'G2', 'Lebih memilih berkomunikasi dengan menulis ', 0.2),
-(3, 1, 'G3', 'Senang sendiri dan merenung atau berkontemplasi', 0.35),
-(4, 1, 'G4', 'Lebih suka pada tugas pengolahan data secara internal', 0.1),
-(5, 1, 'G5', 'Bersemangat pada pekerjaan yang menuntut konsentrasi, fokus, dan dilakukan sendiri', 0.2),
-(6, 2, 'G6', 'Suka berinteraksi dengan orang lain', 0.15),
-(7, 2, 'G7', 'Lebih memilih berkomunikasi dengan berbicara', 0.2),
-(8, 2, 'G8', 'Senang bergaul dan memiliki banyak teman', 0.35),
-(9, 2, 'G9', 'Lebih suka pada tugas operasional diluar', 0.1),
-(10, 2, 'G10', 'Bersemangat pada pekerjaan yang melayani orang lain dan dilakukan bersama-sama', 0.2),
-(11, 3, 'G11', 'Memproses data bersandar pada fakta yang konkrit dan praktis', 0.15),
-(12, 3, 'G12', 'Menggunakan pengalaman sebagai pedoman', 0.2),
-(13, 3, 'G13', 'Memahami informasi dengan melihat secara realistis dan apa adanya', 0.35),
-(14, 3, 'G14', 'Memilih cara-cara yang sudah terbukti dalam memproses data', 0.1),
-(15, 3, 'G15', 'Fokus pada masa kini, melihat apa yang bisa diperbaiki sekarang', 0.2),
-(16, 4, 'G16', 'Memproses data bersandar pada konsep dan kemungkinan yang bisa terjadi', 0.15),
-(17, 4, 'G17', 'Menggunakan imajinasi dan perenungan sebagai pedoman', 0.2),
-(18, 4, 'G18', 'Memahami informasi dengan melihat pola dan hubungan', 0.35),
-(19, 4, 'G19', 'Memilih cara-cara yang unik dalam memproses data', 0.1),
-(20, 4, 'G20', 'Fokus pada masa depan, melihat apa yang mungkin dicapai dimasa mendatang', 0.2),
-(21, 5, 'G21', 'Menghargai seseorang karena sifat dan perilakunya', 0.15),
-(22, 5, 'G22', 'Mengambil keputusan menggunakan perasaan dan nilai-nilai yang diyakini', 0.2),
-(23, 5, 'G23', 'Terkesan akomodatif (dapat menyesuaikan diri) tapi memihak', 0.35),
-(24, 5, 'G24', 'Menerapkan hubungan dengan harmoni dan empatik', 0.1),
-(25, 5, 'G25', 'Bagus dalam menjaga keharmonisan dan memelihara hubungan', 0.2),
-(26, 6, 'G26', 'Menghargai seseorang karena skill (keahlian) dan faktor teknis', 0.15),
-(27, 6, 'G27', 'Mengambil keputusan menggunakan logika dan kekuatan analisa', 0.2),
-(28, 6, 'G28', 'Terkesan kaku dan keras kepala', 0.35),
-(29, 6, 'G29', 'Menerapkan hubungan berdasarkan prinsip dengan konsisten', 0.1),
-(30, 6, 'G30', 'Bagus dalam melakukan analisa dan menjaga prosedur atau standar', 0.2),
-(31, 7, 'G31', 'Bertindak sesuai situasi dan kondisi yang terjadi saat itu', 0.15),
-(32, 7, 'G32', 'Berpikir lebih fleksibel dan spontan', 0.2),
-(33, 7, 'G33', 'Bekerja acak dan berdasarkan peluang yang muncul', 0.35),
-(34, 7, 'G34', 'Siap menghadapi perubahan dan situasi yang mendadak', 0.1),
-(35, 7, 'G35', 'Hidup dalam ketidakpastian dan siap menghadapi perubahan', 0.2),
-(36, 8, 'G36', 'Bertindak sesuai dengan apa yang sudah direncanakan', 0.15),
-(37, 8, 'G37', 'Berpikir lebih sistematis dan sesuai prosedur', 0.2),
-(38, 8, 'G38', 'Bekerja sesuai jadwal dan tahapan yang sudah dibuat', 0.35),
-(39, 8, 'G39', 'Tidak siap menghadapi pekerjaan yang tidak sesuai dengan rencana yang telah dibuat', 0.1),
-(40, 8, 'G40', 'Hidup dalam keteraturan, dan tidak siap menghadapi perubahan', 0.2);
+INSERT INTO `gejala` (`id_gejala`, `id_kepribadian`, `kode_gejala`, `gejala`, `nilai_pakar`, `relasi`) VALUES
+(1, 1, 'G1', 'Mencari kesempatan untuk berkomunikasi secara perorangan', 0.7, 1),
+(2, 1, 'G2', 'Lebih memilih tempat yang tenang dan pribadi untuk berkonsentrasi', 0.8, 2),
+(3, 1, 'G3', 'Berinisiatif bila situasi memaksa atau berhubungan dengan kepentingan sendiri', 0.6, 3),
+(4, 1, 'G4', 'Beraktivitas sendirian di rumah menyenangkan', 0.7, 4),
+(5, 1, 'G5', 'Tertutup dan mandiri', 0.7, 5),
+(6, 1, 'G6', 'Fokus pada sedikit hobi namun mendalam', 0.8, 6),
+(7, 1, 'G7', 'Berorientasi pada dunia internal (memori, pemikiran, ide).', 0.7, 7),
+(8, 1, 'G8', 'Menemukan dan mengembangkan ide dengan merenung', 0.6, 8),
+(9, 2, 'G9', 'Mudah bergaul dengan siapa saja', 0.8, 1),
+(10, 2, 'G10', 'Beraktivitas di rumah sendirian membosankan', 0.7, 2),
+(11, 2, 'G11', 'Lebih suka berkomunikasi langsung (tatap muka)', 0.7, 3),
+(12, 2, 'G12', 'Memilih berkomunikasi pada sekelompok orang', 0.6, 4),
+(13, 2, 'G13', 'Sosial dan ekspresif', 0.7, 5),
+(14, 2, 'G14', 'Berani bertindak tanpa terlalu lama berpikir', 0.7, 6),
+(15, 2, 'G15', 'Berorientasi pada dunia eksternal (kegiatan, orang)', 0.7, 7),
+(16, 2, 'G16', 'Menemukan dan mengembangkan ide dengan mendiskusikannya', 0.7, 8),
+(17, 3, 'G17', 'Memilih cara yang sudah ada dan sudah terbukti', 0.8, 9),
+(18, 3, 'G18', 'Tidak mudah menyimpulkan', 0.8, 10),
+(19, 3, 'G19', 'Mengklarifikasi ide dan teori sebelum dipraktikkan', 0.7, 11),
+(20, 3, 'G20', 'Menarik kesimpulan dengan lama dan hati-hati', 0.7, 12),
+(21, 3, 'G21', 'Kontinuitas dan stabilitas lebih diutamakan', 0.7, 13),
+(22, 3, 'G22', 'Memilih fakta lebih penting daripada ide inspiratif', 0.7, 14),
+(23, 3, 'G23', 'SOP sangat membantu\r\n', 0.7, 15),
+(24, 3, 'G24', 'Bergerak dari detail ke gambaran umum sebagai kesimpulan akhir', 0.7, 16),
+(25, 4, 'G25', 'Perubahan dan variasi lebih diutamakan', 0.8, 9),
+(26, 4, 'G26', 'Menarik kesimpulan dengan cepat sesuai naluri', 0.7, 10),
+(27, 4, 'G27', 'Mengamati dan mengingat detail hanya bila berhubungan dengan pola', 0.7, 11),
+(28, 4, 'G28', 'Senang berasumsi dan memberikan ide tentang suatu perkara', 0.7, 12),
+(29, 4, 'G29', 'Bebas dan dinamis', 0.7, 13),
+(30, 4, 'G30', 'Berbicara mengenai visi masa depan dan konsep-konsep mengenai visi tersebut', 0.7, 14),
+(31, 4, 'G31', 'Berbicara mengenai visi masa depan dan konsep-konsep mengenai visi tersebutSOP sangat membosankan', 0.7, 15),
+(32, 4, 'G32', 'Bergerak dari gambaran umum baru ke detail', 0.7, 16),
+(33, 5, 'G33', 'Mementingkan nilai-nilai personal', 0.7, 17),
+(34, 5, 'G34', 'Perasaan manusia lebih penting dari sekedar standar (benda mati)', 0.7, 18),
+(35, 5, 'G35', 'Mudah tersentuh apabila ada teman yang kesusahan', 0.6, 19),
+(36, 5, 'G36', 'Sering dianggap terlalu memihak', 0.7, 20),
+(37, 5, 'G37', 'Berempati', 0.7, 21),
+(38, 5, 'G38', 'Yang penting menjaga hubungan sosial/pertemanan', 0.7, 22),
+(39, 5, 'G39', 'Berorientasi pada manusia dan hubungan\r\n', 0.7, 23),
+(40, 5, 'G40', 'Subjektif\r\n', 0.7, 24),
+(42, 6, 'G41', 'Menuntut perlakuan yang adil dan sama pada semua orang', 0.7, 17),
+(43, 6, 'G42', 'Standar harus ditegakkan di atas segalanya (itu menunjukkan kehormatan dan harga diri)', 0.7, 18),
+(44, 6, 'G43', 'Bersemangat saat mengkritik dan menemukan kesalahan', 0.7, 19),
+(45, 6, 'G44', 'Sering dianggap keras kepala', 0.7, 20),
+(46, 6, 'G45', 'Menghargai seseorang karena skill dan faktor teknis', 0.7, 21),
+(47, 6, 'G46', 'Yang penting tujuan tercapai', 0.7, 22),
+(48, 6, 'G47', 'Berorientasi pada tugas dan job description', 0.7, 23),
+(49, 6, 'G48', 'Objektif', 0.7, 24),
+(50, 7, 'G49', 'Menyukai hal baru, mudah berubah, dan cepat bosan', 0.6, 25),
+(51, 7, 'G50', 'Daftar dan checklist adalah tugas dan beban', 0.7, 26),
+(52, 7, 'G51', 'Hidup seharusnya mengalir sesuai kondisi', 0.7, 27),
+(53, 7, 'G52', 'Bertindak sesuai situasi dan kondisi yang terjadi saat itu', 0.7, 28),
+(54, 7, 'G53', 'Situasi last minute membuat bersemangat dan memunculkan potensi', 0.7, 29),
+(55, 7, 'G54', 'Memperhatikan hal-hal baru dan siap menyesuaikan diri serta mengubah target', 0.7, 30),
+(56, 7, 'G55', 'Aturan, jadwal, target sangat mengikat dan membebani', 0.7, 31),
+(57, 7, 'G56', 'Spontan, fleksibel, tidak diikat waktu', 0.7, 32),
+(58, 8, 'G57', 'Perubahan adalah musuh', 0.7, 25),
+(59, 8, 'G58', 'Hidup harus sudah diatur dari awal', 0.7, 26),
+(60, 8, 'G59', 'Berpegang teguh pada pendirian', 0.6, 27),
+(61, 8, 'G60', 'Bertindak sesuai apa yang sudah direncanakan', 0.6, 28),
+(62, 8, 'G61', 'Situasi last minute sangat menyiksa, membuat stres dan merupakan kesalahan', 0.7, 29),
+(63, 8, 'G62', 'Fokus pada target dan mengabaikan hal-hal baru', 0.7, 30),
+(64, 8, 'G63', 'Menjalani segala aktivitas dengan teratur', 0.6, 31),
+(65, 8, 'G64', 'Aturan, jadwal, dan target akan sangat membantu dan memperjelas tindakan', 0.7, 32);
 
 -- --------------------------------------------------------
 
@@ -186,6 +211,10 @@ INSERT INTO `gejala` (`id_gejala`, `id_kepribadian`, `kode_gejala`, `gejala`, `n
 CREATE TABLE `hasil` (
   `id_hasil` int(11) NOT NULL,
   `nama` varchar(50) NOT NULL,
+  `nim` int(11) NOT NULL,
+  `jk` varchar(10) NOT NULL,
+  `angkatan` int(11) NOT NULL,
+  `prodi` varchar(50) NOT NULL,
   `tanggal_tes` timestamp NOT NULL DEFAULT current_timestamp(),
   `umur` int(5) NOT NULL,
   `introvert_cf` double NOT NULL,
@@ -210,11 +239,28 @@ CREATE TABLE `hasil` (
 -- Dumping data untuk tabel `hasil`
 --
 
-INSERT INTO `hasil` (`id_hasil`, `nama`, `tanggal_tes`, `umur`, `introvert_cf`, `introvert_bayes`, `extrovert_cf`, `extrovert_bayes`, `sensing_cf`, `sensing_bayes`, `intuition_cf`, `intuition_bayes`, `feeling_cf`, `feeling_bayes`, `thinking_cf`, `thinking_bayes`, `perceiving_cf`, `perceiving_bayes`, `judging_cf`, `judging_bayes`) VALUES
-(1, 'Fillah Zaki Alhaqi', '2024-01-22 12:07:26', 22, 64.91, 23.8, 33.65, 23.21, 51.22, 22.73, 52.99, 24.71, 33.5, 20.13, 62.23, 24.88, 41.82, 22.45, 57.08, 24.21),
-(2, 'Eka Nurseva', '2024-01-28 03:57:00', 23, 52.72, 22.54, 37.17, 23.18, 45.29, 23.75, 42.8, 24.04, 40.44, 22.14, 41.15, 22.4, 36.53, 22.91, 42.96, 24.81),
-(3, 'Ali Asyidiqiansyah', '2024-01-28 04:20:18', 13, 56.64, 26.23, 41.35, 19.8, 45.51, 23.75, 37.04, 25.7, 53.18, 24.85, 46.45, 23.28, 47.54, 25.86, 44, 20),
-(4, 'Eka Nurseva Saniyah', '2024-01-28 04:23:04', 23, 33.12, 21.05, 41.59, 24.6, 39.15, 25.22, 34.55, 20.25, 61.61, 24.64, 32.85, 21.05, 41.7, 24.6, 52.18, 25.3);
+INSERT INTO `hasil` (`id_hasil`, `nama`, `nim`, `jk`, `angkatan`, `prodi`, `tanggal_tes`, `umur`, `introvert_cf`, `introvert_bayes`, `extrovert_cf`, `extrovert_bayes`, `sensing_cf`, `sensing_bayes`, `intuition_cf`, `intuition_bayes`, `feeling_cf`, `feeling_bayes`, `thinking_cf`, `thinking_bayes`, `perceiving_cf`, `perceiving_bayes`, `judging_cf`, `judging_bayes`) VALUES
+(1, 'loli', 1297036, 'L', 20, 'Teknik Informatika', '2024-01-22 12:07:26', 22, 64.91, 23.8, 33.65, 23.21, 51.22, 22.73, 52.99, 24.71, 33.5, 20.13, 62.23, 24.88, 41.82, 22.45, 57.08, 24.21),
+(2, 'kiko', 21313, 'L', 19, 'Teknik Industri', '2024-01-28 03:57:00', 23, 52.72, 22.54, 37.17, 23.18, 45.29, 23.75, 42.8, 24.04, 40.44, 22.14, 41.15, 22.4, 36.53, 22.91, 42.96, 24.81),
+(3, 'Ali Asyidiqiansyah', 1092113, 'L', 25, 'Teknik Informatika', '2024-01-28 04:20:18', 13, 56.64, 26.23, 41.35, 19.8, 45.51, 23.75, 37.04, 25.7, 53.18, 24.85, 46.45, 23.28, 47.54, 25.86, 44, 20),
+(4, 'uki', 238913, 'P', 20, 'Teknik Peternakan', '2024-01-28 04:23:04', 23, 33.12, 21.05, 41.59, 24.6, 39.15, 25.22, 34.55, 20.25, 61.61, 24.64, 32.85, 21.05, 41.7, 24.6, 52.18, 25.3),
+(5, 'Rury', 173601, 'P', 19, 'Teknik Informatika', '2024-02-04 05:03:29', 20, 46.67, 23.97, 45.57, 21.14, 59.96, 21.87, 61.68, 23.02, 47.11, 22.12, 45.24, 23.04, 50.18, 24.37, 62.64, 24.88),
+(6, 'lili', 1391, 'L', 92, 'Teknik Informatika', '2024-02-04 05:42:50', 20, 40.44, 25.42, 41.68, 24.8, 48.61, 25.33, 39.4, 22.87, 31.35, 20.83, 46.11, 23.25, 41.94, 22.45, 40.44, 22.14),
+(7, 'koko', 389017, 'L', 19, 'Teknik Peternakan', '2024-02-07 05:38:34', 21, 53.55, 24.71, 64.99, 23.8, 58.74, 22.5, 60.64, 24.51, 56.75, 22.76, 55.94, 25.56, 60.36, 23.19, 66.58, 23.65),
+(11, 'Percobaan 1', 13091, 'P', 2021, 'Teknik Informatika', '2024-02-27 13:48:08', 19, 96.03, 71.72, 96.39, 71.25, 98.96, 72.21, 93.69, 71.4, 97.69, 68.75, 93.7, 70, 96.23, 68.62, 94.59, 66.47),
+(12, 'Percobaan 2', 12910, 'P', 2020, 'Teknik Industri', '2024-02-27 14:17:21', 20, 98.69, 73.17, 97.23, 71.25, 98.22, 72.36, 99.18, 70.94, 96.37, 68.62, 97.48, 70, 99.34, 68.95, 97.41, 67.78),
+(13, 'Percobaan 3', 9121, 'L', 9, 'Teknik Peternakan', '2024-02-27 14:44:18', 20, 96.98, 69.69, 95.79, 70.67, 98.27, 71.73, 99.02, 70.98, 94.06, 68.45, 98.61, 70, 96.58, 68.62, 98.47, 68.32),
+(14, 'Percobaan 4', 12391, 'P', 1999, 'Teknik Peternakan', '2024-02-27 15:02:39', 20, 93.03, 68.9, 93.12, 70.75, 95.08, 71.49, 96.5, 71.25, 97.24, 68.69, 97.48, 70, 97.69, 68.75, 95.95, 66.67),
+(16, 'Percobaan 5', 1238961, 'L', 19, 'Teknik Industri', '2024-02-28 00:23:35', 21, 99.16, 68.95, 98.04, 73.05, 99.96, 71.74, 99.6, 72.31, 98.49, 68.47, 99.52, 70, 99.86, 69.16, 99.19, 67.13),
+(27, 'Eka', 29074, 'L', 19, 'Teknik Informatika', '2024-03-24 15:36:40', 23, 99.89, 70.95, 99.46, 70.8, 99.91, 72.94, 99.31, 70.9, 99.15, 68.95, 99.29, 70, 99.86, 68.58, 99.56, 65.56),
+(28, 'Eka Nurseva Saniyah', 190511012, 'P', 2019, 'Teknik Informatika', '2024-03-24 15:47:18', 23, 99.64, 69.57, 99.58, 70.22, 99.41, 73.64, 98.65, 71.03, 98.49, 68.81, 99.77, 70, 99.72, 68.43, 99.73, 66.68),
+(29, 'Eka', 21931, 'Perempuan', 19, 'Teknik Informatika', '2024-03-24 16:01:39', 90, 99.28, 71.3, 98.71, 70.13, 96.82, 72.34, 95.17, 71.97, 98.85, 68.86, 96.5, 70, 98.89, 69.21, 97.56, 65.83),
+(30, 'Gitar Yamaha', 12839891, 'Laki-Laki', 19, 'Teknik Informatika', '2024-03-25 01:24:06', 90, 96.46, 69.54, 98.76, 71.1, 98.45, 71.53, 97.8, 71.13, 99.56, 68.37, 96.67, 70, 98.97, 68.54, 99.71, 66.89),
+(31, 'Eka Nurseva Saniyah', 1901293712, 'Perempuan', 19, 'Teknik Informatika', '2024-04-01 02:26:11', 80, 99.16, 71.72, 99.23, 70.11, 99.57, 72.22, 99.41, 72.41, 97.54, 69.13, 99.67, 70, 98.2, 69.17, 99.29, 65.57),
+(32, 'Eka Nurseva Saniyah', 1901293712, 'Perempuan', 19, 'Teknik Informatika', '2024-04-01 02:27:09', 80, 99.16, 71.72, 99.23, 70.11, 99.57, 72.22, 99.41, 72.41, 97.54, 69.13, 99.67, 70, 98.2, 69.17, 99.29, 65.57),
+(33, 'Eka Nurseva Saniyah', 1901293712, 'Perempuan', 19, 'Teknik Informatika', '2024-04-01 02:27:09', 80, 99.16, 71.72, 99.23, 70.11, 99.57, 72.22, 99.41, 72.41, 97.54, 69.13, 99.67, 70, 98.2, 69.17, 99.29, 65.57),
+(34, 'Rury', 891702641, 'Perempuan', 2019, 'Teknik Informatika', '2024-04-01 02:30:51', 80, 98.37, 69.21, 99.52, 70, 99.49, 72.31, 99.43, 70.94, 98.6, 67.99, 99.63, 70, 99.29, 68.6, 98.68, 66.86),
+(35, 'Rury', 891702641, 'Perempuan', 2019, 'Teknik Informatika', '2024-04-01 02:30:51', 80, 98.37, 69.21, 99.52, 70, 99.49, 72.31, 99.43, 70.94, 98.6, 67.99, 99.63, 70, 99.29, 68.6, 98.68, 66.86);
 
 -- --------------------------------------------------------
 
@@ -382,10 +428,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`iduser`, `nama`, `username`, `password`, `email`, `foto`) VALUES
-(1, 'Admin 1', 'admin', '$2y$10$P8kpflwJHTXnNUYIUxjc8un5pw0.YyI1NJY67pdziv.4Vy5n3UrQa', 'administrator@gmail.com', '659f76af2f243.jpg'),
-(2, 'Eka Nurseva Saniyah', 'ekans', '$2y$10$IZNY8cV4yYNQt9AXbr5x0Os0sP4oJ2Lp6YgiyD0zgaGUBMYuPgita', 'ekanursevas@gmail.com', '65b4abc1ebc54.jpg'),
-(4, 'Admin2', 'admin2', '$2y$10$jVfUu/Ob0cb/FwVtGFPb7OiJicCGe8MBHk7lN94ZVALGkvN.O5yDS', 'admin2@gmail.com', 'default.png'),
-(7, 'Fillah Zaki Alhaqi', 'fillah21', '$2y$10$NnRFlc3dFczJS6JUeu8m4OBU.fjjim2KyE84Gv8blSvEkvbUufdPy', 'fillah.alhaqi11@gmail.com', 'default.png');
+(8, 'Rury', 'rury', '$2y$10$7qjQQ6GBxNc49Mx4RGlsgOi4Ar4IaQwkxd255Mb45/Vcmce7Areda', 'ruryafrilcis99@gmail.com', 'default.png');
 
 --
 -- Indexes for dumped tables
@@ -448,25 +491,25 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT untuk tabel `ciri_mbti`
 --
 ALTER TABLE `ciri_mbti`
-  MODIFY `id_ciri` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `id_ciri` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT untuk tabel `gejala`
 --
 ALTER TABLE `gejala`
-  MODIFY `id_gejala` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id_gejala` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT untuk tabel `hasil`
 --
 ALTER TABLE `hasil`
-  MODIFY `id_hasil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_hasil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT untuk tabel `saran_mbti`
 --
 ALTER TABLE `saran_mbti`
-  MODIFY `id_saran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id_saran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT untuk tabel `tipe_mbti`
@@ -478,13 +521,13 @@ ALTER TABLE `tipe_mbti`
 -- AUTO_INCREMENT untuk tabel `tp_kepribadian`
 --
 ALTER TABLE `tp_kepribadian`
-  MODIFY `id_kepribadian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_kepribadian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
